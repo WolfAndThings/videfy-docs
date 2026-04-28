@@ -40,6 +40,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 
 .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
 .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
+.four-col { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:20px; }
 
 .card { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; }
 .card-head { padding:14px 20px; border-bottom:1px solid var(--bmd); display:flex; align-items:center; gap:10px; }
@@ -67,20 +68,19 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .card-list li.am::before { background:#F59E0B; border-color:rgba(245,158,11,.5); }
 .card-list li.rd::before { background:#EF4444; border-color:rgba(239,68,68,.4); }
 
-/* MISSION BLOCK */
 .mission-block { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; margin-top:20px; }
 .mission-top { padding:24px 28px; background:var(--off); border-bottom:1px solid var(--bmd); }
 .mission-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
 .mission-text { font-family:'Instrument Serif',Georgia,serif; font-size:20px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; }
 .mission-text em { font-style:italic; color:#2D6000; }
-.mission-bottom { display:grid; grid-template-columns:1fr 1fr 1fr; }
+.mission-bottom { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; }
+.mission-bottom.three-col { grid-template-columns:1fr 1fr 1fr; }
 .mb-col { padding:16px 20px; border-right:1px solid var(--border); }
 .mb-col:last-child { border-right:none; }
 .mb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--light); display:block; margin-bottom:6px; }
 .mb-text { font-size:12px; color:#2C3040; line-height:1.55; font-weight:300; }
 .mb-text strong { font-weight:600; color:var(--ink); }
 
-/* VP BOX */
 .vp-box { background:linear-gradient(135deg, rgba(170,255,0,.06) 0%, rgba(0,196,180,.06) 100%); border:1px solid rgba(170,255,0,.25); border-radius:14px; padding:28px 32px; margin-top:20px; }
 .vp-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#2D6000; display:block; margin-bottom:12px; }
 .vp-text { font-family:'Instrument Serif',Georgia,serif; font-size:22px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; margin-bottom:14px; }
@@ -88,33 +88,29 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .vp-why { font-size:13px; color:var(--muted); line-height:1.65; font-weight:300; }
 .vp-why strong { font-weight:600; color:var(--ink); }
 
-/* TABLE */
 .tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
 .tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
 .tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
 .tbl td strong { font-weight:600; color:var(--ink); }
 .tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:24px 0 6px; display:block; }
 
-/* CALLOUT */
 .callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
 .callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
 .callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
 .callout .cl-text strong { color:var(--lime); font-weight:500; }
 
-/* NOTE BOX */
 .note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
 .note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
 .note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.65; font-weight:300; }
 .note-box .nb-text strong { font-weight:600; color:var(--ink); }
 
-/* STEP NUMBERED */
 .steps { display:flex; flex-direction:column; gap:2px; margin-top:20px; }
 .step { display:flex; align-items:flex-start; gap:16px; padding:16px 20px; border:1px solid var(--bmd); border-radius:10px; background:var(--off); }
 .step-num { font-family:'Instrument Serif',Georgia,serif; font-size:22px; color:var(--light); line-height:1; flex-shrink:0; padding-top:2px; min-width:24px; }
 .step-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
 .step-desc { font-size:13px; color:var(--muted); line-height:1.5; font-weight:300; }
 
-/* FLOW */
 .flow { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:22px; padding:22px; background:var(--ink); border-radius:14px; }
 .flow-node { flex:1; text-align:center; padding:14px 8px; background:rgba(255,255,255,.04); border-radius:10px; border:1px solid rgba(255,255,255,.1); }
 .flow-node.lime { background:rgba(170,255,0,.1); border-color:rgba(170,255,0,.3); }
@@ -133,8 +129,8 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
   .page { padding:40px 20px 72px; }
   .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
   .hero { padding:28px 24px; }
-  .two-col,.three-col { grid-template-columns:1fr; }
-  .mission-bottom { grid-template-columns:1fr; }
+  .two-col,.three-col,.four-col { grid-template-columns:1fr; }
+  .mission-bottom,.mission-bottom.three-col { grid-template-columns:1fr; }
   .mb-col { border-right:none; border-bottom:1px solid var(--border); }
   .mb-col:last-child { border-bottom:none; }
   .flow { flex-direction:column; }
@@ -170,7 +166,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
     <em>without the chaos.</em>
   </div>
   <div class="hero-body">
-    Videfy is the production-flow layer between raw footage and finished output. It removes the chaos that lives in the middle: file confusion, scattered feedback, repeated context rebuilding, version sprawl, and constant status-chasing. Not an editor. Not an AI generator. Not a creative suite. The cleaner system around the tools people already use.
+    Videfy is the platform for pain-free video production — together. One workspace that absorbs the tool sprawl living between idea and finished output, holds the project's memory, embeds AI inside the flow, lets clients review and approve without paying a seat tax, and gives you scene-level editing built right into the workflow. Not a pro post-production timeline. Not an AI generator. Not a creative suite. The cleaner production system around the tools people already use, with the collaboration, the memory, the embedded AI, and lightweight editing those tools never had in one place.
   </div>
 </div>
 
@@ -200,6 +196,11 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
       <div class="flow-title">Finished</div>
     </div>
   </div>
+
+  <div class="note-box">
+    <span class="nb-label">The line between stages is a continuation, not a handoff</span>
+    <div class="nb-text">Each stage carries the previous one with it. Brief, decisions, feedback, brand context, audience signal, and lessons from prior projects travel with the work — so the next person, the next tool, and the next AI action never start from zero. Automation fires across the line. AI activates inside the project. Memory holds the whole arc together. Collaborators step in without ramp time. <strong>Clients leave feedback without an invoice.</strong></div>
+  </div>
 </section>
 
 <hr class="rule">
@@ -208,22 +209,23 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <!-- TWO ENTRY FLOWS -->
 <section class="section">
   <span class="eyebrow">Two entry flows</span>
-  <h2 class="h2">Honeypot or<br><em>subscription. Two front doors.</em></h2>
-  <p class="body">Videfy now has two entry states — not one. Pricing, product, and copy must support both. Confusing them is what kills funnels.</p>
+  <h2 class="h2">Honeypot or<br><em>workspace. Two front doors.</em></h2>
+  <p class="body">Videfy has two entry states — not one. Pricing, product, and copy must support both. Confusing them is what kills funnels.</p>
 
   <div class="two-col" style="margin-top:22px;">
     <div class="card">
       <div class="card-head lime">
         <span class="card-icon">①</span>
-        <div><div class="card-title">Flow 1 — Honeypot / instant-use</div><div class="card-sub">Low-friction acquisition entry</div></div>
+        <div><div class="card-title">Flow 1 — Honeypot / instant-use</div><div class="card-sub">Anonymous · no signup</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:10px;"><strong>Value:</strong> speed · curiosity · first outcome · low commitment.</div>
+        <div class="card-text" style="margin-bottom:10px;"><strong>Value:</strong> speed · curiosity · first outcome · zero commitment.</div>
         <ul class="card-list">
-          <li class="hi">User lands, starts fast, minimal or no signup</li>
+          <li class="hi">User lands, starts fast, no signup</li>
           <li class="hi">Runs one constrained generation task</li>
           <li class="hi">Gets a quick output (image, clip, avatar)</li>
-          <li class="hi">Hits an upgrade wall — persistence, collaboration, handoff</li>
+          <li class="hi">Hits a save / persistence wall — "want to keep this?"</li>
+          <li class="hi">Creates account → Personal Workspace seeded with the work + promo credits</li>
           <li class="hi">Converts to Creator or Pro</li>
         </ul>
       </div>
@@ -231,16 +233,16 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
     <div class="card">
       <div class="card-head dark">
         <span class="card-icon">②</span>
-        <div><div class="card-title">Flow 2 — Subscription workflow</div><div class="card-sub">Recurring production system</div></div>
+        <div><div class="card-title">Flow 2 — Workspace subscription</div><div class="card-sub">Recurring production system</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:10px;"><strong>Value:</strong> repeatability · organization · memory / context · production system · collaboration · scale.</div>
+        <div class="card-text" style="margin-bottom:10px;"><strong>Value:</strong> repeatability · organization · memory · production system · collaboration · client review · scale.</div>
         <ul class="card-list">
-          <li class="hi">User enters with project intent</li>
-          <li class="hi">Creates project, organizes assets, iterates</li>
-          <li class="hi">Collaborates / approves / exports</li>
+          <li class="hi">User enters with project intent (or has been invited to a workspace)</li>
+          <li class="hi">Creates project inside Personal or owned/joined workspace</li>
+          <li class="hi">Organizes assets, iterates, invites collaborators, invites clients to review</li>
           <li class="hi">Buys top-ups for heavy actions</li>
-          <li class="hi">Upgrades tier as needs scale (Creator → Pro → Team)</li>
+          <li class="hi">Upgrades tier as needs scale (Personal → Creator → Pro → Team)</li>
         </ul>
       </div>
     </div>
@@ -253,7 +255,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 
   <div class="note-box" style="margin-top:14px;">
     <span class="nb-label">Upgrade moments inside the flow</span>
-    <div class="nb-text">These are not UX details — they are monetization handoff points. Surface them deliberately: <strong>"Want to save this project?"</strong> · <strong>"Want to return later?"</strong> · <strong>"Want higher export / handoff package?"</strong> · <strong>"Want more iterations?"</strong> · <strong>"Want to share with a team?"</strong> Each is a Honeypot → plan or Creator → Pro → Team upgrade trigger.</div>
+    <div class="nb-text">These are not UX details — they are monetization handoff points. Surface them deliberately: <strong>"Want to save this project?"</strong> (Honeypot → account + Personal Workspace) · <strong>"Want to bring in a collaborator?"</strong> (Personal/Creator → Pro) · <strong>"Want a dedicated team workspace?"</strong> (Pro → Team) · <strong>"Want client review without limits?"</strong> (any tier — already free, lead with it) · <strong>"Want more iterations?"</strong> The "client review is free, unlimited, no account required" line gets reinforced often — it is the wedge.</div>
   </div>
 
   <div class="note-box" style="margin-top:14px;background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2);">
@@ -275,10 +277,10 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
     <div class="card">
       <div class="card-head red">
         <span class="card-icon">✕</span>
-        <div><div class="card-title">Not an editor</div><div class="card-sub">CapCut · Premiere · Resolve</div></div>
+        <div><div class="card-title">Not a pro post-production timeline</div><div class="card-sub">CapCut · Premiere · Resolve</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text">Editing is owned. Videfy is the cleaner production system around the edit, not another timeline.</div>
+        <div class="card-text">Color, VFX, multitrack audio, advanced trim and finishing belong to the pro tools. Videfy <em>does</em> edit at the scene level — assemble cuts, sequence shots, get to a draft fast — but stays out of the pro finishing lane.</div>
       </div>
     </div>
     <div class="card">
@@ -308,25 +310,418 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <!-- THE ENEMY -->
 <section class="section">
   <span class="eyebrow">The enemy</span>
-  <h2 class="h2">The real problem<br><em>is chaos.</em></h2>
+  <h2 class="h2">The real enemy<br><em>is the drag.</em></h2>
+  <p class="body">The drag is what every creator, producer, and team feels but can rarely name: the cumulative weight that makes every project heavier than it should be. Things take longer. Energy depletes by lunch. Momentum dies in the gaps between Slack and Drive and Frame.io. The work-against-the-work eats the actual work.</p>
 
   <div class="mission-block">
     <div class="mission-top" style="background:rgba(239,68,68,.04);">
       <span class="mission-label" style="color:#B91C1C;">Locked enemy</span>
-      <div class="mission-text">The enemy is <em style="color:#B91C1C;">chaos.</em> Not AI complexity. Not editing difficulty. Not "the messy middle." Tool sprawl is a symptom — chaos is the cause.</div>
+      <div class="mission-text"><strong>Tool sprawl</strong> creates the <em style="color:#B91C1C;">drag.</em> The four taxes are how the drag charges you.</div>
     </div>
-    <div class="mission-bottom">
-      <div class="mb-col">
-        <span class="mb-label">File chaos</span>
-        <div class="mb-text">Where is the right cut, the right take, the right export? <strong>Stop digging.</strong></div>
+  </div>
+
+  <span class="tbl-label">What tool sprawl actually looks like</span>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🗂</span>
+        <div><div class="card-title">App sprawl</div><div class="card-sub">6–12 systems / project</div></div>
       </div>
-      <div class="mb-col">
-        <span class="mb-label">Feedback chaos</span>
-        <div class="mb-text">Comments scattered across Slack, email, Loom, text, voice notes. <strong>Pull it together.</strong></div>
+      <div class="card-body"><div class="card-text">Drives, chats, editors, generators, review tools, schedulers — all disconnected, all paying a tax at every handoff.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">💸</span>
+        <div><div class="card-title">Subscription sprawl</div><div class="card-sub">Monthly bill stack</div></div>
       </div>
-      <div class="mb-col">
-        <span class="mb-label">Handoff chaos</span>
-        <div class="mb-text">Context lost every time work moves between people or tools. <strong>Travel with the work.</strong></div>
+      <div class="card-body"><div class="card-text">Editor + AI generator + storage + collab + voiceover + transcription + scheduler. Each renews quietly. Total cost of "the workflow" is invisible.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🪙</span>
+        <div><div class="card-title">Token / credit sprawl</div><div class="card-sub">Scattered AI spend</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Runway here, ChatGPT there, MJ somewhere else. Spend fragmented. Every tool has its own meter.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">💾</span>
+        <div><div class="card-title">Asset & device sprawl</div><div class="card-sub">3 computers, 2 drives, 4 clouds</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Footage and exports living everywhere except where you need them. The "right file" is on the laptop that isn't in the room.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🔑</span>
+        <div><div class="card-title">Account & login sprawl</div><div class="card-sub">Different truth per tool</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Every team member has different logins, different permissions, a different version of the truth across every tool.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">💬</span>
+        <div><div class="card-title">Client-review sprawl</div><div class="card-sub">5 channels, 5 stakeholders</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Clients reviewing in Loom, in email replies, in Frame.io seats they never log into, in Slack DMs to the producer.</div></div>
+    </div>
+  </div>
+
+  <span class="tbl-label">The five taxes the drag charges</span>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head red">
+        <span class="card-icon">📂</span>
+        <div><div class="card-title">Operational tax</div><div class="card-sub">The visible one</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">File chaos, feedback chaos, handoff chaos. Time bleeds into ops. The surface layer teams already complain about.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">🧠</span>
+        <div><div class="card-title">Attention tax</div><div class="card-sub">The switching cost</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Every tool jump = context reload. Flow state never starts. The cost of <em>finding</em> the work dwarfs the cost of <em>doing</em> it.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">🎨</span>
+        <div><div class="card-title">Creative tax</div><div class="card-sub">The energy drain</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Producers chase status. Editors hunt files. Reviewers re-explain. The interesting decisions are what get cut.</div></div>
+    </div>
+  </div>
+  <div class="two-col" style="margin-top:10px;">
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">🧬</span>
+        <div><div class="card-title">Memory tax</div><div class="card-sub">The silent one</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Every project starts cold. Lessons die in someone's head. <strong>No competitor carries this.</strong></div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off" style="background:rgba(245,158,11,.08);">
+        <span class="card-icon">💸</span>
+        <div><div class="card-title">Cost tax</div><div class="card-sub">The bill nobody adds up</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Editor sub + AI gen sub + storage + collab tool + voiceover + transcription + scheduler + per-reviewer seat charges. Each line item small, total invisible. Plus switching costs, expired credits, double-paid transition months. <strong>"The way we work today" never shows up in one place.</strong></div></div>
+    </div>
+  </div>
+
+  <div class="vp-box" style="margin-top:22px;">
+    <span class="vp-label">What Videfy is, in one line</span>
+    <div class="vp-text">The platform that <em>absorbs the drag</em> — so the team stops managing the work and starts making it, together, with clients reviewing and approving for free.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- THREE PAIN-FREES -->
+<section class="section">
+  <span class="eyebrow">How Videfy makes it pain-free</span>
+  <h2 class="h2">Three pain-frees.<br><em>One promise.</em></h2>
+  <p class="body">The promise breaks into three pain-frees the homepage can lead on. Every product decision rolls up to one of them.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🤝</span>
+        <div><div class="card-title">Pain-free collaboration</div><div class="card-sub">One workspace, one click invites</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">One workspace. Invite collaborators with one click. Owner sets per-Editor token budgets so spend stays predictable. Restricted Workspace Model means clients in the same agency workspace never see each other. Onboarding new collaborators takes minutes because project memory briefs them.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">👁</span>
+        <div><div class="card-title">Pain-free client review + approval</div><div class="card-sub">Free, unlimited, no account</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Clients leave comments and <strong>sign off on approvals</strong> without an account, without a seat tax. A name and password unlocks the review link. Approvers add an email-verified sign-off so the audit trail is real. Owner toggles comments and approvals on or off per workspace. <strong>Unlimited, free, at every paid tier — the wedge no competitor can match.</strong></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">🧬</span>
+        <div><div class="card-title">Pain-free memory</div><div class="card-sub">Every project starts smarter</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Every project carries the brief, decisions, feedback, brand context, and lessons from prior work. The next reel starts smarter than the last one. Editors open a session with files, brief, and feedback already assembled. New hires read the project, not the producer's brain.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- CLAUDE INSIDE VIDEFY -->
+<section class="section">
+  <span class="eyebrow">Claude inside Videfy</span>
+  <h2 class="h2">Your AI<br><em>video producer.</em></h2>
+  <p class="body">Videfy's AI is <strong>Claude — Anthropic's flagship model</strong> — embedded as a native producer through Model Context Protocol (MCP). Not a chatbot bolted on. Not a generic assistant. Not "AI for video" with a different skin. A production-aware collaborator that lives inside the workflow, knows the project, and can drive every tool Videfy ships.</p>
+
+  <div class="vp-box">
+    <span class="vp-label">Positioning</span>
+    <div class="vp-text"><em>Built on Claude. Type and produce. Embedded in the flow. Quiet when it should be.</em></div>
+    <div class="vp-why">Type what you want. Claude takes it from there. <strong>One conversational entry point to the entire platform.</strong></div>
+  </div>
+
+  <span class="tbl-label">What Claude actually does — start typing, start producing</span>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">💡</span>
+        <div><div class="card-title">Brainstorm + flesh out ideas</div><div class="card-sub">Talk it through</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Claude proposes angles, structures, hooks, references, audience reads. You refine until the idea is sharp.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">📝</span>
+        <div><div class="card-title">Write scripts for any platform</div><div class="card-sub">Reels · TikTok · YT · ads · long-form</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Reels, TikTok, YouTube, Shorts, Stories, podcasts, ads, voiceover scripts. Claude knows format, platform conventions, and brand voice.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🗂</span>
+        <div><div class="card-title">Assemble the project</div><div class="card-sub">Ready before you finish describing</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Claude scaffolds folders, drafts shot list, pulls brand context, sets up version slots, queues references. Project ready to work in.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">⚙️</span>
+        <div><div class="card-title">Drive every tool</div><div class="card-sub">Generators · avatar · VO · subs · exports</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Text-to-image, text-to-video, image-to-video, avatar, voiceover, subtitles, ad variants, exports, handoff packaging. All callable from chat.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">📐</span>
+        <div><div class="card-title">Follow your rules</div><div class="card-sub">You think it, you make it a rule</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Define brand + project rules once (palette, recurring characters, signature shots, banned anything). Claude obeys on every generation.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">↔️</span>
+        <div><div class="card-title">Move work through the flow</div><div class="card-sub">Operates the production line</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Push idea → feedback, summarize what came back, build revision plan, package handoff. Claude operates, you steer.</div></div>
+    </div>
+  </div>
+
+  <span class="tbl-label">Why Claude, specifically</span>
+  <div class="four-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🔌</span>
+        <div><div class="card-title">Native MCP integration</div><div class="card-sub">Anthropic's official protocol</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Claude reads, writes, calls tools, acts on the project directly. No glue code, no jailbreak prompts, no fragility.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🧬</span>
+        <div><div class="card-title">Long-context memory</div><div class="card-sub">Doesn't forget</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Entire project history, brand voice, every comment, every prior reel. Claude doesn't forget between sessions.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🛠</span>
+        <div><div class="card-title">Tool use built in</div><div class="card-sub">Operates, not just talks</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Claude doesn't just discuss the project. It runs it. Generators, exports, handoffs, revision plans — all driven through Claude.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🏷</span>
+        <div><div class="card-title">Brand-named, not whitelabeled</div><div class="card-sub">Trust signal, not footnote</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Claude is the AI buyers already know. <em>"Powered by Claude"</em> is a trust signal. Most "AI for video" tools whitelabel a model — Videfy says it by name.</div></div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Where Claude shows up</span>
+    <div class="cl-text"><strong>Sidebar chat</strong> — the always-on conversation. Type and produce. <strong>Inline on feedback</strong> — Claude turns scattered comments into a numbered revision plan, on the work itself. <strong>Background automation</strong> — fires across stage transitions without being asked. <strong>MCP connectors (Pro + Team)</strong> — Claude reaches into Adobe, CapCut handoff, storage, future integrations.</div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;background:rgba(170,255,0,.06);border-color:rgba(170,255,0,.3);">
+    <span class="nb-label" style="color:#2D6000;">Rules — codify what Claude should always do</span>
+    <div class="nb-text"><strong>Define once. Claude obeys everywhere.</strong> Workspace-level (every project) or project-level (one project). Live updates. Examples: <em>"Always use this color palette"</em> · <em>"Add character Remi to every storyboard"</em> · <em>"Never generate anything vintage"</em> · <em>"Every reel ends with the brand outro"</em> · <em>"Aspect ratio always 9:16, no exceptions."</em> Brand consistency stops being a design-review chore and becomes a runtime guarantee.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- SKILLS -->
+<section class="section">
+  <span class="eyebrow">Skills</span>
+  <h2 class="h2">Extend Claude with<br><em>community-built workflows.</em></h2>
+  <p class="body"><strong>Skills are packaged workflows that extend Claude inside Videfy — like Custom GPTs, but built for video production.</strong> A skill bundles prompts, tool configurations, references, and structure into a single named capability the user installs with one click. The Skills library is a consumer-facing surface inside Videfy where the community publishes, browses, and installs skills.</p>
+
+  <div class="vp-box">
+    <span class="vp-label">Positioning</span>
+    <div class="vp-text"><em>Powered by Claude. Extended by the community.</em></div>
+    <div class="vp-why">Skills compound platform value over time. Videfy doesn't build every vertical — the community does. Network effect: more skills → more reasons to use Videfy → more skill creators.</div>
+  </div>
+
+  <span class="tbl-label">What a skill can do</span>
+  <div class="four-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🎞</span>
+        <div><div class="card-title">Specialize for a format</div><div class="card-sub">Reels · trailers · ads · podcast clips</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Reels hooks, YouTube intros, podcast clips, trailer edits, ad variants, Stories, Shorts, long-form.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">🏥</span>
+        <div><div class="card-title">Specialize for a vertical</div><div class="card-sub">Healthcare · real estate · ecomm · fitness</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Healthcare reels (with compliance), real estate walkthroughs, food + drink, fitness, B2B SaaS, music releases, e-commerce product.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">🎨</span>
+        <div><div class="card-title">Specialize for an aesthetic</div><div class="card-sub">Style · grading · brand system</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">A specific creator's reel style, a brand's visual system, a film-school grading approach.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">🔄</span>
+        <div><div class="card-title">Specialize for a workflow</div><div class="card-sub">UGC batch · subtitle bake · podcast cutdown</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">UGC ad batch, course-clip pipeline, multilingual subtitle bake, weekly podcast cutdown.</div></div>
+    </div>
+  </div>
+
+  <span class="tbl-label">Examples (illustrative)</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Skill</th><th>What Claude knows when this skill is installed</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Trailer Edit Skill</strong></td><td>Trailer pacing, beat structure, music sync points, title-card timing</td></tr>
+      <tr><td><strong>Healthcare Reels Skill</strong></td><td>Compliance language, claims to avoid, accessibility requirements</td></tr>
+      <tr><td><strong>E-commerce Product Showcase Skill</strong></td><td>Lifestyle stock-shot grammar, angle order, B-roll patterns</td></tr>
+      <tr><td><strong>Podcast Clipper Skill</strong></td><td>Find the hook, pick the 60-sec clip, add captions, package for Reels + Shorts</td></tr>
+      <tr><td><strong>Real Estate Walkthrough Skill</strong></td><td>Scaffold walkthrough script, drone-shot order, voiceover rhythm</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Marketplace — the ecosystem</span>
+  <div class="three-col" style="margin-top:8px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">⬇️</span>
+        <div><div class="card-title">Browse + install</div><div class="card-sub">Free, every tier</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Discovery is the top-of-funnel. Anyone can install free skills, including Personal users.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">⬆️</span>
+        <div><div class="card-title">Publish to marketplace</div><div class="card-sub">Pro + Team</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Pro and Team users can ship skills. Attribution stays. Reputation builds. Moderation queue gates listings.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">💰</span>
+        <div><div class="card-title">Premium + revenue share</div><div class="card-sub">v2 (post-launch)</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Creators monetize. Videfy takes a marketplace cut. Team-private skills (internal SOPs, agency house style) ship at v1.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- AI / AUTOMATION / MEMORY EMBEDDED -->
+<section class="section">
+  <span class="eyebrow">How AI, automation, and memory work together — every stage</span>
+  <h2 class="h2">Three layers,<br><em>every stage.</em></h2>
+  <p class="body">The harder question is <em>where</em> Claude activates inside the production flow, what fires automatically without being asked, and what memory carries from one project into the next.</p>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Three layers underneath every stage</span>
+    <div class="cl-text"><strong>Automation hooks</strong> — what fires without a prompt. <strong>AI in context</strong> — what Claude does because it understands the project. <strong>Memory carryover</strong> — what the next stage inherits without re-asking.</div>
+  </div>
+
+  <div class="three-col" style="margin-top:18px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">💡</span>
+        <div><div class="card-title">Stage 01 — Idea</div><div class="card-sub">Project starts smart</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi"><strong>Automation:</strong> project scaffolds itself from a brief — folders, version slots, brand context, deliverable type</li>
+          <li class="hi"><strong>AI in context:</strong> Claude inherits brand voice, prior reels, what worked, audience — proposes shot list, structure, references</li>
+          <li class="hi"><strong>Memory carryover:</strong> every prior project's lessons live inside the new one from minute one. The blank-page problem disappears.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">💬</span>
+        <div><div class="card-title">Stage 02 — Feedback</div><div class="card-sub">All notes, one place</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><strong>Automation:</strong> comments from Slack paste, frame click, Loom transcript, voice note, client review link — collapse onto the work</li>
+          <li><strong>AI in context:</strong> Claude summarizes, dedups, groups by clip & reviewer, flags conflicts, proposes a numbered revision plan</li>
+          <li><strong>Memory carryover:</strong> what was approved, what was rejected, why — stored against the project. Reviewers stop re-explaining.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">📦</span>
+        <div><div class="card-title">Stage 03 — Finished</div><div class="card-sub">Handoff builds itself</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl"><strong>Automation:</strong> handoff package builds itself — clips, takes, brief, feedback summary, export structure for CapCut / mobile / Premiere</li>
+          <li class="tl"><strong>AI in context:</strong> Claude writes "what to cut" summary, flags missing assets, surfaces unresolved feedback before export</li>
+          <li class="tl"><strong>Memory carryover:</strong> finished cut feeds <em>back</em> into project memory. The next reel starts smarter than the last.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:18px;">
+    <div class="card">
+      <div class="card-head red">
+        <span class="card-icon">✕</span>
+        <div><div class="card-title">What Claude does not do</div><div class="card-sub">v1 scope discipline</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="rd"><strong>Replace your pro post-production timeline</strong> — color, VFX, multitrack audio, advanced finishing belong in CapCut / Premiere / Resolve. Claude handles scene-level edits inside Videfy, then steps back when you go to finish.</li>
+          <li class="rd"><strong>Replace your creative judgment</strong> — Claude proposes, you decide</li>
+          <li class="rd"><strong>Operate outside your project</strong> — no off-topic chatbot mode</li>
+          <li class="rd"><strong>Push to platforms automatically</strong> — publishing stays in your hands</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">🔥</span>
+        <div><div class="card-title">Why this is different from "AI for video"</div><div class="card-sub">Memory + tools = a real producer</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Most "AI for video" products bolt a chatbot onto an editor. Videfy does the opposite — flow first, Claude inside via MCP, automation across stage transitions, and memory makes it useful past the first prompt. With Claude embedded — driving the tools, holding the context, packaging the handoff — <strong>it becomes a producer who already knows the project.</strong></div>
       </div>
     </div>
   </div>
@@ -347,12 +742,12 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
         <div><div class="card-title">Creators</div><div class="card-sub">Primary · Day-one</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:10px;">Solo creators, freelancer editors, creator-led operators. They feel file and feedback chaos every day.</div>
+        <div class="card-text" style="margin-bottom:10px;">Solo creators, freelancer editors, creator-led operators. Feel the drag every day, pay it in lost evenings.</div>
         <ul class="card-list">
           <li class="hi">Easier to attract through content</li>
           <li class="hi">"Footage to feedback to finished" is intuitive</li>
           <li class="hi">CapCut / mobile handoff angle resonates</li>
-          <li class="hi">Make purchase decisions quickly</li>
+          <li class="hi">Need free unlimited client review</li>
         </ul>
       </div>
     </div>
@@ -362,26 +757,27 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
         <div><div class="card-title">PMs & small teams</div><div class="card-sub">Secondary · Long-term value</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:10px;">Project managers, content operators, in-house teams. They feel pain more acutely and pay more per seat.</div>
+        <div class="card-text" style="margin-bottom:10px;">PMs, content operators, in-house teams. Pain is more acute, conversion is higher per workspace.</div>
         <ul class="card-list">
           <li class="tl">Approval loops, status chasing, file confusion</li>
           <li class="tl">Care about throughput and predictability</li>
+          <li class="tl">Multi-Editor workspaces with budgeted tokens</li>
           <li class="tl">Where Videfy becomes commercially valuable over time</li>
-          <li class="tl">Higher willingness to pay per seat</li>
         </ul>
       </div>
     </div>
     <div class="card">
-      <div class="card-head off">
+      <div class="card-head lime">
         <span class="card-icon">🎯</span>
-        <div><div class="card-title">Agencies & post-pros</div><div class="card-sub">Tertiary · Earned via depth</div></div>
+        <div><div class="card-title">Agencies & post-pros</div><div class="card-sub">Tertiary · Accelerated by the wedge</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:10px;">Important — not the homepage story. Reach through case studies and integrations once the primary motion works.</div>
+        <div class="card-text" style="margin-bottom:10px;">Restricted Workspace Model + free unlimited client review + per-Editor token budgets reshape the agency calculus. Faster than originally planned.</div>
         <ul class="card-list">
-          <li>Not a v1 messaging target</li>
-          <li>Earned through proof, not pitch</li>
-          <li>Wave 2 priority</li>
+          <li class="hi">Multiple clients in one workspace, no cross-contamination</li>
+          <li class="hi">No seat tax for the 5–20 stakeholders per project</li>
+          <li class="hi">Per-Editor token budgets keep junior spend in check</li>
+          <li class="hi">Reach through case studies + integrations</li>
         </ul>
       </div>
     </div>
@@ -394,45 +790,59 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <!-- USE CASE HIERARCHY -->
 <section class="section">
   <span class="eyebrow">Use-case hierarchy</span>
-  <h2 class="h2">One umbrella story.<br><em>Two clear sub-tracks.</em></h2>
+  <h2 class="h2">One umbrella story.<br><em>Three clear sub-tracks.</em></h2>
 
   <div class="vp-box">
     <span class="vp-label">Primary use case</span>
     <div class="vp-text"><em>Video production without the chaos.</em></div>
-    <div class="vp-why"><strong>Supporting use-case proof:</strong> Move from idea to feedback to finished without the back-and-forth. This is the homepage second line — the operational translation of the primary promise.</div>
+    <div class="vp-why"><strong>Supporting use-case proof:</strong> Move from idea to feedback to finished without the back-and-forth — pain-free collaboration, pain-free client review, pain-free memory.</div>
   </div>
 
-  <div class="two-col" style="margin-top:18px;">
-    <!-- CREATOR SUB -->
+  <div class="three-col" style="margin-top:18px;">
     <div class="card">
       <div class="card-head lime">
         <span class="card-icon">🎬</span>
-        <div><div class="card-title">Creator-facing sub-use cases</div><div class="card-sub">Primary audience</div></div>
+        <div><div class="card-title">Creator</div><div class="card-sub">Primary audience</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
-          <li class="hi"><strong>Organize footage and assets cleanly</strong> — stop digging through folders, drives, and chats</li>
-          <li class="hi"><strong>Keep feedback attached to the work</strong> — comments live on the file, not in a separate thread</li>
-          <li class="hi"><strong>Avoid file chasing and context rebuilding</strong> — the next person doesn't have to reconstruct anything</li>
-          <li class="hi"><strong>Package work cleanly for the final edit</strong> — when it is time to cut, it is already bundled</li>
-          <li class="hi"><strong>Hand off to mobile / CapCut easily</strong> — export the right files plus the right context</li>
+          <li class="hi"><strong>Reclaim creative time</strong> — stop running ops, start making the work</li>
+          <li class="hi"><strong>Organize footage and assets cleanly</strong></li>
+          <li class="hi"><strong>Keep feedback attached to the work</strong></li>
+          <li class="hi"><strong>Send a client review link without buying them a seat</strong></li>
+          <li class="hi"><strong>Hand off to mobile / CapCut easily</strong></li>
+          <li class="hi"><strong>Carry brand and audience memory between projects</strong></li>
         </ul>
       </div>
     </div>
-
-    <!-- TEAM SUB -->
     <div class="card">
       <div class="card-head teal">
         <span class="card-icon">🏢</span>
-        <div><div class="card-title">PM / small-team sub-use cases</div><div class="card-sub">Secondary audience</div></div>
+        <div><div class="card-title">PM / small team</div><div class="card-sub">Secondary audience</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
-          <li class="tl"><strong>Reduce feedback loops</strong> — fewer rounds because feedback is structured</li>
-          <li class="tl"><strong>Keep production context together</strong> — brief, footage, feedback, decisions, exports in one place</li>
-          <li class="tl"><strong>Make approvals and next steps clear</strong> — stop guessing what is "done"</li>
-          <li class="tl"><strong>Reduce version confusion</strong> — which file? which version? what changed?</li>
-          <li class="tl"><strong>Move projects with less status-chasing</strong> — the system shows the answer</li>
+          <li class="tl"><strong>Reduce feedback loops</strong> — AI-summarized, dedup'd</li>
+          <li class="tl"><strong>Keep production context together</strong></li>
+          <li class="tl"><strong>Make approvals and next steps clear</strong></li>
+          <li class="tl"><strong>Reduce version confusion</strong></li>
+          <li class="tl"><strong>Move projects with less status-chasing</strong></li>
+          <li class="tl"><strong>Onboard new collaborators in minutes, not days</strong></li>
+          <li class="tl"><strong>Consolidate the subscription stack</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">🎯</span>
+        <div><div class="card-title">Agency / post-pro</div><div class="card-sub">Tertiary · the wedge audience</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><strong>Run multiple clients in one workspace, isolated by default</strong></li>
+          <li><strong>Budget Editor token spend per project, per user</strong></li>
+          <li><strong>Invite clients to review without per-seat invoicing</strong></li>
+          <li><strong>Standardize delivery across the team</strong></li>
         </ul>
       </div>
     </div>
@@ -446,7 +856,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <section class="section">
   <span class="eyebrow">CapCut / mobile handoff — defined</span>
   <h2 class="h2">A handoff,<br><em>not an integration.</em></h2>
-  <p class="body">Creators do final edits on mobile or in CapCut all the time. Videfy reduces the chaos <strong>before</strong> that final mobile edit. The handoff is the product moment, not the editor.</p>
+  <p class="body">Creators do final edits on mobile or in CapCut all the time. Videfy reduces the drag <strong>before</strong> that final mobile edit. The handoff is the product moment, not the editor.</p>
 
   <div class="two-col" style="margin-top:22px;">
     <div class="card">
@@ -486,78 +896,13 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <hr class="rule">
 
 
-<!-- CLAUDE -->
-<section class="section">
-  <span class="eyebrow">Claude inside Videfy</span>
-  <h2 class="h2">Production context.<br><em>Not a generic chatbot.</em></h2>
-  <p class="body">Anthropic's MCP and integrations make "can Claude connect?" trivial. The right question is: <strong>what is the highest-value production task Claude should help with?</strong> Frame Claude as production context + feedback intelligence + next-step clarity.</p>
-
-  <div class="callout" style="margin-top:18px;">
-    <span class="cl-label">How Claude is framed</span>
-    <div class="cl-text">Claude in Videfy is <strong>production context + feedback intelligence + next-step clarity.</strong> Not a generic AI assistant. Not a catch-all chatbot. Not "AI for video" with no real workflow purpose.</div>
-  </div>
-
-  <div class="three-col" style="margin-top:18px;">
-    <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">📋</span>
-        <div><div class="card-title">Summarize feedback</div><div class="card-sub">Function 01</div></div>
-      </div>
-      <div class="card-body"><div class="card-text">Take scattered comments from reviewers and produce a single revision plan.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">🗂</span>
-        <div><div class="card-title">Build the revision plan</div><div class="card-sub">Function 02</div></div>
-      </div>
-      <div class="card-body"><div class="card-text">Group, deduplicate, and prioritize feedback into a numbered list the editor can work from.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">🚩</span>
-        <div><div class="card-title">Flag missing context</div><div class="card-sub">Function 03</div></div>
-      </div>
-      <div class="card-body"><div class="card-text">Surface when feedback references something not in the project, or when a decision has not been made.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">→</span>
-        <div><div class="card-title">Propose next steps</div><div class="card-sub">Function 04</div></div>
-      </div>
-      <div class="card-body"><div class="card-text">Given the available footage and the latest feedback, propose the next 3 steps for the editor or producer.</div></div>
-    </div>
-    <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">❓</span>
-        <div><div class="card-title">Answer in context</div><div class="card-sub">Function 05</div></div>
-      </div>
-      <div class="card-body"><div class="card-text">"What changed since the last review?" "What is still open?" "Who has not weighed in yet?"</div></div>
-    </div>
-    <div class="card">
-      <div class="card-head red">
-        <span class="card-icon">✕</span>
-        <div><div class="card-title">What Claude does not do</div><div class="card-sub">v1 scope discipline</div></div>
-      </div>
-      <div class="card-body">
-        <ul class="card-list">
-          <li class="rd">Generate video</li>
-          <li class="rd">Edit video</li>
-          <li class="rd">Write scripts from scratch</li>
-          <li class="rd">Operate outside production context</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<hr class="rule">
-
-
 <!-- PAIN TABLE -->
 <section class="section">
   <span class="eyebrow">Pain → resolution map</span>
   <h2 class="h2">What Videfy<br><em>actually changes.</em></h2>
+  <p class="body">Pains grouped by which of the four taxes they belong to. The map makes the drag concrete — and shows that operational pain is only the surface layer.</p>
 
+  <span class="tbl-label">Operational tax pains</span>
   <table class="tbl">
     <thead>
       <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
@@ -566,10 +911,75 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
       <tr><td><strong>File chaos</strong></td><td>4 drives, 11 folders, 3 cloud accounts, no naming convention</td><td>One production context, one source of truth</td></tr>
       <tr><td><strong>Feedback chaos</strong></td><td>Slack + email + Loom + texts + voice notes</td><td>Feedback attached to the work, summarized into action items</td></tr>
       <tr><td><strong>Handoff chaos</strong></td><td>Editor gets a Dropbox link with no brief</td><td>Bundle includes context, brief, feedback, what to cut</td></tr>
-      <tr><td><strong>Revision churn</strong></td><td>Round 4 because round 1 feedback was unclear</td><td>Structured feedback, fewer rounds</td></tr>
-      <tr><td><strong>Status-chasing</strong></td><td>"Where are we on this?" 3x per day</td><td>Status is visible, not asked for</td></tr>
       <tr><td><strong>Version confusion</strong></td><td>"Is v3_FINAL_FINAL the right one?"</td><td>Versioning is part of the system, not the file name</td></tr>
-      <tr><td><strong>Mobile handoff friction</strong></td><td>Editor on phone needs files + context, gets a zip</td><td>A clean handoff package built for mobile / CapCut</td></tr>
+      <tr><td><strong>Mobile handoff friction</strong></td><td>Editor on phone needs files + context, gets a zip</td><td>Clean handoff package built for mobile / CapCut</td></tr>
+      <tr><td><strong>Client-review sprawl</strong></td><td>Comments from 5 stakeholders across 5 channels</td><td>One review link, one threaded review, no account required</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Attention tax pains</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Tool-switching cost</strong></td><td>8 tabs, 4 logins, 3 desktops, context reload every few minutes</td><td>One production surface — context never reloads</td></tr>
+      <tr><td><strong>Status-chasing</strong></td><td>"Where are we on this?" 3x per day across Slack, email, DMs</td><td>Status visible inside the project, not asked for</td></tr>
+      <tr><td><strong>Decision-hunting</strong></td><td>"What did we agree on for this clip?" buried in a thread</td><td>Decisions stored against the work, surfaced on demand</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Creative tax pains</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Producers running ops, not production</strong></td><td>Day spent chasing files, not shaping the work</td><td>The system runs ops — the team makes the work</td></tr>
+      <tr><td><strong>Editors hunting before cutting</strong></td><td>First 30 min of every edit session = finding the right files</td><td>Cut session opens with files, brief, and feedback already assembled</td></tr>
+      <tr><td><strong>Reviewers re-explaining themselves</strong></td><td>Same note given 3 times across 3 tools</td><td>Note lives on the work, dedup'd, grouped, surfaced once</td></tr>
+      <tr><td><strong>Revision churn</strong></td><td>Round 4 because round 1 feedback was unclear</td><td>Structured feedback + AI revision plan = fewer rounds</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Memory tax pains</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Project starts cold</strong></td><td>New reel = blank page, no brand context, no audience signal</td><td>Project inherits brand voice, audience, prior decisions from minute one</td></tr>
+      <tr><td><strong>Lessons lost between projects</strong></td><td>"What worked last time?" lives in someone's head, or nowhere</td><td>Project memory carries lessons, what shipped, what got changed late</td></tr>
+      <tr><td><strong>Onboarding friction</strong></td><td>New collaborator = 2 days of context dump</td><td>Project memory briefs new collaborators in minutes</td></tr>
+      <tr><td><strong>Repeated mistakes</strong></td><td>Same brand color wrong, same audience misread, same revision note</td><td>Memory surfaces the prior decision before the mistake repeats</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Cost tax pains</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Subscription stack creep</strong></td><td>New tool added every quarter, old ones never canceled, total invisible</td><td>One workspace, one bill — fewer procurement line items</td></tr>
+      <tr><td><strong>Switching cost</strong></td><td>Migrate footage, reset prompts, retrain team every time you adopt a new tool</td><td>Stop adding tools — Videfy absorbs the layer</td></tr>
+      <tr><td><strong>Wasted credits across platforms</strong></td><td>$20 unused on Runway, Descript credits expired, MJ overage charge</td><td>One credit pool, credits roll over up to 2 months</td></tr>
+      <tr><td><strong>Per-reviewer seat charges</strong></td><td>Frame.io $25/seat × 5 stakeholders = $125/mo just for review</td><td><strong>$0 — Viewers and Approvers always free</strong></td></tr>
+      <tr><td><strong>Hidden enterprise renewals</strong></td><td>Adobe team seat renewing on a card nobody flagged</td><td>Single workspace bill, visible to Owner</td></tr>
+      <tr><td><strong>Paying twice during transitions</strong></td><td>Old tool still billing while team migrates to new one</td><td>Replace the stack once — fewer transitions to manage</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Collaboration & client-review tax pains (the wedge)</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Pain</th><th>What it looks like today</th><th>What Videfy changes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Client review = paid seat per stakeholder</strong></td><td>Frame.io / CapCut / Adobe charge per reviewer</td><td>Reviewers free, unlimited, no account — name + password access</td></tr>
+      <tr><td><strong>Inviting a freelancer = full seat cost</strong></td><td>Pay $39/seat for a collaborator who works 4 hours</td><td>Editor invite slot included in tier, with per-Editor token budget</td></tr>
+      <tr><td><strong>Cross-client contamination</strong></td><td>Agency clients accidentally see each other's projects</td><td>Restricted Workspace Model — members only see assigned projects</td></tr>
+      <tr><td><strong>Junior editor burns the credit pool</strong></td><td>One careless gen run drains the team's tokens</td><td>Per-Editor token budgets cap individual spend</td></tr>
     </tbody>
   </table>
 </section>
@@ -581,21 +991,28 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <section class="section">
   <span class="eyebrow">Competitor framing</span>
   <h2 class="h2">What Videfy owns<br><em>that they do not.</em></h2>
+  <p class="body">Every competitor below is excellent at its lane. None carry <strong>project memory</strong> across the work, none <strong>embed AI inside a flow</strong>, and none <strong>let clients review for free</strong>. That is the moat.</p>
 
   <table class="tbl">
     <thead>
-      <tr><th>Competitor</th><th>Owns</th><th>Does not own</th></tr>
+      <tr><th>Competitor</th><th>Owns</th><th>Does not own</th><th>Memory across projects?</th><th>Free client review?</th></tr>
     </thead>
     <tbody>
-      <tr><td><strong>CapCut</strong></td><td>Creator-friendly editing, mobile + desktop, AI editing, templates</td><td>Production system around footage, feedback, team flow</td></tr>
-      <tr><td><strong>DaVinci Resolve</strong></td><td>Pro post, color, VFX, audio, serious editor reputation</td><td>The cleaner production-management layer before & around the edit</td></tr>
-      <tr><td><strong>Adobe</strong></td><td>Industry-standard tooling, ecosystem lock-in, team plans</td><td>Anti-chaos positioning, simple flow for teams who hate tool sprawl</td></tr>
-      <tr><td><strong>Canva</strong></td><td>Broad visual communication, SMB design, marketing collaboration</td><td>A focused video-production-operating layer</td></tr>
-      <tr><td><strong>Runway</strong></td><td>Frontier AI video generation, credit-based AI value</td><td>The "idea to feedback to finished" workflow story</td></tr>
-      <tr><td><strong>Descript</strong></td><td>Text-based editing, transcript-first workflow</td><td>Full production flow around video that is not transcript-led</td></tr>
-      <tr><td><strong>VEED</strong></td><td>Browser-first quick editing, subtitles</td><td>Production system for ongoing, multi-stakeholder video work</td></tr>
+      <tr><td><strong>CapCut</strong></td><td>Creator-friendly editing, mobile + desktop, AI editing, templates</td><td>Production system around footage, feedback, team flow</td><td>None — every project starts cold</td><td>No — paid seats</td></tr>
+      <tr><td><strong>DaVinci Resolve</strong></td><td>Pro post, color, VFX, audio, serious editor reputation</td><td>The cleaner production-management layer before & around the edit</td><td>None — project file ≠ project memory</td><td>No</td></tr>
+      <tr><td><strong>Adobe</strong></td><td>Industry-standard tooling, ecosystem lock-in, team plans</td><td>Anti-sprawl positioning, simple flow for teams who hate tool jumping</td><td>Limited — assets travel, decisions and feedback do not</td><td>No — Frame.io charges per reviewer</td></tr>
+      <tr><td><strong>Frame.io</strong></td><td>Industry-standard review tool</td><td>Full production system + memory</td><td>None</td><td>No — per-seat pricing</td></tr>
+      <tr><td><strong>Canva</strong></td><td>Broad visual communication, SMB design, marketing collaboration</td><td>A focused video-production-operating layer with project memory</td><td>None for video workflow</td><td>Limited</td></tr>
+      <tr><td><strong>Runway</strong></td><td>Frontier AI video generation, credit-based AI value</td><td>The full "idea → feedback → finished" workflow with memory between runs</td><td>None — every prompt starts cold</td><td>No</td></tr>
+      <tr><td><strong>Descript</strong></td><td>Text-based editing, transcript-first workflow</td><td>Full production flow around video that is not transcript-led</td><td>Limited to transcript + edit history</td><td>No — paid seats</td></tr>
+      <tr><td><strong>VEED</strong></td><td>Browser-first quick editing, subtitles</td><td>Production system + memory for ongoing, multi-stakeholder video work</td><td>None</td><td>Limited</td></tr>
     </tbody>
   </table>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Read</span>
+    <div class="cl-text">Editors compete on the timeline. Generators compete on model quality. Suites compete on breadth. Review tools compete on commenting UI. <strong>Nobody competes on memory + embedded AI + free unlimited client review.</strong> That is the lane.</div>
+  </div>
 </section>
 
 <hr class="rule">
@@ -609,23 +1026,24 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
   <div class="vp-box">
     <span class="vp-label">Lead</span>
     <div class="vp-text"><em>Video production without the chaos.</em></div>
-    <div class="vp-why"><strong>Sub-line:</strong> A better way to move from idea to feedback to finished, without the back-and-forth.</div>
+    <div class="vp-why"><strong>Sub-line:</strong> Pain-free collaboration, embedded AI, and unlimited free client review — the platform that absorbs the drag instead of adding to it.<br><br><strong>Hero CTA:</strong> Stop the drag — try Videfy.</div>
   </div>
 
   <div class="steps">
-    <div class="step"><div class="step-num">1</div><div><div class="step-title">Hero</div><div class="step-desc">Locked line + sub-line, single CTA. No multi-feature soup.</div></div></div>
-    <div class="step"><div class="step-num">2</div><div><div class="step-title">The chaos Videfy removes</div><div class="step-desc">File chaos · feedback chaos · handoff chaos. Name it before solving it.</div></div></div>
-    <div class="step"><div class="step-num">3</div><div><div class="step-title">How it works</div><div class="step-desc">Footage → feedback → finished. The flow is the explanation.</div></div></div>
-    <div class="step"><div class="step-num">4</div><div><div class="step-title">Built for creators, useful for teams</div><div class="step-desc">Audience split made explicit. Creators get the lead, teams get the proof.</div></div></div>
-    <div class="step"><div class="step-num">5</div><div><div class="step-title">Mobile / CapCut handoff</div><div class="step-desc">Bundled export that respects the user's editor of choice.</div></div></div>
-    <div class="step"><div class="step-num">6</div><div><div class="step-title">Claude inside Videfy</div><div class="step-desc">Feedback intelligence, not a chatbot demo.</div></div></div>
-    <div class="step"><div class="step-num">7</div><div><div class="step-title">Pricing</div><div class="step-desc">Three tiers, plain language, no credits jargon at the top.</div></div></div>
-    <div class="step"><div class="step-num">8</div><div><div class="step-title">CTA</div><div class="step-desc">One ask. Same wording as the hero CTA.</div></div></div>
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Hero</div><div class="step-desc">Locked line + sub-line, single CTA: "Stop the drag — try Videfy."</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">The drag, named</div><div class="step-desc">Tool sprawl creates the drag. <strong>Five taxes</strong> name the cost: operational, attention, creative, memory, <strong>cost (the bill nobody adds up)</strong>. Subscription sprawl, scattered AI credits, files on three drives, per-reviewer seat charges — make it visible.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">The three pain-frees</div><div class="step-desc">Pain-free collaboration. Pain-free client review (unlimited, free, no account). Pain-free memory. Three lines, three icons.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">How it works</div><div class="step-desc">Idea → feedback → finished, with automation, AI, and memory carrying the work between stages.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Built for creators, useful for teams, loved by agencies</div><div class="step-desc">Audience split made explicit. Creators get the lead, teams get the proof, agencies get the wedge.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Mobile / CapCut handoff</div><div class="step-desc">Bundled export that respects the user's editor of choice.</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">AI + memory inside the flow</div><div class="step-desc">Embedded production intelligence, not a chatbot demo. Show what fires automatically.</div></div></div>
+    <div class="step"><div class="step-num">8</div><div><div class="step-title">Pricing</div><div class="step-desc">Five tiers (anonymous Honeypot → Personal → Creator → Pro → Team) plus Enterprise. Lead with: <em>"Clients always review for free."</em></div></div></div>
+    <div class="step"><div class="step-num">9</div><div><div class="step-title">CTA</div><div class="step-desc">One ask. Same wording as the hero CTA.</div></div></div>
   </div>
 
   <div class="note-box">
     <span class="nb-label">Tone rules</span>
-    <div class="nb-text">No "AI-powered" as the lead value. No "all-in-one." No "creative suite." No "stunning / beautiful / 8K / hyperrealistic / perfect." <strong>Lead with the operational outcome, not the feature.</strong></div>
+    <div class="nb-text">No "AI-powered" as the lead value. No "all-in-one." No "creative suite." No "stunning / beautiful / 8K / hyperrealistic / perfect." <strong>Lead with what the team gets back — time, attention, creative energy, project memory, free client review — not what the tool does.</strong></div>
   </div>
 </section>
 
@@ -636,14 +1054,16 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <section class="section">
   <span class="eyebrow">Open product questions</span>
   <h2 class="h2">What product<br><em>and engineering need to answer.</em></h2>
+  <p class="body">Most workspace, role, and credit questions are now resolved in the Pricing Strategy doc and the Workspaces PRD. What remains for the production flow itself:</p>
 
   <div class="steps">
     <div class="step"><div class="step-num">1</div><div><div class="step-title">Smallest production-context object</div><div class="step-desc">Project? Brief? A single video? What is the minimum unit of "production context" in v1?</div></div></div>
-    <div class="step"><div class="step-num">2</div><div><div class="step-title">How feedback enters the system</div><div class="step-desc">Upload, comment-on-frame, paste-from-Slack, all three? Pick a v1 surface.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">How feedback enters the system</div><div class="step-desc">Upload, comment-on-frame, paste-from-Slack, client review link, all of the above? Pick a v1 default surface.</div></div></div>
     <div class="step"><div class="step-num">3</div><div><div class="step-title">Format of the handoff package</div><div class="step-desc">Zip, share link, native folder, all three? UX picks one as default.</div></div></div>
     <div class="step"><div class="step-num">4</div><div><div class="step-title">Where Claude lives in the UI</div><div class="step-desc">Sidebar, inline on feedback, separate "ask" surface? Affects the entire IA.</div></div></div>
-    <div class="step"><div class="step-num">5</div><div><div class="step-title">Minimum collaboration model</div><div class="step-desc">Single user, single team, multi-team? v1 ships one.</div></div></div>
-    <div class="step"><div class="step-num">6</div><div><div class="step-title">Storage model</div><div class="step-desc">Videfy hosts files, references cloud storage, or both? Storage cost shapes Team tier especially.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Storage model</div><div class="step-desc">Videfy hosts files, references cloud storage, or both? Storage cost shapes the Team tier especially.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Honeypot → Personal Workspace bridge</div><div class="step-desc">On signup, do Honeypot generations transfer to the Personal Workspace? Recommended yes.</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">Comments toggle granularity</div><div class="step-desc">Owner toggles comments on/off per workspace. Per project? Per review link? Pick one for v1.</div></div></div>
   </div>
 </section>
 

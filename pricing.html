@@ -40,6 +40,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 
 .two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
 .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
+.four-col { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:20px; }
 
 .card { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; }
 .card-head { padding:14px 20px; border-bottom:1px solid var(--bmd); display:flex; align-items:center; gap:10px; }
@@ -67,7 +68,6 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .card-list li.am::before { background:#F59E0B; border-color:rgba(245,158,11,.5); }
 .card-list li.rd::before { background:#EF4444; border-color:rgba(239,68,68,.4); }
 
-/* VP BOX */
 .vp-box { background:linear-gradient(135deg, rgba(170,255,0,.06) 0%, rgba(0,196,180,.06) 100%); border:1px solid rgba(170,255,0,.25); border-radius:14px; padding:28px 32px; margin-top:20px; }
 .vp-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#2D6000; display:block; margin-bottom:12px; }
 .vp-text { font-family:'Instrument Serif',Georgia,serif; font-size:22px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; margin-bottom:14px; }
@@ -76,12 +76,18 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .vp-why strong { font-weight:600; color:var(--ink); }
 
 /* PRICING TIER CARDS */
-.tier-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:22px; }
+.tier-row { display:grid; gap:14px; margin-top:22px; }
+.tier-row.two { grid-template-columns:1fr 1fr; }
+.tier-row.three { grid-template-columns:1fr 1fr 1fr; }
 .tier { border-radius:16px; padding:26px 24px; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.tier.honeypot { background:var(--off); border:1px solid var(--bstr); }
+.tier.personal { background:var(--off); border:1px solid var(--bstr); }
 .tier.creator { background:var(--off); border:1px solid var(--bstr); }
 .tier.pro { background:var(--ink); color:var(--white); border:1px solid var(--ink); }
 .tier.team { background:var(--off); border:1px solid var(--bstr); }
 .tier::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+.tier.honeypot::before { background:#F59E0B; }
+.tier.personal::before { background:var(--soft); }
 .tier.creator::before { background:var(--teal); }
 .tier.pro::before { background:linear-gradient(90deg, var(--lime), var(--teal)); }
 .tier.team::before { background:var(--lime); }
@@ -99,11 +105,21 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .tier.pro .tier-best { color:rgba(255,255,255,.4); }
 .tier-best-text { font-size:13px; color:#2C3040; line-height:1.55; font-weight:300; margin-bottom:14px; }
 .tier.pro .tier-best-text { color:rgba(255,255,255,.7); }
+.tier-roles { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); padding:8px 10px; background:rgba(0,0,0,0.03); border-radius:6px; margin-bottom:14px; line-height:1.55; }
+.tier.pro .tier-roles { color:rgba(255,255,255,.55); background:rgba(255,255,255,0.05); }
 .tier ul { list-style:none; display:flex; flex-direction:column; gap:7px; }
 .tier ul li { font-size:13px; line-height:1.45; padding-left:18px; position:relative; font-weight:300; color:#2C3040; }
 .tier.pro ul li { color:rgba(255,255,255,.78); }
 .tier ul li::before { content:'✓'; position:absolute; left:0; top:0; color:var(--teal); font-weight:600; font-size:12px; }
 .tier.pro ul li::before { color:var(--lime); }
+
+.tier.enterprise { background:linear-gradient(135deg, var(--ink) 0%, var(--dark) 100%); color:var(--white); border:1px solid var(--ink); padding:28px 32px; display:flex; flex-direction:row; align-items:center; gap:30px; margin-top:14px; }
+.tier.enterprise::before { background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.ent-left { flex:1; }
+.ent-name { font-family:'Instrument Serif',Georgia,serif; font-size:24px; color:var(--lime); margin-bottom:6px; }
+.ent-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:10px; }
+.ent-text { font-size:13px; color:rgba(255,255,255,.7); line-height:1.6; font-weight:300; }
+.ent-cta { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink); background:var(--lime); padding:12px 20px; border-radius:8px; font-weight:500; flex-shrink:0; }
 
 /* TABLE */
 .tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
@@ -111,6 +127,7 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
 .tbl td strong { font-weight:600; color:var(--ink); }
 .tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:24px 0 6px; display:block; }
 
 /* CALLOUT */
 .callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
@@ -125,11 +142,12 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 .note-box .nb-text strong { font-weight:600; color:var(--ink); }
 
 /* STAT */
-.stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:20px; }
+.stat-row { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:20px; }
 .stat-card { background:var(--off); border-radius:12px; padding:20px 18px; border:1px solid var(--border); }
 .stat-num { font-family:'Instrument Serif',Georgia,serif; font-size:28px; line-height:1; color:var(--ink); margin-bottom:6px; }
 .stat-num.lime { color:#2D6000; }
 .stat-num.teal { color:#005C54; }
+.stat-num.amber { color:#92400E; }
 .stat-label { font-size:12px; color:var(--muted); line-height:1.45; font-weight:300; }
 
 /* STEP NUMBERED */
@@ -147,10 +165,11 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
   .page { padding:40px 20px 72px; }
   .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
   .hero { padding:28px 24px; }
-  .stat-row,.two-col,.three-col,.tier-row { grid-template-columns:1fr; }
+  .stat-row,.two-col,.three-col,.four-col,.tier-row.two,.tier-row.three { grid-template-columns:1fr; }
   .tbl { font-size:11.5px; }
   .tbl th, .tbl td { padding:10px; }
   .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+  .tier.enterprise { flex-direction:column; align-items:flex-start; }
 }
 </style>
 </head>
@@ -175,11 +194,11 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <div class="hero">
   <span class="hero-eyebrow">Pricing direction memo</span>
   <div class="hero-headline">
-    Honeypot + three tiers + enterprise.<br>
-    <em>Included usage.</em> Credit top-ups.
+    Pain-free pricing<br>
+    <em>for a pain-free platform.</em>
   </div>
   <div class="hero-body">
-    Launch with a credits-only Honeypot at the front, three subscription tiers (Creator · Pro · Team) with included monthly usage, then meter heavier actions with credit top-ups. Honeypot is the only credits-led surface — paid tiers stay clean. Built to serve four GTM avenues: Claude MCP, Honeypot, Avatar, and the Adobe Premiere Extension.
+    Anonymous Honeypot at the front. Free Personal Workspace seeded on signup. Three paid subscription tiers (Creator · Pro · Team) priced per workspace, not per seat. One Enterprise tier for everything custom. Credits live inside the workspace, allocated by Owner and Admin. <strong style="color:var(--lime);">Clients always review for free, no account required, unlimited at every tier.</strong> Built to serve four GTM avenues: Claude MCP, Honeypot, Avatar, and the Adobe Premiere Extension.
   </div>
 </div>
 
@@ -187,88 +206,209 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <hr class="rule">
 
 
-<!-- MONETIZATION ARCHITECTURE -->
+<!-- ARCHITECTURAL SPINE -->
 <section class="section">
-  <span class="eyebrow">Monetization architecture</span>
-  <h2 class="h2">Three layers.<br><em>One coherent funnel.</em></h2>
-  <p class="body">The pricing model lives in three layers. Each layer has a job. Mixing them is what kills SaaS pricing pages.</p>
+  <span class="eyebrow">The architectural spine</span>
+  <h2 class="h2">Account, Workspace,<br><em>Personal Workspace.</em></h2>
+  <p class="body">Pricing only makes sense once the account/workspace model is clear. Get this wrong and every tier collapses into confusion.</p>
 
   <div class="three-col">
     <div class="card">
-      <div class="card-head lime">
-        <span class="card-icon">①</span>
-        <div><div class="card-title">Layer 1 — Acquisition</div><div class="card-sub">Honeypot</div></div>
+      <div class="card-head off">
+        <span class="card-icon">👤</span>
+        <div><div class="card-title">Account</div><div class="card-sub">A user identity</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:8px;">Low-friction entry. Credit-based. Designed for curiosity, first use, first value. <strong>Not the primary monetization model.</strong> Replaces the traditional free tier without parking users on zero revenue.</div>
-        <ul class="card-list">
-          <li class="hi">Pay-per-credit + promo packs</li>
-          <li class="hi">Generation only, no project persistence</li>
-          <li class="hi">Designed to convert into Layer 2</li>
-        </ul>
+        <div class="card-text">A single user identity. Created via email. Can be a member of many workspaces with a different role in each. Holds zero credits and zero subscriptions on its own — those live on workspaces.</div>
       </div>
     </div>
     <div class="card">
       <div class="card-head dark">
-        <span class="card-icon">②</span>
-        <div><div class="card-title">Layer 2 — Core recurring</div><div class="card-sub">Creator · Pro · Team · Enterprise</div></div>
+        <span class="card-icon">🗃</span>
+        <div><div class="card-title">Workspace</div><div class="card-sub">Financial container</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:8px;">Subscription plans. Where recurring workflow value lives. Persistent projects, organization, repeatability, collaboration, and production-system value.</div>
-        <ul class="card-list">
-          <li class="hi">Predictable monthly subscription + included usage</li>
-          <li class="hi">Hybrid (sub + credits), not seat-only, not credits-only</li>
-          <li class="hi">14-day Pro trial, no CC, no traditional free tier</li>
-        </ul>
+        <div class="card-text">Owns a subscription. Owns a credit pool. Owns its projects, members, roles. <strong>One Owner per workspace.</strong> Members can be Admins, Editors, or Viewers. Workspaces are fully isolated from each other (Restricted Workspace Model).</div>
       </div>
     </div>
     <div class="card">
-      <div class="card-head teal">
-        <span class="card-icon">③</span>
-        <div><div class="card-title">Layer 3 — Expansion</div><div class="card-sub">Top-ups + metered heavy actions</div></div>
+      <div class="card-head lime">
+        <span class="card-icon">📁</span>
+        <div><div class="card-title">Personal Workspace</div><div class="card-sub">"My Projects" · auto-created</div></div>
       </div>
       <div class="card-body">
-        <div class="card-text" style="margin-bottom:8px;">Where margin grows. Top-ups for above-allowance use, metered heavy actions, future premium / advanced generation. Belongs to subscribed users, not just one-off honeypot users.</div>
-        <ul class="card-list">
-          <li class="tl">Per-action top-ups for above-allowance use</li>
-          <li class="tl">Credit packs (1k / 5k / 25k)</li>
-          <li class="tl">Future premium actions (advanced gen, handoff packaging)</li>
-        </ul>
+        <div class="card-text">Auto-created on signup. The account holder is always the Owner. Free at baseline (Honeypot allowance + promo credits). Can upgrade to Creator or Pro. Financially walled off from any invited workspace. Every account always has one.</div>
       </div>
     </div>
   </div>
 
   <div class="callout" style="margin-top:18px;">
-    <span class="cl-label">The story in one line</span>
-    <div class="cl-text"><strong>Honeypot gets users in. Subscriptions hold recurring workflow value. Top-ups monetize spikes and expensive usage.</strong></div>
-  </div>
-
-  <div class="callout" style="margin-top:12px;">
-    <span class="cl-label">Free value layer — delivered through content, not product</span>
-    <div class="cl-text">Traditional freemium would put free features inside the product. We deliver free value through content instead: tutorials, tips, tricks, workflow breakdowns, and resources across Instagram, TikTok, LinkedIn, X, and YouTube — with <strong>Discord</strong> as the most active surface for frameworks, prompts, early access, and community feedback. <strong>The product has no permanent free tier. The content does.</strong></div>
+    <span class="cl-label">Why this matters for pricing</span>
+    <div class="cl-text"><strong>Tier = subscription on a workspace, not on an account.</strong> One account can own multiple paid subscriptions (one per workspace owned). <strong>Personal Workspace is always free.</strong> Honeypot users land here on signup. <strong>Workspaces are financially independent.</strong> Credits do not pool across workspaces.</div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- RECOMMENDATION -->
+<!-- COLLAB MODEL -->
+<section class="section">
+  <span class="eyebrow">Collaboration model</span>
+  <h2 class="h2">Five roles.<br><em>Simple.</em></h2>
+  <p class="body">Five roles. That is it. Two operate at the workspace level (Owner, Admin), three operate per project (Editor, Viewer, Approver). Tier differentiation lives in <strong>how many paid roles</strong> an Owner can invite. Viewers and Approvers are always free and unlimited.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">👑</span>
+        <div><div class="card-title">Owner</div><div class="card-sub">Workspace-level</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Pays the bill. Holds the subscription. Allocates credits. Invites members. Assigns Admins. Can delete the workspace. <strong>One per workspace.</strong></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🛠</span>
+        <div><div class="card-title">Admin</div><div class="card-sub">Workspace-level</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Manages members, assigns roles, manages projects, allocates credits to users and projects. <strong>Cannot purchase credits, change subscription, or delete workspace.</strong> Day-to-day operator.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">✏️</span>
+        <div><div class="card-title">Editor</div><div class="card-sub">Per-project · paid seat</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Assigned to projects. Can create projects, edit assigned projects, generate content (against per-Editor token budget set by Owner / Admin). <strong>Counts as a paid seat.</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="two-col" style="margin-top:10px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">👁</span>
+        <div><div class="card-title">Viewer</div><div class="card-sub">Per-project · the wedge</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">View + leave comments (if Owner enables). <strong>No Videfy account required</strong> — name + password access. <strong>Free, unlimited at every paid tier.</strong> Does not consume tokens. Does not count as a seat.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">✅</span>
+        <div><div class="card-title">Approver</div><div class="card-sub">Per-project · sign-off + the wedge</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Same access as Viewer (no Videfy account, name + password) <strong>plus the power to sign off on a version</strong>. Approval action requires email-verified one-time code → audit trail is real (who approved what, when). Locks the version as approved. <strong>Free, unlimited at every paid tier.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vp-box" style="margin-top:18px;">
+    <span class="vp-label">Why Viewer + Approver is the wedge</span>
+    <div class="vp-text">Every other tool taxes you per reviewer <em>and</em> per approver. Videfy ships both as free.</div>
+    <div class="vp-why">Frame.io, CapCut Business, Adobe — all charge per seat regardless of whether the seat ever generates anything, and approval workflows are usually a paid add-on on top. Owner toggles comments and approvals on or off per workspace. Five clients, twenty stakeholders, fifty internal reviewers, three approvers — <strong>none of them affect the bill. This is the single most important pricing decision in the doc.</strong></div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;">
+    <span class="nb-label">Approver — credible without an account</span>
+    <div class="nb-text">Signs in with name + password (set by Owner). Approving a version sends a one-time code to the email Owner specified at invite. Approver enters the code → approval recorded with email-verified identity. Audit trail visible to Owner / Admin. <strong>v2:</strong> triggers payment milestone events for client work.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- USAGE -->
+<section class="section">
+  <span class="eyebrow">Usage</span>
+  <h2 class="h2">Pain-free,<br><em>predictable.</em></h2>
+  <p class="body">Usage is dead simple, and credits don't disappear on you.</p>
+
+  <div class="callout">
+    <span class="cl-label">One pool per workspace · credits roll · one bill</span>
+    <div class="cl-text">Each workspace has a <strong>monthly token allowance</strong>. Resets on the billing date. <strong>Credits roll over month-to-month while the subscription is active</strong> — capped at 2 months of allowance so the pool never balloons. Credits <strong>expire on cancellation or downgrade.</strong> When the rolling pool hits zero, the Owner can <strong>buy a top-up</strong> or wait for the next reset. Editors <strong>draw from the workspace pool,</strong> capped by per-Editor budget Owner / Admin sets. <strong>Viewers never touch tokens.</strong> Personal Workspace credits and paid-workspace credits <strong>do not pool.</strong></div>
+  </div>
+
+  <div class="vp-box" style="margin-top:14px;">
+    <span class="vp-label">Pricing-page line</span>
+    <div class="vp-text"><em>"Your credits roll. Use them when the work shows up."</em></div>
+    <div class="vp-why">Credits you paid for don't disappear. We don't punish you for a slow week. The pool grows up to 2 months of allowance, then plateaus — predictable for you, predictable for us.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- MONETIZATION ARCHITECTURE -->
+<section class="section">
+  <span class="eyebrow">Monetization architecture</span>
+  <h2 class="h2">Three layers.<br><em>One coherent funnel.</em></h2>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">①</span>
+        <div><div class="card-title">Layer 1 — Acquisition</div><div class="card-sub">Honeypot · anonymous</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Anonymous, no signup. Credit-based. Designed for curiosity, first use, first value. Replaces the traditional free tier without parking anyone on zero revenue. First "save this" → account → seeded Personal Workspace.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">②</span>
+        <div><div class="card-title">Layer 2 — Core recurring</div><div class="card-sub">Personal · Creator · Pro · Team · Enterprise</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Subscription plans on workspaces. Persistent projects, organization, repeatability, collaboration, free unlimited client review, production-system value.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">③</span>
+        <div><div class="card-title">Layer 3 — Expansion</div><div class="card-sub">Top-ups + metered heavy actions</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Top-ups for above-allowance use, metered heavy actions, future premium / advanced generation. Belongs to subscribed workspaces.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">The story in one line</span>
+    <div class="cl-text">Anonymous Honeypot gets users in. Personal Workspace + paid subscriptions hold recurring workflow value. Top-ups monetize spikes. <strong>Free Viewers are the wedge that makes the pricing different from every competitor.</strong></div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">Free value layer — delivered through content, not product</span>
+    <div class="nb-text">Videfy already has a permanent free product surface (Personal Workspace + Honeypot). On top of that, free <em>value</em> is delivered through content: tutorials, tips, workflow breakdowns across IG, TikTok, LinkedIn, X, YouTube — with Discord as the most active surface for frameworks, prompts, early access, community feedback.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- THE RECOMMENDATION -->
 <section class="section">
   <span class="eyebrow">The recommendation</span>
-  <h2 class="h2">Hybrid wins.<br><em>And it is not close.</em></h2>
-  <p class="body">Three pricing patterns are live in the market right now: subscription + included usage (Runway, Descript, CapCut Pro), per-seat business pricing (Adobe, Canva, Descript Business), and one-time license (DaVinci Resolve). For a workflow product with variable-cost AI actions, the strongest pattern is hybrid — predictable subscription plus metered usage for heavy actions.</p>
+  <h2 class="h2">Hybrid wins,<br><em>and it is not close.</em></h2>
+  <p class="body">Three pricing patterns are live: subscription + included usage (Runway, Descript, CapCut Pro), per-seat business pricing (Adobe, Canva, Descript Business), one-time license (DaVinci Resolve). For a workflow product with variable-cost AI actions, the strongest pattern is hybrid — predictable subscription plus metered usage for heavy actions.</p>
 
-  <div class="two-col" style="margin-top:22px;">
+  <div class="three-col">
     <div class="card">
       <div class="card-head lime">
         <span class="card-icon">✓</span>
-        <div><div class="card-title">Why hybrid wins</div><div class="card-sub">Recommended</div></div>
+        <div><div class="card-title">Why hybrid wins</div><div class="card-sub">Why we pick this</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
           <li class="hi">Easier to understand than credits-only</li>
           <li class="hi">Better cost control than subscription-only</li>
-          <li class="hi">Familiar — Descript, Runway, CapCut already train this pattern</li>
+          <li class="hi">Familiar — Descript, Runway, CapCut train the pattern</li>
           <li class="hi">Supports both creator and team buyers</li>
           <li class="hi">Keeps the homepage clean (no credit jargon)</li>
         </ul>
@@ -277,14 +417,23 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
     <div class="card">
       <div class="card-head red">
         <span class="card-icon">✕</span>
-        <div><div class="card-title">Why not credits-only</div><div class="card-sub">Rejected</div></div>
+        <div><div class="card-title">Why not per-seat scaling at public tiers</div><div class="card-sub">Save it for Enterprise</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Per-seat scaling forces every contributor — even a junior editor or a client reviewer — onto a paid line item. Where competitors get expensive and confusing. Videfy keeps seats fixed per tier and pushes seat overages to Enterprise. Public tiers stay flat-priced.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head red">
+        <span class="card-icon">✕</span>
+        <div><div class="card-title">Why not credits-only as primary</div><div class="card-sub">Honeypot only</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
           <li class="rd">Too abstract for first-time buyers</li>
           <li class="rd">Feels risky and hard to budget</li>
-          <li class="rd">Hard to communicate value on the homepage in one line</li>
-          <li class="rd">Better as an internal meter than a top-level commercial story</li>
+          <li class="rd">Hard to communicate value on homepage</li>
+          <li class="rd">Better as internal meter than top-level story</li>
         </ul>
       </div>
     </div>
@@ -299,144 +448,237 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
   <span class="eyebrow">Market benchmarks</span>
   <h2 class="h2">Where the market<br><em>already lives.</em></h2>
 
-  <div class="stat-row" style="grid-template-columns:repeat(5,1fr);">
+  <div class="stat-row">
     <div class="stat-card">
-      <div class="stat-num teal">$12</div>
-      <div class="stat-label">Runway Standard / user / month, annual — credits included</div>
+      <div class="stat-num lime">$12</div>
+      <div class="stat-label"><strong>Runway Standard</strong> / user / month, annual — credits included</div>
     </div>
     <div class="stat-card">
       <div class="stat-num">$20</div>
-      <div class="stat-label">Canva Business / person / month — Teams closed to new signups</div>
+      <div class="stat-label"><strong>Canva Business</strong> / person / month — Teams closed to new signups</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num lime">$24</div>
-      <div class="stat-label">Descript Creator / month — included media hours + AI credits</div>
+      <div class="stat-num teal">$24</div>
+      <div class="stat-label"><strong>Descript Creator</strong> / month — included media hours + AI credits</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num amber">$25</div>
+      <div class="stat-label"><strong>Frame.io Pro</strong> reviewer seat / month — Videfy undercuts to <strong>$0</strong></div>
     </div>
     <div class="stat-card">
       <div class="stat-num">$37</div>
-      <div class="stat-label">Adobe single-app team license / month, per seat</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" style="font-size:22px;color:#005C54;">$295</div>
-      <div class="stat-label">DaVinci Resolve Studio — one-time license (comparison only)</div>
+      <div class="stat-label"><strong>Adobe single-app</strong> team license / month, per seat</div>
     </div>
   </div>
 
-  <div class="note-box">
-    <span class="nb-label">Read</span>
-    <div class="nb-text">No competitor sticks to a single axis. <strong>Subscription + included usage</strong> is the dominant pattern for AI-adjacent video tools. Per-seat is normal for team buyers. One-time pricing is a comparison anchor only — not a SaaS direction to copy.</div>
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Read</span>
+    <div class="cl-text">No competitor sticks to a single axis. Subscription + included usage is dominant for AI-adjacent video tools. Per-seat is normal for team buyers. <strong>Frame.io's per-reviewer charge is the anchor Videfy disrupts</strong> — "clients always review for free" is a numerically obvious win on the comparison page.</div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- TIERS -->
+<!-- CLAUDE + SKILLS PRICING SHOWCASE -->
 <section class="section">
-  <span class="eyebrow">Public tier structure</span>
-  <h2 class="h2">Honeypot + three tiers.<br><em>One enterprise line.</em></h2>
-  <p class="body">Names below are working names. The packaging story matters more than the names. The story a buyer reads on the page: <strong>Honeypot — try generation without signing up. Creator — for people making and finishing work. Pro — for people doing more work, more often. Team — for people moving work through a system together.</strong></p>
+  <span class="eyebrow">Claude + Skills inside Videfy</span>
+  <h2 class="h2">The AI included<br><em>in every paid tier.</em></h2>
+  <p class="body">Videfy's AI is <strong>Claude — Anthropic's flagship model</strong> — embedded as a native producer through MCP. Claude can use every tool in Videfy, assemble projects, write scripts for any platform, brainstorm ideas, drive the generators, follow your brand rules, and move work through the flow. <strong>Type and start producing.</strong></p>
 
-  <div class="note-box" style="margin-top:14px;background:rgba(170,255,0,.06);border-color:rgba(170,255,0,.25);">
-    <span class="nb-label" style="color:#2D6000;">Start instantly — Honeypot (credits-only front door)</span>
-    <div class="nb-text"><strong>What it is:</strong> low-friction entry. Pay-per-credit. Promo packs. Designed for curiosity, first use, first value — not primary monetization. Replaces the traditional free tier without parking users on zero revenue.<br><br><strong>What it can do:</strong> generation only (image, video, avatar, voiceover via credits).<br><strong>What it can't do (cannibalization guardrails):</strong> no persistent projects · limited project history · no team / collaboration · no approvals · no Adobe Premiere extension · no handoff / export packaging beyond basic · less favorable economics for repeat use.<br><br><strong>Upgrade triggers (Honeypot → paid plan):</strong> user needs project persistence · weekly / repeat usage · storage or handoff structure · team workflow · top-ups become less economical than subscribing.</div>
+  <div class="vp-box">
+    <span class="vp-label">Pricing-page tagline</span>
+    <div class="vp-text"><em>Powered by Claude. Extended by the community.</em></div>
+    <div class="vp-why">Most "AI for video" tools whitelabel a model. Videfy says it by name — the AI buyers already know and trust. MCP makes the integration deep (project-aware, memory-carrying, tool-using), not a chatbot in a sidebar.</div>
   </div>
 
-  <div class="tier-row">
-    <!-- CREATOR -->
-    <div class="tier creator">
-      <div class="tier-name">Creator</div>
-      <div class="tier-tag">For making & finishing</div>
-      <div class="tier-price">$24<span style="font-size:14px;color:var(--muted);font-family:'DM Sans';"> / mo</span></div>
-      <div class="tier-price-sub">$15–$29 target range</div>
-      <div class="tier-annual">$19/mo annual · ~20% off + bonus usage</div>
-      <div class="tier-best">Best for</div>
-      <div class="tier-best-text">Solo creators, freelancer editors, creator-led operators finishing work themselves or handing off lightly.</div>
+  <span class="tbl-label">Tier gating — Claude MCP</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Tier</th><th>Claude access</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Honeypot</strong> (anon)</td><td>Claude on credit-pack basis (one-shot generation calls)</td></tr>
+      <tr><td><strong>Personal</strong> (free)</td><td>Claude MCP — core actions, against promo allowance</td></tr>
+      <tr><td><strong>Creator</strong></td><td>Claude MCP — core actions, against monthly allowance</td></tr>
+      <tr><td><strong>Pro</strong></td><td>Full Claude MCP + heavy actions + connectors (Adobe / CapCut / storage)</td></tr>
+      <tr><td><strong>Team</strong></td><td>Full Claude MCP across shared pool + connectors</td></tr>
+      <tr><td><strong>Enterprise</strong></td><td>Custom MCP connectors + elevated rate limits</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Tier gating — Skills (Custom-GPT-style marketplace)</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Tier</th><th>Skills capability</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Honeypot</strong></td><td>—</td></tr>
+      <tr><td><strong>Personal</strong></td><td>Browse + install free community skills</td></tr>
+      <tr><td><strong>Creator</strong></td><td>Browse + install free community skills</td></tr>
+      <tr><td><strong>Pro</strong></td><td>Install + <strong>publish public skills</strong> to marketplace</td></tr>
+      <tr><td><strong>Team</strong></td><td>Install + publish public + <strong>publish team-private skills</strong> (internal SOPs, agency house style)</td></tr>
+      <tr><td><strong>Enterprise</strong></td><td>Custom skills + private workspace marketplace</td></tr>
+      <tr><td><em>v2 (post-launch)</em></td><td>Premium paid skills with revenue share to creators (Videfy takes a marketplace cut)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Why Skills matter for pricing</span>
+    <div class="cl-text">Skills compound platform value over time. Videfy doesn't have to build every vertical — the community does. Network effect: more skills → more reasons to use Videfy → more skill creators. <strong>The marketplace is a viral discovery surface and a long-term moat.</strong></div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;background:rgba(170,255,0,.06);border-color:rgba(170,255,0,.3);">
+    <span class="nb-label" style="color:#2D6000;">Rules — pricing implication</span>
+    <div class="nb-text"><strong>Project-level rules</strong> ship at every paid tier. <strong>Workspace-level rules</strong> (apply to all projects in a workspace) ship Creator and up. <strong>Owner / Admin lock vs Editor-proposed rules</strong> = Team and up. Rules are not metered — they are configuration, not generation.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- TIER STRUCTURE -->
+<section class="section">
+  <span class="eyebrow">Public tier structure</span>
+  <h2 class="h2">Anonymous Honeypot<br>+ four tiers <em>+ Enterprise.</em></h2>
+  <p class="body"><strong>Try anonymously. Sign up to keep your work in your free Personal Workspace. Upgrade to Creator when you want the full workflow. Upgrade to Pro when you bring in collaborators. Upgrade to Team when you want a dedicated workspace with Admins. Talk to sales for Enterprise.</strong></p>
+
+  <div class="tier-row two">
+    <div class="tier honeypot">
+      <div class="tier-name">Honeypot</div>
+      <div class="tier-tag">Anonymous · no signup</div>
+      <div class="tier-price">$0</div>
+      <div class="tier-price-sub">+ pay-per-credit packs</div>
+      <div class="tier-annual">No subscription · promo packs available</div>
+      <div class="tier-best">Lane</div>
+      <div class="tier-best-text">For the curious. Try generation without signup.</div>
+      <div class="tier-roles">Owner: — · Admins: — · Editors: — · Viewers: —</div>
       <ul>
-        <li>Full workflow access (idea → finished)</li>
-        <li>GenAI generation allowance</li>
-        <li>Avatar minutes (limited)</li>
-        <li>Claude MCP — AI Video Producer</li>
-        <li>Standard exports (Adobe · CapCut · mobile · MP4)</li>
-        <li>Single-user</li>
+        <li>Generation only (image / video / avatar / VO)</li>
+        <li>No project persistence</li>
+        <li>No save · no team · no client review</li>
+        <li>Upgrade trigger: "Want to save this?"</li>
       </ul>
     </div>
+    <div class="tier personal">
+      <div class="tier-badge" style="background:var(--soft);color:var(--ink);">Free w/ account</div>
+      <div class="tier-name">Personal</div>
+      <div class="tier-tag">"My Projects" · auto-created on signup</div>
+      <div class="tier-price">$0</div>
+      <div class="tier-price-sub">Honeypot allowance + promo credits</div>
+      <div class="tier-annual">Always free · permanent home for an account</div>
+      <div class="tier-best">Lane</div>
+      <div class="tier-best-text">Where the curious-converted user keeps their saved Honeypot work.</div>
+      <div class="tier-roles">Owner: 1 · Admins: 0 · Editors: 0 · <strong>Viewers + Approvers: unlimited (free, no-account)</strong></div>
+      <ul>
+        <li>Project persistence (limited project count)</li>
+        <li>Standard exports</li>
+        <li><strong>Free unlimited client review</strong> from day one</li>
+        <li>No Editor invites · no Adobe extension</li>
+      </ul>
+    </div>
+  </div>
 
-    <!-- PRO -->
+  <div class="tier-row three" style="margin-top:14px;">
+    <div class="tier creator">
+      <div class="tier-name">Creator</div>
+      <div class="tier-tag">For solo creators</div>
+      <div class="tier-price">$24<span style="font-size:14px;color:var(--muted);"> / mo</span></div>
+      <div class="tier-price-sub">$15–$29 target range</div>
+      <div class="tier-annual">$19/mo annual · ~20% off + bonus usage</div>
+      <div class="tier-best">Lane</div>
+      <div class="tier-best-text">Solo creators making work alone and sharing with clients for review.</div>
+      <div class="tier-roles">Owner: 1 · Admins: 0 · Editors: 0 · <strong>Viewers + Approvers: unlimited</strong></div>
+      <ul>
+        <li>Full workflow (idea → finished)</li>
+        <li>GenAI allowance (baseline)</li>
+        <li>Avatar minutes (limited)</li>
+        <li>Claude MCP — AI Video Producer</li>
+        <li>Standard exports</li>
+        <li><strong>Free unlimited client review</strong></li>
+      </ul>
+    </div>
     <div class="tier pro">
       <div class="tier-badge">Best value</div>
       <div class="tier-name">Pro</div>
-      <div class="tier-tag">For more work, more often</div>
-      <div class="tier-price">$59<span style="font-size:14px;color:rgba(255,255,255,.5);font-family:'DM Sans';"> / mo</span></div>
+      <div class="tier-tag">For creators bringing in collaborators</div>
+      <div class="tier-price">$59<span style="font-size:14px;color:rgba(255,255,255,.5);"> / mo</span></div>
       <div class="tier-price-sub">$39–$79 target range</div>
       <div class="tier-annual">$47/mo annual · ~20% off + bonus usage</div>
-      <div class="tier-best">Best for</div>
-      <div class="tier-best-text">Power creators, freelancers with throughput, small post teams who need more usage and more workflow support.</div>
+      <div class="tier-best">Lane</div>
+      <div class="tier-best-text">Creators bringing in a junior editor, freelancer, or partner — while still owning the project alone.</div>
+      <div class="tier-roles">Owner: 1 · Admins: 0 · Editors: up to 3 · <strong>Viewers + Approvers: unlimited</strong></div>
       <ul>
-        <li>~3× the monthly generation allowance</li>
+        <li>~3× monthly generation allowance</li>
         <li>Avatar minutes (more)</li>
-        <li><strong>Adobe Premiere Extension</strong> — Timeline Sync + Subtitles (native roundtrip)</li>
-        <li>Advanced workflow + feedback / revision tracking</li>
+        <li><strong>Adobe Premiere Extension</strong> — Timeline Sync + Subtitles</li>
+        <li>Per-Editor token budgets</li>
+        <li>Advanced workflow + revision tracking</li>
         <li>Full Claude MCP + Story Creation Chat (when ships)</li>
-        <li>Priority Adobe handoff packaging</li>
+        <li>Free unlimited client review</li>
       </ul>
     </div>
-
-    <!-- TEAM -->
     <div class="tier team">
       <div class="tier-name">Team</div>
-      <div class="tier-tag">For moving work together</div>
-      <div class="tier-price">$39<span style="font-size:14px;color:var(--muted);font-family:'DM Sans';"> / seat / mo</span></div>
-      <div class="tier-price-sub">$20–$60 / seat target · 3-seat min</div>
-      <div class="tier-annual">$33/seat/mo annual · ~15% off + larger pool</div>
-      <div class="tier-best">Best for</div>
-      <div class="tier-best-text">Small teams, PMs and content operators, in-house teams, agencies who move multiple projects at once.</div>
+      <div class="tier-tag">For production teams</div>
+      <div class="tier-price">$149<span style="font-size:14px;color:var(--muted);"> / mo flat</span></div>
+      <div class="tier-price-sub">$99–$199 target · per workspace</div>
+      <div class="tier-annual">$119/mo annual · ~20% off + bonus pool</div>
+      <div class="tier-best">Lane</div>
+      <div class="tier-best-text">Production teams running a dedicated workspace with Admins and multiple Editors.</div>
+      <div class="tier-roles">Owner: 1 · Admins: up to 2 · Editors: up to 5 · <strong>Viewers + Approvers: unlimited</strong></div>
       <ul>
-        <li>Seat-based collaboration</li>
-        <li>Shared usage pool (gen + avatar minutes)</li>
+        <li>Dedicated workspace separate from Personal</li>
+        <li>~5× shared token pool</li>
         <li><strong>Full Adobe Premiere Extension</strong> (all phases)</li>
-        <li>Permissions & approval visibility</li>
+        <li>Permissions, role visibility, approval flow</li>
         <li>Localization (when ships)</li>
         <li>Full Claude MCP across shared context</li>
+        <li><strong>Restricted Workspace Model</strong> (the agency unlock)</li>
       </ul>
     </div>
   </div>
 
-  <div class="note-box">
-    <span class="nb-label">Enterprise / custom</span>
-    <div class="nb-text">For larger orgs, custom workflow / security / support, large shared-usage requirements, custom MCP / Claude connector setup, custom legal & procurement. <strong>Pricing: contact sales.</strong> No public number this week. Use the Enterprise line on the pricing page to anchor Team as the "normal team purchase" and to capture inbound from larger orgs. Do not build the enterprise feature surface in v1.</div>
+  <div class="tier enterprise">
+    <div class="ent-left">
+      <div class="ent-name">Enterprise / custom</div>
+      <div class="ent-tag">Where seat overages live</div>
+      <div class="ent-text">For larger orgs, custom workflow / security / support, large shared-usage requirements, custom MCP / Claude connector setup, custom legal & procurement. <strong style="color:var(--lime);">Where extra-seat pricing lives</strong> — additional Admins, Editors, or workspaces sold per seat at custom rates. Multi-workspace orgs handled here. Anchors Team as the "normal team purchase" and captures inbound from larger orgs.</div>
+    </div>
+    <div class="ent-cta">Contact sales</div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- WHAT'S IN VS METERED -->
+<!-- INCLUDED VS METERED -->
 <section class="section">
   <span class="eyebrow">Subscription vs. metered</span>
-  <h2 class="h2">What's included.<br><em>What gets metered.</em></h2>
+  <h2 class="h2">What's included<br><em>vs. what gets metered.</em></h2>
 
   <div class="three-col">
     <div class="card">
       <div class="card-head lime">
         <span class="card-icon">✓</span>
-        <div><div class="card-title">In every subscription</div><div class="card-sub">Not metered</div></div>
+        <div><div class="card-title">Included in every workspace sub</div><div class="card-sub">Not metered</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
           <li class="hi">Project / production context creation</li>
           <li class="hi">Storyboard builder</li>
-          <li class="hi">File organization & version tracking</li>
+          <li class="hi">File org & version tracking</li>
           <li class="hi">Feedback capture & threading</li>
+          <li class="hi">Client review link (name + password)</li>
           <li class="hi">Status & approval visibility</li>
-          <li class="hi">Standard exports (Adobe · CapCut · mobile · MP4)</li>
+          <li class="hi">Standard exports</li>
           <li class="hi">Claude MCP — AI Video Producer access</li>
         </ul>
       </div>
     </div>
     <div class="card">
       <div class="card-head amber">
-        <span class="card-icon">∿</span>
+        <span class="card-icon">⏱</span>
         <div><div class="card-title">Metered against allowance</div><div class="card-sub">Counts down monthly cap</div></div>
       </div>
       <div class="card-body">
@@ -448,105 +690,241 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
           <li class="am">Ad variant generation count</li>
           <li class="am">Cloud rendering minutes</li>
           <li class="am">Heavy Claude MCP actions</li>
-          <li class="am">Localization / translation jobs (when ships)</li>
+          <li class="am">Localization (when ships)</li>
         </ul>
       </div>
     </div>
     <div class="card">
-      <div class="card-head teal">
-        <span class="card-icon">+</span>
+      <div class="card-head dark">
+        <span class="card-icon">⚡</span>
         <div><div class="card-title">Top-up / overage</div><div class="card-sub">When allowance runs out</div></div>
       </div>
       <div class="card-body">
         <ul class="card-list">
-          <li class="tl">Per-action top-ups for above-allowance use</li>
-          <li class="tl">Annual plans bundle bonus allowance</li>
-          <li class="tl">Credits never expire mid-cycle (UX trust)</li>
-          <li class="tl">Credits are an internal meter — not a homepage selling point</li>
+          <li>Per-action top-ups</li>
+          <li>Annual plans bundle bonus allowance</li>
+          <li>Credits roll month-to-month (cap 2 months)</li>
+          <li>Credits = internal meter, not homepage</li>
         </ul>
       </div>
     </div>
   </div>
+
+  <div class="vp-box" style="margin-top:18px;">
+    <span class="vp-label">What is always free — the wedge</span>
+    <div class="vp-text">Viewer access. Client review comments. <em>Always free, every tier, no account needed.</em></div>
+    <div class="vp-why">Owner toggles comments on or off per workspace. Five clients, twenty stakeholders, fifty internal reviewers — none affect the bill.</div>
+  </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- FEATURE ACCESS MATRIX -->
+<!-- RESTRICTED WORKSPACE MODEL -->
+<section class="section">
+  <span class="eyebrow">Restricted Workspace Model</span>
+  <h2 class="h2">Privacy<br><em>by default.</em></h2>
+  <p class="body">Not a setting. The default. Members see only projects they are explicitly assigned to. Members do not see the full project list, do not see other members, do not see the workspace's total credit pool. Owner and Admin see everything. Viewers see only the project they were invited to.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🛡</span>
+        <div><div class="card-title">Client data isolation</div><div class="card-sub">Agency unlock</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Agencies put many clients in one workspace without cross-contamination.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">🧱</span>
+        <div><div class="card-title">Internal team segmentation</div><div class="card-sub">Need-to-know</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Junior editors don't see the strategy work. Freelancers don't see the client roster.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">💰</span>
+        <div><div class="card-title">Credit spending control</div><div class="card-sub">Owner / Admin only</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">Only Owner / Admin see the pool. Editors see only their allocation.</div></div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">Competitive positioning</span>
+    <div class="cl-text"><strong>Frame.io, CapCut Business, Adobe team plans do not enforce this by default.</strong> This belongs on the pricing page and the agency landing page.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- FEATURE ACCESS BY TIER -->
 <section class="section">
   <span class="eyebrow">Feature access by tier</span>
   <h2 class="h2">What each plan<br><em>actually unlocks.</em></h2>
-  <p class="body">Based on what is live today + what ships in the next 4 weeks. Grouped by the four GTM avenues so buyers can see which lane their plan serves. <strong>"Allowance"</strong> = counts toward monthly cap. <strong>"—"</strong> = not available. <strong>"When ships"</strong> = confirmed on roadmap, not live at v1.</p>
+  <p class="body">Grouped by GTM avenue. <strong>"Allowance"</strong> = counts toward monthly cap. <strong>"—"</strong> = not available. <strong>"When ships"</strong> = on roadmap, not v1.</p>
 
-  <table class="tbl" style="font-size:12px;">
+  <span class="tbl-label">Avenue 1 — Claude MCP (AI Video Producer) + Skills + Rules</span>
+  <table class="tbl">
     <thead>
-      <tr><th style="width:34%;">Capability</th><th>Honeypot</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
     </thead>
     <tbody>
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Avenue 1 — Claude MCP (AI Video Producer)</td></tr>
-      <tr><td>Claude MCP — core actions (story · storyboard · prompts · gen · VO · subs · export)</td><td>✓ credits</td><td>✓ allowance</td><td>✓ full</td><td>✓ shared pool</td><td>✓ + custom connectors</td></tr>
-      <tr><td>Heavy MCP actions (multi-project routing, large synthesis)</td><td>—</td><td>limited</td><td>✓</td><td>✓ shared</td><td>✓</td></tr>
-      <tr><td>Story Creation Chat <em>(when ships)</em></td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
-
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Avenue 2 — GenAI (honeypot + gen inside plans)</td></tr>
-      <tr><td>Text-to-image · image-to-image · upscale image</td><td>✓ credits</td><td>✓ allowance</td><td>✓ ~3× allowance</td><td>✓ shared pool</td><td>✓ custom</td></tr>
-      <tr><td>Text-to-video · image-to-video · video-to-video · animate</td><td>✓ credits</td><td>✓ allowance</td><td>✓ ~3× allowance</td><td>✓ shared pool</td><td>✓ custom</td></tr>
-      <tr><td>Audio-to-video · upscale video</td><td>✓ credits</td><td>✓ allowance</td><td>✓ ~3× allowance</td><td>✓ shared pool</td><td>✓ custom</td></tr>
-
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Avenue 3 — Avatar</td></tr>
-      <tr><td>Image-to-avatar generation</td><td>✓ credits</td><td>✓ limited min</td><td>✓ more min</td><td>✓ shared pool</td><td>✓ custom</td></tr>
-      <tr><td>Voiceover (create · upload · download)</td><td>—</td><td>✓ limited min</td><td>✓ more min</td><td>✓ shared</td><td>✓</td></tr>
-      <tr><td>Subtitles (audio · VO script · manual · generated text)</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Avenue 4 — Adobe Premiere Extension (phased)</td></tr>
-      <tr><td>Timeline Media Sync (phase 1)</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Subtitles sync (phase 2 — high priority)</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Overlays · Transitions · Effects · Filters · VO (phases 3–5)</td><td>—</td><td>—</td><td>✓ as phases land</td><td>✓ as phases land</td><td>✓</td></tr>
-
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Workflow · Projects · Collaboration</td></tr>
-      <tr><td>Project / production context creation · storyboard builder</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>File organization · version tracking · scene editing</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Feedback capture · threading · approvals</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Standard exports (Adobe · CapCut · mobile · MP4)</td><td>basic</td><td>✓</td><td>✓ priority</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Ad variant generation</td><td>—</td><td>light</td><td>✓</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Cloud rendering minutes</td><td>—</td><td>✓ limited</td><td>✓ more</td><td>✓ shared</td><td>✓</td></tr>
-      <tr><td>Localization / translation <em>(when ships)</em></td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
-
-      <tr><td colspan="6" style="background:var(--ink);color:var(--lime);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:10px 14px;">Team · Admin · Enterprise</td></tr>
-      <tr><td>Seat-based collaboration · shared usage pool</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
-      <tr><td>Permissions · role visibility · approval flow</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓ custom</td></tr>
-      <tr><td>SSO · custom roles · procurement · legal</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
-      <tr><td>Custom MCP / Claude connector · onboarding · support</td><td>—</td><td>—</td><td>—</td><td>standard</td><td>✓ custom</td></tr>
+      <tr><td>Claude MCP — core (chat, drive tools, scripts, assemble)</td><td>✓ credits</td><td>✓ allowance</td><td>✓ allowance</td><td>✓ full</td><td>✓ shared pool</td><td>✓ + custom connectors</td></tr>
+      <tr><td>Heavy MCP actions</td><td>—</td><td>—</td><td>limited</td><td>✓</td><td>✓ shared</td><td>✓</td></tr>
+      <tr><td>Story Creation Chat <em>(when ships)</em></td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Skills — install free community skills</strong></td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Skills — publish public skills</strong></td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Skills — publish team-private skills</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Skills — custom / private workspace marketplace</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+      <tr><td><strong>Premium paid skills + revenue share</strong> <em>(v2)</em></td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Rules — project-level</strong> (Claude obeys per project)</td><td>—</td><td>✓ basic</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Rules — workspace-level</strong> (Claude obeys across all projects)</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Rules — Owner/Admin lock vs Editor-proposed</strong></td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
     </tbody>
   </table>
 
-  <div class="note-box" style="margin-top:14px;">
-    <span class="nb-label">How to read this</span>
-    <div class="nb-text"><strong>Avenue 1 + Avenue 2</strong> = live or ship next week (Claude MCP launches early May, Honeypot + Avatar next week). <strong>Avenue 3</strong> = ships next week, tier gating is the monetization fence. <strong>Avenue 4</strong> = phased across multiple releases, Timeline Sync + Subtitles sync first. Everything marked <em>"when ships"</em> is on the product roadmap but not v1 — flag on the pricing page as "coming soon" or hide until live.</div>
-  </div>
+  <span class="tbl-label">Avenue 2 — GenAI</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Text-to-image · upscale</td><td>✓ credits</td><td>✓ promo</td><td>✓ allowance</td><td>✓ ~3×</td><td>✓ shared pool</td><td>✓ custom</td></tr>
+      <tr><td>Text-to-video · animate</td><td>✓ credits</td><td>✓ promo</td><td>✓ allowance</td><td>✓ ~3×</td><td>✓ shared pool</td><td>✓ custom</td></tr>
+      <tr><td>Audio-to-video · upscale</td><td>✓ credits</td><td>✓ promo</td><td>✓ allowance</td><td>✓ ~3×</td><td>✓ shared pool</td><td>✓ custom</td></tr>
+    </tbody>
+  </table>
 
-  <div class="callout" style="margin-top:14px;">
-    <span class="cl-label">The three gating fences that matter most</span>
-    <div class="cl-text"><strong>1.</strong> <strong>Project persistence</strong> — separates Honeypot from Creator. "Save your work" is the first upgrade trigger.<br><strong>2.</strong> <strong>Adobe Premiere Extension</strong> — separates Creator from Pro. This is the pro / agency unlock with no competitor parity.<br><strong>3.</strong> <strong>Shared usage pool + approvals</strong> — separates Pro from Team. This is where seat-based pricing earns its price.</div>
+  <span class="tbl-label">Avenue 3 — Avatar</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Image-to-avatar generation</td><td>✓ credits</td><td>✓ promo</td><td>✓ limited min</td><td>✓ more min</td><td>✓ shared pool</td><td>✓ custom</td></tr>
+      <tr><td>Voiceover (create / upload / DL)</td><td>—</td><td>✓ limited</td><td>✓ limited min</td><td>✓ more min</td><td>✓ shared</td><td>✓</td></tr>
+      <tr><td>Subtitles</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Avenue 4 — Adobe Premiere Extension (phased)</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Timeline Media Sync (phase 1)</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Subtitles sync (phase 2)</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Overlays · Transitions · VO (phases 3–5)</td><td>—</td><td>—</td><td>—</td><td>✓ as phases land</td><td>✓ as phases land</td><td>✓</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Workflow · Projects</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Project persistence</td><td>—</td><td>✓ limited</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Storyboard builder</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>File org · version tracking</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Feedback capture · approvals</td><td>—</td><td>✓ basic</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Standard exports</td><td>basic</td><td>✓</td><td>✓</td><td>✓ priority</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Cloud rendering minutes</td><td>—</td><td>promo</td><td>✓ limited</td><td>✓ more</td><td>✓ shared</td><td>✓</td></tr>
+      <tr><td>Localization <em>(when ships)</em></td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Collaboration · Owners · Admins · Editors · Viewers</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Owner</td><td>—</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1+ multi-workspace</td></tr>
+      <tr><td>Admin invites</td><td>—</td><td>0</td><td>0</td><td>0</td><td>up to 2</td><td>custom</td></tr>
+      <tr><td>Editor invites (per Owner)</td><td>—</td><td>0</td><td>0</td><td>up to 3</td><td>up to 5</td><td>custom</td></tr>
+      <tr><td><strong>Viewer invites (free, no account)</strong></td><td>—</td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td></tr>
+      <tr><td><strong>Approver invites (free, no account, email-verified sign-off)</strong></td><td>—</td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td><td><strong>unlimited</strong></td></tr>
+      <tr><td>Approval audit trail (who approved what version, when)</td><td>—</td><td>✓ basic</td><td>✓</td><td>✓</td><td>✓</td><td>✓ + custom</td></tr>
+      <tr><td>Per-Editor token budget controls</td><td>—</td><td>—</td><td>—</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Restricted Workspace Model</td><td>—</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td>Multiple workspaces per account</td><td>—</td><td>Personal only</td><td>Personal + 1 paid</td><td>Personal + 1 paid</td><td>Personal + 1 Team</td><td>Custom</td></tr>
+    </tbody>
+  </table>
+
+  <span class="tbl-label">Admin · Enterprise</span>
+  <table class="tbl">
+    <thead>
+      <tr><th>Capability</th><th>Honeypot</th><th>Personal</th><th>Creator</th><th>Pro</th><th>Team</th><th>Enterprise</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>SSO · custom roles · procurement</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+      <tr><td>Custom MCP / connector · onboarding</td><td>—</td><td>—</td><td>—</td><td>—</td><td>standard</td><td>✓ custom</td></tr>
+      <tr><td>Seat overages (extra Admins / Editors)</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>✓ per-seat</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+
+<!-- GATING FENCES -->
+<section class="section">
+  <span class="eyebrow">The four gating fences</span>
+  <h2 class="h2">Where each tier<br><em>earns its price.</em></h2>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Account + Personal Workspace</div><div class="step-desc">Separates anonymous Honeypot from Personal. "Save your work" is the first upgrade trigger.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Project persistence + full workflow</div><div class="step-desc">Separates Personal from Creator. The moment a user wants real project capacity.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Editor invites + Adobe Premiere Extension</div><div class="step-desc">Separates Creator from Pro. The moment the Owner brings in a collaborator and needs per-Editor budget control. Adobe ext makes Pro the obvious pick for power users.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Admins + dedicated team workspace + larger pool</div><div class="step-desc">Separates Pro from Team. The moment more than one person needs to administer the workspace, or the team wants its own workspace separate from anyone's Personal.</div></div></div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- THE PACKAGING STORY -->
+<!-- PACKAGING STORY -->
 <section class="section">
   <span class="eyebrow">The packaging story</span>
-  <h2 class="h2">The version<br><em>a buyer actually reads.</em></h2>
+  <h2 class="h2">The version a buyer<br><em>actually reads.</em></h2>
 
   <div class="vp-box">
-    <span class="vp-label">On the pricing page</span>
-    <div class="vp-text" style="font-size:20px;">
-      <strong style="font-weight:500;">Creator</strong> — for people making and finishing work<br>
-      <strong style="font-weight:500;">Pro</strong> — for people doing more work, more often<br>
-      <strong style="font-weight:500;">Team</strong> — for people moving work through a system together
+    <span class="vp-label">Headline above the pricing table</span>
+    <div class="vp-text"><em>Clients always review for free.</em></div>
+    <div class="vp-why">Unlimited reviewers, no account, no per-seat tax. Every plan, including Personal.</div>
+  </div>
+
+  <div class="three-col" style="margin-top:18px;">
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">🎬</span>
+        <div><div class="card-title">Creator</div><div class="card-sub">Solo creators</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">For solo creators making and finishing work and sharing with clients.</div></div>
     </div>
-    <div class="vp-why"><strong>Under the hood:</strong> each plan includes a monthly allowance · heavy actions can use credits or top-ups · annual plans include bonus usage. That is the entire story on the pricing page. Anything more complex hides on a "what counts as usage?" link.</div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">⚡</span>
+        <div><div class="card-title">Pro</div><div class="card-sub">Best value</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">For creators bringing in collaborators.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🏢</span>
+        <div><div class="card-title">Team</div><div class="card-sub">Production teams</div></div>
+      </div>
+      <div class="card-body"><div class="card-text">For production teams with Admins and multiple Editors.</div></div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">Under the hood</span>
+    <div class="nb-text">Every workspace has its own subscription, credit pool, members. Tokens reset on the billing date. Credits do not roll over. Heavy actions can use top-ups. Annual plans include bonus usage. <strong>Reviewers are always free.</strong> That's the entire story on the pricing page. Anything more complex hides on a "how usage works" link.</div>
   </div>
 </section>
 
@@ -556,83 +934,84 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <!-- HONEYPOT VS TRIAL -->
 <section class="section">
   <span class="eyebrow">Honeypot vs. 14-day Pro trial</span>
-  <h2 class="h2">Two no-cost doors.<br><em>Different jobs.</em></h2>
-  <p class="body">Both entry points feel free. They are not the same. Honeypot proves <strong>the AI</strong>. Trial proves <strong>the workflow</strong>. Keep them distinct so positioning stays clean and the funnel stays readable.</p>
+  <h2 class="h2">Two no-cost doors,<br><em>different jobs.</em></h2>
+  <p class="body">Both feel free. Not the same. Honeypot proves <strong>the AI</strong>. Trial proves <strong>the workflow</strong>.</p>
 
   <table class="tbl">
     <thead>
-      <tr><th>Dimension</th><th>Honeypot</th><th>14-day Pro trial</th></tr>
+      <tr><th>Dimension</th><th>Honeypot (anon)</th><th>14-day Pro trial</th></tr>
     </thead>
     <tbody>
-      <tr><td><strong>Entry</strong></td><td>No signup. Just generate.</td><td>Signup required · no credit card</td></tr>
-      <tr><td><strong>Scope</strong></td><td>Single surface — GenAI output</td><td>Full Pro tier · whole workflow</td></tr>
-      <tr><td><strong>Unit</strong></td><td>Credits (paid + promo packs)</td><td>Time — 14 days of Pro allowance</td></tr>
+      <tr><td><strong>Entry</strong></td><td>No signup. Just generate.</td><td>Signup required · no CC · creates Personal Workspace</td></tr>
+      <tr><td><strong>Scope</strong></td><td>Single surface — GenAI output</td><td>Full Pro tier · whole workflow · in a workspace</td></tr>
+      <tr><td><strong>Unit</strong></td><td>Credits (paid + promo)</td><td>Time — 14 days of Pro allowance</td></tr>
       <tr><td><strong>Persistence</strong></td><td>Lightweight sessions · no project storage</td><td>Real projects · files · feedback · approvals</td></tr>
       <tr><td><strong>Buyer intent</strong></td><td>Curious. "Does the AI work?"</td><td>Committed. "Is Videfy my tool?"</td></tr>
-      <tr><td><strong>GTM lane</strong></td><td>Avenue 2 traffic — homepage curiosity, social virality</td><td>Avenue 1 / 3 / 4 — MCP users, Avatar demo, Premiere buyers</td></tr>
-      <tr><td><strong>Conversion path</strong></td><td>Buy credits → hit persistence / team wall → upgrade to Creator or Pro</td><td>Day 14 → convert to Pro subscription</td></tr>
-      <tr><td><strong>Replaces</strong></td><td>Free tier (for cold traffic)</td><td>Free tier (for warm leads past signup)</td></tr>
+      <tr><td><strong>GTM lane</strong></td><td>Avenue 2 — homepage curiosity, social virality</td><td>Avenue 1 / 3 / 4 — MCP, Avatar, Premiere buyers</td></tr>
+      <tr><td><strong>Conversion path</strong></td><td>Save → account + Personal → upgrade Creator/Pro</td><td>Day 14 → convert to Pro subscription</td></tr>
+      <tr><td><strong>Replaces</strong></td><td>Free tier (cold traffic)</td><td>Free tier (warm leads past signup)</td></tr>
       <tr><td><strong>Ships</strong></td><td>Next week</td><td>v1 launch</td></tr>
     </tbody>
   </table>
 
-  <div class="note-box" style="margin-top:14px;">
-    <span class="nb-label">How they feed each other</span>
-    <div class="nb-text"><strong>Cold → Honeypot → Trial → Paid.</strong> Homepage visitor tries Honeypot, burns through a credit pack, creates a project they want to keep. Upgrade prompt offers: "Start your 14-day Pro trial." Trial converts the now-qualified lead into a subscription. Honeypot spend is not wasted margin — it is attribution for a paid user with proven intent.</div>
+  <div class="callout" style="margin-top:18px;">
+    <span class="cl-label">How they feed each other</span>
+    <div class="cl-text"><strong>Cold → Honeypot → save → Personal Workspace → Trial → Paid.</strong> Visitor tries Honeypot anonymously, hits save → creates account → Personal seeded with the work + promo credits. Upgrade prompt: "Start your 14-day Pro trial." Trial converts the qualified lead.</div>
   </div>
 
-  <div class="callout" style="margin-top:14px;">
-    <span class="cl-label">The risk if we do not distinguish them</span>
-    <div class="cl-text">Two "free-feeling" doors can confuse positioning if marketed flat. Fix: <strong>Honeypot lives on the homepage hero / product pages</strong> (cold acquisition). <strong>Trial lives on the pricing page + Pro tier CTA</strong> (warm, comparison-stage). Never cross them on the same surface.</div>
+  <div class="note-box" style="background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2);">
+    <span class="nb-label" style="color:#B91C1C;">Risk if we don't distinguish them</span>
+    <div class="nb-text">Two "free-feeling" doors confuse positioning if marketed flat. Fix: <strong>Honeypot lives on the homepage hero / product pages</strong> (cold acquisition). <strong>Trial lives on the pricing page + Pro tier CTA</strong> (warm, comparison-stage). Never cross them on the same surface.</div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- DON'T DO -->
+<!-- GUARDRAILS -->
 <section class="section">
   <span class="eyebrow">Guardrails</span>
   <h2 class="h2">What not to do<br><em>this launch cycle.</em></h2>
 
-  <div class="callout">
-    <span class="cl-label">Six things that kill the model</span>
-    <div class="cl-text">
-      <strong>1.</strong> Do not use credits-only as the primary monetization model. Honeypot is a constrained credit-based entry point — not the main plan.<br>
-      <strong>2.</strong> No traditional unlimited free tier in v1. Honeypot replaces "free" without parking users on zero revenue.<br>
-      <strong>3.</strong> Do not let Honeypot cannibalize Creator — keep persistence, collaboration, handoff, and team features behind the subscription wall.<br>
-      <strong>4.</strong> Do not launch seat-only — cuts off the creator buyer and slows content motion.<br>
-      <strong>5.</strong> Do not over-feature Enterprise on day one — use it as a sales-led capture line.<br>
-      <strong>6.</strong> Do not make the paid pricing page explain credits — credits stay an internal meter at paid tiers.<br>
-      <strong>7.</strong> Do not undercut Pro with too much in Creator — Creator should be enough to ship, not enough to never upgrade.<br>
-      <strong>8.</strong> Do not match Adobe's price ladder — different positioning, different buyer, different story.
-    </div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Don't use credits-only as primary monetization</div><div class="step-desc">Honeypot is a constrained credit-based entry point — not the main plan.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">No traditional unlimited free tier inside paid product</div><div class="step-desc">Honeypot replaces "free" without parking users on zero revenue. Personal Workspace gives the always-on free home for an account.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Don't let Honeypot or Personal cannibalize Creator</div><div class="step-desc">Editor invites, Adobe extension, larger pools, Team features stay behind their respective walls.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">No per-seat scaling at public tiers</div><div class="step-desc">Public tiers flat per workspace. Seat overages = Enterprise only.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Don't over-feature Enterprise on day one</div><div class="step-desc">Sales-led capture line and pressure-relief valve for tier seat caps.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Don't make the paid pricing page explain credits</div><div class="step-desc">Credits stay an internal meter at paid tiers.</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">Don't undercut Pro with too much in Creator</div><div class="step-desc">Creator should be enough to ship, not enough to never upgrade.</div></div></div>
+    <div class="step"><div class="step-num">8</div><div><div class="step-title">Don't match Adobe's price ladder</div><div class="step-desc">Different positioning, buyer, story.</div></div></div>
+    <div class="step" style="background:rgba(170,255,0,.08);border-color:rgba(170,255,0,.4);"><div class="step-num">9</div><div><div class="step-title">Don't charge for Viewers or Approvers, ever</div><div class="step-desc">This is the wedge. Even Enterprise should not turn either into a per-seat line item. The line that makes Videfy structurally different from Frame.io / CapCut Business / Adobe — they charge for reviewers AND for approval workflows. Videfy ships both as free.</div></div></div>
+    <div class="step"><div class="step-num">10</div><div><div class="step-title">Don't pool credits across workspaces</div><div class="step-desc">Each workspace is its own financial container — by PRD design and by pricing clarity.</div></div></div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- SUGGESTED PRICING -->
+<!-- LAUNCH PRICING TABLE -->
 <section class="section">
   <span class="eyebrow">Suggested launch pricing</span>
-  <h2 class="h2">Working numbers.<br><em>Not locked.</em></h2>
+  <h2 class="h2">Working numbers,<br><em>not locked.</em></h2>
 
   <table class="tbl">
     <thead>
-      <tr><th>Tier</th><th>Monthly</th><th>Annual (eff. monthly)</th><th>Included allowance</th></tr>
+      <tr><th>Tier</th><th>Monthly</th><th>Annual (eff.)</th><th>Owner / Admins / Editors / Viewers / Approvers</th><th>Allowance</th></tr>
     </thead>
     <tbody>
-      <tr><td><strong>Creator</strong></td><td>$24 / mo</td><td>$19 / mo</td><td>Baseline</td></tr>
-      <tr><td><strong>Pro</strong></td><td>$59 / mo</td><td>$47 / mo</td><td>~3× baseline</td></tr>
-      <tr><td><strong>Team</strong></td><td>$39 / seat / mo (3 seat min)</td><td>$33 / seat / mo</td><td>Shared pool, ~2× baseline per seat</td></tr>
-      <tr><td><strong>Enterprise</strong></td><td>Contact sales</td><td>—</td><td>Custom</td></tr>
+      <tr><td><strong>Honeypot</strong> (anon)</td><td>$0 + credit packs</td><td>—</td><td>— / — / — / — / —</td><td>Per credit pack</td></tr>
+      <tr><td><strong>Personal</strong> (free w/ account)</td><td>$0</td><td>—</td><td>1 / 0 / 0 / unlimited / unlimited</td><td>Honeypot + signup promo</td></tr>
+      <tr><td><strong>Creator</strong></td><td>$24 / mo</td><td>$19 / mo</td><td>1 / 0 / 0 / unlimited / unlimited</td><td>Baseline</td></tr>
+      <tr><td><strong>Pro</strong></td><td>$59 / mo</td><td>$47 / mo</td><td>1 / 0 / 3 / unlimited / unlimited</td><td>~3× baseline</td></tr>
+      <tr><td><strong>Team</strong></td><td>$149 / mo flat per workspace</td><td>$119 / mo</td><td>1 / 2 / 5 / unlimited / unlimited</td><td>~5× baseline (shared)</td></tr>
+      <tr><td><strong>Enterprise</strong></td><td>Contact sales</td><td>—</td><td>Custom + seat overages</td><td>Custom</td></tr>
     </tbody>
   </table>
 
   <div class="note-box">
     <span class="nb-label">Why these are placeholders</span>
-    <div class="nb-text">Final numbers come after the heavy-action COGS work is done. <strong>Lock the model (hybrid) and the structure (Creator / Pro / Team / Enterprise) this week. Lock the actual numbers next week</strong>, after the open questions below are answered.</div>
+    <div class="nb-text">Final numbers come after heavy-action COGS work and post-Marta product alignment. Lock the model (workspace-scoped subscription, four roles, free Viewers, fixed seats per tier) and the structure (Honeypot / Personal / Creator / Pro / Team / Enterprise) this week. Lock actual numbers next week.</div>
   </div>
 </section>
 
@@ -643,41 +1022,33 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <section class="section">
   <span class="eyebrow">Open questions</span>
   <h2 class="h2">Inputs needed<br><em>from product & finance.</em></h2>
+  <p class="body">Some original questions are now answered by the Workspaces PRD + role/seat decisions. Remaining:</p>
 
   <div class="steps">
-    <div class="step"><div class="step-num">1</div><div><div class="step-title">Cost per heavy Claude action</div><div class="step-desc">What is the actual COGS of one feedback synthesis? Sets the credit price floor.</div></div></div>
-    <div class="step"><div class="step-num">2</div><div><div class="step-title">Cost per standard export (Adobe · CapCut · mobile · MP4)</div><div class="step-desc">Storage + processing per export. Sets the metered cost.</div></div></div>
-    <div class="step"><div class="step-num">3</div><div><div class="step-title">Storage model</div><div class="step-desc">Does Videfy host video files, reference cloud storage, or both? Storage cost shapes the Team tier especially.</div></div></div>
-    <div class="step"><div class="step-num">4</div><div><div class="step-title">Seat economics for Team</div><div class="step-desc">Base + seats vs. pure per-seat. Needs a small-team pricing test.</div></div></div>
-    <div class="step"><div class="step-num">5</div><div><div class="step-title">Annual cash-flow target</div><div class="step-desc">What % of revenue from annual vs. monthly in year 1? Sets annual discount aggressiveness.</div></div></div>
-    <div class="step"><div class="step-num">6</div><div><div class="step-title">Trial conversion target</div><div class="step-desc">What rate makes the trial-only-no-free-tier model work? Below threshold may force a free tier later.</div></div></div>
-    <div class="step"><div class="step-num">7</div><div><div class="step-title">Credit expiry policy</div><div class="step-desc">Credits never expire mid-cycle, but do unused credits roll into the next? Friendlier = roll. Cheaper = expire.</div></div></div>
-    <div class="step"><div class="step-num">8</div><div><div class="step-title">Top-up pricing</div><div class="step-desc">Fixed packs (1k / 5k / 25k credits) vs. metered overage at month end.</div></div></div>
-  </div>
-
-  <h2 class="h2" style="margin-top:36px;">Honeypot-specific<br><em>open questions.</em></h2>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div><div class="step-title">First-purchase credit pack</div><div class="step-desc">What is the price + size of the first credit pack a Honeypot user buys? Sets the on-ramp.</div></div></div>
-    <div class="step"><div class="step-num">2</div><div><div class="step-title">Which actions consume Honeypot credits</div><div class="step-desc">Generation only? Or also avatar / voiceover / upscale? Defines the funnel surface.</div></div></div>
-    <div class="step"><div class="step-num">3</div><div><div class="step-title">What's intentionally excluded</div><div class="step-desc">Project persistence, collaboration, team features, full handoff — confirm cannibalization guardrails.</div></div></div>
-    <div class="step"><div class="step-num">4</div><div><div class="step-title">Upgrade trigger</div><div class="step-desc">What event fires the upgrade prompt? "Save project," "return tomorrow," "share with team," top-up cost crosses subscription value?</div></div></div>
-    <div class="step"><div class="step-num">5</div><div><div class="step-title">Honeypot credit expiry</div><div class="step-desc">Do Honeypot credits expire faster than paid-tier credits? (Pressure to convert vs. user trust.)</div></div></div>
-    <div class="step"><div class="step-num">6</div><div><div class="step-title">Honeypot → plan credit conversion</div><div class="step-desc">When a Honeypot user upgrades, do unused credits convert into plan credits? Or zeroed?</div></div></div>
-    <div class="step"><div class="step-num">7</div><div><div class="step-title">Margin floor on one-off usage</div><div class="step-desc">What gross margin is required on a single Honeypot credit transaction to make the funnel sustainable?</div></div></div>
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Cost per heavy Claude action</div><div class="step-desc">Actual COGS of one feedback synthesis. Sets the credit price floor.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Cost per standard export</div><div class="step-desc">Storage + processing per export. Sets metered cost.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Storage model</div><div class="step-desc">Videfy hosts video files, references cloud storage, or both? Shapes Team tier especially.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Personal Workspace allowance size</div><div class="step-desc">How much promo allowance ships on signup? Big enough to hook, small enough to convert.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Annual cash-flow target</div><div class="step-desc">% of revenue from annual vs. monthly in year 1. Sets annual discount aggressiveness.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Trial conversion target</div><div class="step-desc">Rate that makes the trial-only-no-free-tier model work.</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">Top-up pricing</div><div class="step-desc">Fixed packs (1k / 5k / 25k credits) vs. metered overage at month end.</div></div></div>
+    <div class="step"><div class="step-num">8</div><div><div class="step-title">Team workspace allowance</div><div class="step-desc">Concrete pool size for Team tier. Numbers live downstream of COGS.</div></div></div>
+    <div class="step"><div class="step-num">9</div><div><div class="step-title">Comments toggle granularity</div><div class="step-desc">Workspace-wide on/off only? Or per-project / per-review-link?</div></div></div>
+    <div class="step"><div class="step-num">10</div><div><div class="step-title">Honeypot → Personal credit conversion</div><div class="step-desc">Do Honeypot credits transfer into Personal credits on signup? Recommended yes (UX trust).</div></div></div>
   </div>
 </section>
 
 <hr class="rule">
 
 
-<!-- WHY THIRD -->
+<!-- SEQUENCING -->
 <section class="section">
   <span class="eyebrow">Sequencing</span>
-  <h2 class="h2">Why pricing is<br><em>the third document.</em></h2>
+  <h2 class="h2">Why pricing<br><em>is the third document.</em></h2>
 
   <div class="callout">
     <span class="cl-label">Pricing follows packaging follows positioning</span>
-    <div class="cl-text">Pricing depends on packaging. Packaging depends on use cases. Use cases depend on the locked positioning. Now that positioning is locked and the use-case hierarchy is in the production document, this pricing direction is no longer a guess — <strong>it is a translation of the product story into a commercial structure.</strong></div>
+    <div class="cl-text">Now that <strong>positioning is locked</strong> (the drag + pain-free), <strong>architecture is locked</strong> (Account / Workspace / Personal Workspace), <strong>role model is locked</strong> (Owner / Admin / Editor / Viewer with free Viewers), and <strong>the use-case hierarchy is in the production doc</strong>, this pricing direction is no longer a guess — <strong>it is a translation of the product story into a commercial structure.</strong></div>
   </div>
 </section>
 
