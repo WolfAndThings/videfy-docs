@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Videfy — Launch Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="videfy_styles.css">
+<style>
+:root{--lime:#AAFF00;--teal:#00C4B4;--ink:#0A0C14;--dark:#0D1018;--white:#FAFBFF;--off:#F2F4F8;--soft:#E8EAF0;--muted:#6B7280;--light:#9CA3AF;--txt:#2C3040;--warn:#B91C1C;--warn-soft:rgba(185,28,28,.06);--good:#005C54;--gold:#92400E;--border:rgba(10,12,20,0.08);--bmd:rgba(10,12,20,0.12);--bstr:rgba(10,12,20,0.18)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 32px 96px}
+.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ink);flex-wrap:wrap;gap:18px}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-box{width:34px;height:34px;background:var(--ink);border-radius:8px;display:grid;place-items:center;color:var(--lime);font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1}
+.logo-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.doc-meta{text-align:right;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:2;letter-spacing:.04em;text-transform:uppercase}
+.doc-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.doc-nav a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:var(--off);border:1px solid var(--bstr);padding:8px 14px;border-radius:999px;text-decoration:none;transition:all .15s}
+.doc-nav a:hover{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.doc-nav a.current{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.hero{background:var(--ink);border-radius:16px;padding:48px 44px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),var(--teal))}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:18px}
+.hero-headline{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(36px,5vw,56px);line-height:1.05;letter-spacing:-.025em;color:var(--white);margin-bottom:22px;font-weight:400}
+.hero-headline em{color:var(--lime);font-style:italic}
+.hero-body{font-size:16px;color:rgba(255,255,255,.7);line-height:1.65;font-weight:300;max-width:620px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:12px}
+.h2{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(28px,3.5vw,38px);line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin:0 0 12px;font-weight:400}
+.h2 em{color:var(--teal);font-style:italic}
+.h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;display:block}
+.body{font-size:14px;color:var(--txt);line-height:1.75;font-weight:300;max-width:760px}
+.body strong{font-weight:600;color:var(--ink)}
+hr.rule{border:none;border-top:1px solid var(--bmd);margin:48px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:880px){.grid-2,.grid-3{grid-template-columns:1fr}.hero-headline{font-size:36px}}
+.card{border:1px solid var(--bstr);border-radius:14px;overflow:hidden;background:var(--white)}
+.card-head{padding:14px 20px;border-bottom:1px solid var(--bmd)}
+.card-head.lime{background:rgba(170,255,0,.08)}
+.card-head.off{background:var(--off)}
+.card-head.warn{background:var(--warn-soft)}
+.card-head .label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.card-body{padding:20px}
+.card-body p{margin:0 0 10px;font-size:14px;color:var(--txt);line-height:1.65}
+.kpi-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--bstr)}
+.kpi-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:14px 16px;background:var(--off);border-bottom:1px solid var(--bmd)}
+.kpi-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--txt);font-size:13px;font-weight:400}
+.kpi-table tr:last-child td{border-bottom:none}
+.kpi-table td.metric{font-weight:500;color:var(--ink)}
+.kpi-table td.num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.reality{background:var(--off);border:1px solid var(--bstr);border-radius:14px;padding:32px 36px;margin:28px 0;border-left:3px solid var(--warn)}
+.reality .h2{margin-bottom:20px;color:var(--ink)}
+.reality .h2 em{color:var(--warn)}
+.month-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:20px 0 12px}
+.month-bar .m{background:var(--white);border:1px solid var(--bstr);border-radius:12px;padding:14px;border-top:3px solid var(--lime)}
+.month-bar .m:nth-child(2){border-top-color:#88dd00}.month-bar .m:nth-child(3){border-top-color:#66bb00}.month-bar .m:nth-child(4){border-top-color:#44a899}.month-bar .m:nth-child(5){border-top-color:#229e8f}.month-bar .m:nth-child(6){border-top-color:var(--teal)}
+.month-bar .m .ml{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block}
+.month-bar .m .mh{font-family:'Instrument Serif',serif;font-size:18px;line-height:1.15;color:var(--ink);margin:6px 0 8px}
+.month-bar .m .mw{font-size:12px;color:var(--txt);line-height:1.5;font-weight:300}
+@media (max-width:880px){.month-bar{grid-template-columns:1fr 1fr}}
+ul.tight{margin:6px 0 12px;padding-left:18px}
+ul.tight li{font-size:13px;color:var(--txt);margin:4px 0;line-height:1.55}
+ul.tight strong{color:var(--ink)}
+.note{color:var(--muted);font-size:13px}
+.mt-18{margin-top:18px}.mt-24{margin-top:24px}.mt-28{margin-top:28px}
+.principle{font-size:18px;line-height:1.5}
+.check{color:var(--good);font-weight:700;margin-right:6px}
+.x{color:var(--warn);font-weight:700;margin-right:6px}
+.risk-card{background:var(--white);border:1px solid var(--bstr);border-radius:12px;padding:18px;border-top:3px solid var(--warn)}
+.risk-card h3{font-size:14px;font-weight:700;color:var(--warn);margin:0 0 8px}
+.risk-card p{font-size:13px;color:var(--txt);line-height:1.55;margin:0}
+.footer-note{margin-top:64px;padding-top:24px;border-top:1px solid var(--bmd);color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8;letter-spacing:.04em}
+.footer-note strong{color:var(--ink);font-weight:500}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="doc-header">
+  <div class="logo-row">
+    <div class="logo-box">V</div>
+    <div class="logo-name">Videfy / Launch Overview</div>
+  </div>
+  <div class="doc-meta">
+    Doc 1 of 4 · Overview<br/>
+    Updated · 2026-05-01<br/>
+    Owner · Alex Lamb
+  </div>
+</div>
+
+<div class="doc-nav">
+  <a href="Launch_Overview.html" class="current">01 · Overview</a>
+  <a href="Content_Plan.html">02 · Content</a>
+  <a href="Outreach_Plan.html">03 · Outreach</a>
+  <a href="Delegation_and_ROI.md">04 · Operations</a>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">Doc 1 / 4 · Overview · Six months · Two people</span>
+  <h1 class="hero-headline">Test. Learn. <em>Build organic.</em></h1>
+  <p class="hero-body">2-person team. No paid ads at start. Content engine first. Layers added once base is real. Sustained launch beats one-shot bomb. This is hard. Most launches don't hit. Numbers in this doc are floors, not promises.</p>
+</div>
+
+<div class="card">
+  <div class="card-head lime"><span class="label">Operating principle</span></div>
+  <div class="card-body">
+    <p class="principle"><strong>Test → Learn → Build organic.</strong> Wk 1-3 is content cadence only. Wk 4+ layers in newsletter, ManyChat, affiliate. Wk 5-6 PH launch. Each new layer waits for the previous one to prove out. No premature optimization. No layer added before its prerequisite is real.</p>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<span class="eyebrow">01 · Goals</span>
+<h2 class="h2">KPIs — what <em>success looks like</em></h2>
+<p class="body">Four time horizons. <strong>Recalibrated honest.</strong> Two-person team, $0 budget, no pre-existing audience. Trial→paid <strong>2% industry mid</strong> applied throughout. <strong>Multiply by 2–4×</strong> if pre-existing audience, viral hit lands, or budget unlocks for paid creators.</p>
+
+<div class="mt-24">
+<table class="kpi-table">
+<thead><tr><th>Metric</th><th>Day 30</th><th>Day 90</th><th>Day 180</th><th>Day 365</th></tr></thead>
+<tbody>
+<tr><td class="metric">Total social followers</td><td class="num">1K–4K</td><td class="num">5K–20K</td><td class="num">20K–60K</td><td class="num">60K–200K</td></tr>
+<tr><td class="metric">Email subscribers</td><td class="num">200–600</td><td class="num">1K–3K</td><td class="num">3K–10K</td><td class="num">10K–30K</td></tr>
+<tr><td class="metric">Page visits / month</td><td class="num">2K–8K</td><td class="num">10K–40K</td><td class="num">40K–120K</td><td class="num">150K–500K</td></tr>
+<tr><td class="metric">Generate-tier signups</td><td class="num">300–1.2K</td><td class="num">2K–8K</td><td class="num">10K–30K</td><td class="num">40K–150K</td></tr>
+<tr><td class="metric">Pro trial starts</td><td class="num">50–200</td><td class="num">500–1.5K</td><td class="num">2K–5K</td><td class="num">8K–20K</td></tr>
+<tr><td class="metric">Paying users (2% trial→paid)</td><td class="num">5–30</td><td class="num">50–200</td><td class="num">200–700</td><td class="num">800–2.5K</td></tr>
+<tr><td class="metric">Monthly Recurring Revenue</td><td class="num">$200–1.5K</td><td class="num">$2K–8K</td><td class="num">$10K–30K</td><td class="num">$40K–120K</td></tr>
+<tr><td class="metric">Active affiliates</td><td class="num">5–15</td><td class="num">20–60</td><td class="num">60–150</td><td class="num">150–400</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="body mt-18 note"><strong>Comp anchors:</strong> Arvid Kahl (FeedbackPanda) hit $55K MRR in 18–24 months, $0 ads. Linear took 5 years to $400M val. Lovable hit $10M ARR in 90 days but had a 10K+ GitHub seed. Cluely hit $5M ARR in 90 days with 700 paid clippers ($50–150K/mo). We're projecting Arvid timeline as floor, Lovable as ceiling.</p>
+
+<div class="reality">
+  <span class="eyebrow">02 · Honest Floor</span>
+  <h2 class="h2">Reality check — <em>this is hard</em></h2>
+  <div class="grid-3 mt-18">
+    <div>
+      <h4 class="h4">The floor</h4>
+      <p class="body">A real AI creator (anonymized — our reality anchor) shipped <strong>4.8 posts/wk over 11 months</strong> to median 22K views. Top single posts hit 64K likes / 800K views. That's the realistic ceiling for a year of disciplined team content with no pre-existing audience.</p>
+    </div>
+    <div>
+      <h4 class="h4">Most launches don't hit</h4>
+      <p class="body"><strong>~70%</strong> of cold-start launches stall under 5K followers in 90 days. <strong>~30%</strong> chance of one viral hit (1M+) in first 6 months. Trial-to-paid conversion is <strong>1–3% industry standard</strong>, not 10%. Need 14-day Pro trial discipline.</p>
+    </div>
+    <div>
+      <h4 class="h4">Team capacity</h4>
+      <p class="body">Realistic: <strong>~18–22 outputs/wk</strong> with batching + AI assist. <strong>80–100 hrs/wk combined</strong> — both Alex and Co full-time, 40-50 hrs each. Burnout protection = 2 days off/week. One viral hit per <strong>30–50 posts</strong> is the realistic ratio.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<span class="eyebrow">03 · Timeline</span>
+<h2 class="h2">Six months at a <em>glance</em></h2>
+<div class="month-bar">
+  <div class="m"><span class="ml">Month 1 · Wk 1-4</span><div class="mh">Content First</div><div class="mw">Daily content cadence locks. Reels, carousels, X, LinkedIn only. No newsletter, no ManyChat, no PH yet. Build the engine.</div></div>
+  <div class="m"><span class="ml">Month 2 · Wk 5-8</span><div class="mh">Layer In</div><div class="mw">Newsletter starts. ManyChat live. Affiliate ramp (target 20 active). PH launch Wk 5–6 once waitlist hits 400+.</div></div>
+  <div class="m"><span class="ml">Month 3 · Wk 9-12</span><div class="mh">Compound</div><div class="mw">First viral attempt. 50+ affiliates. Newsletter 2–3K subs. First case study published.</div></div>
+  <div class="m"><span class="ml">Month 4 · Wk 13-16</span><div class="mh">Feature Reveal</div><div class="mw">Second smaller bomb (Avenue 1 Claude MCP demo). Founder podcast tour. LinkedIn agency push. $10–30K MRR.</div></div>
+  <div class="m"><span class="ml">Month 5 · Wk 17-20</span><div class="mh">Manifesto</div><div class="mw">3-min thesis drop. Press push (10 outbound). Paid amplification test ($3K/mo).</div></div>
+  <div class="m"><span class="ml">Month 6 · Wk 21-24</span><div class="mh">Scale</div><div class="mw">Annual report drop. Conference keynote. Affiliate summit. $40–120K MRR.</div></div>
+</div>
+
+<hr class="rule" />
+
+<span class="eyebrow">04 · Pre-launch gates</span>
+<h2 class="h2">Ship-blockers — <em>lock before launch</em></h2>
+<div class="grid-2 mt-18">
+  <div class="card">
+    <div class="card-head off"><span class="label">Product gates</span></div>
+    <div class="card-body">
+      <ul class="tight">
+        <li><span class="x">✗</span> Avenue 1 — Claude MCP integration screen-recordable</li>
+        <li><span class="x">✗</span> Avenue 2 — Generate tier (no signup) live + shareable URL</li>
+        <li><span class="x">✗</span> Avenue 3 — Avatar feature reliable for daily content</li>
+        <li><span class="x">✗</span> Avenue 4 — Premiere extension w/ 5 beta agencies</li>
+        <li><span class="x">✗</span> Pricing page live (5-tier structure)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head off"><span class="label">Content gates</span></div>
+    <div class="card-body">
+      <ul class="tight">
+        <li><span class="check">✓</span> 48 scripts in Airtable</li>
+        <li><span class="check">✓</span> 23 carousel skeletons in bank</li>
+        <li><span class="x">✗</span> Hero film (90s) built</li>
+        <li><span class="x">✗</span> Beta thank-you email + lead magnet ready</li>
+        <li><span class="x">✗</span> 30 Viral Hooks PDF designed</li>
+        <li><span class="x">✗</span> Polarizing thesis line locked</li>
+        <li><span class="x">✗</span> Affiliate portal live + tested</li>
+        <li><span class="x">✗</span> Press list pitched embargoed</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<span class="eyebrow">05 · Pre-mortem</span>
+<h2 class="h2">Why this <em>can fail</em></h2>
+<div class="grid-3 mt-18">
+  <div class="risk-card"><h3>Founder burnout</h3><p>Both at 40-50 hrs/wk for 6 months is real risk. Mitigation: 2 days off/week, batch shooting, drop reply volume past Wk 8.</p></div>
+  <div class="risk-card"><h3>Free trial conversion</h3><p>No free tier in v1. Industry trial→paid is 1–3%. If we hit floor (1%), MRR projections cut in half. Watch closely Wk 4–8.</p></div>
+  <div class="risk-card"><h3>Bomb fizzle</h3><p>Day-0 hero film could land at 100K views instead of 5M. Plan B: ongoing daily content compounds anyway. Bomb is bonus, not load-bearing.</p></div>
+  <div class="risk-card"><h3>No viral hit</h3><p>~30% chance of zero 1M+ post in first 6 months. If that happens, MRR floor is $20–40K not $60–150K. Affiliate program + agency conversion become primary path.</p></div>
+  <div class="risk-card"><h3>Account flag</h3><p>Cold accounts at high cadence = throttling risk. Mitigation: warmup phase Wk -6 to -1, watch view counts daily, slow down if shadowbanned.</p></div>
+  <div class="risk-card"><h3>Voice drift</h3><p>Without daily anchor, brand voice fragments by Wk 8. Mitigation: voice lock doc, founder reviews everything Mo 1–3, banned-words list active.</p></div>
+</div>
+
+<div class="footer-note">
+  <p><strong>Companion docs</strong> · Content_Plan.html · Outreach_Plan.html · Delegation_and_ROI.md</p>
+  <p><strong>Reality anchor</strong> · 4.8 posts/wk × 11 mo, median 22K views. Most launches don't hit. This plan compounds even if no single moment goes viral.</p>
+  <p><strong>Last updated</strong> · 2026-05-01 · v3 Team Plan / Doc 1 of 4</p>
+</div>
+
+</div>
+</body>
+</html>

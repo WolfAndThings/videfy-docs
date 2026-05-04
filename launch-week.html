@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Videfy — Launch Week Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#AAFF00;--teal:#00C4B4;--ink:#0A0C14;--white:#FAFBFF;--off:#F2F4F8;--muted:#6B7280;--txt:#2C3040;--bstr:rgba(10,12,20,0.18);--bmd:rgba(10,12,20,0.12);--border:rgba(10,12,20,0.08);--good:#005C54;--warn:#B91C1C}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65}
+.wrap{max-width:1280px;margin:0 auto;padding:48px 32px 96px}
+.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ink);flex-wrap:wrap;gap:18px}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-box{width:34px;height:34px;background:var(--ink);border-radius:8px;display:grid;place-items:center;color:var(--lime);font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1}
+.logo-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.doc-meta{text-align:right;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:2;letter-spacing:.04em;text-transform:uppercase}
+.hero{background:var(--ink);border-radius:16px;padding:48px 44px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),var(--teal))}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:18px}
+.hero-headline{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(36px,5vw,52px);line-height:1.05;letter-spacing:-.025em;color:var(--white);margin-bottom:22px;font-weight:400}
+.hero-headline em{color:var(--lime);font-style:italic}
+.hero-body{font-size:15px;color:rgba(255,255,255,.7);line-height:1.65;font-weight:300;max-width:640px}
+
+/* Voice card */
+.voice-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:48px}
+@media (max-width:980px){.voice-grid{grid-template-columns:repeat(2,1fr)}}
+.voice{background:var(--white);border:1px solid var(--bstr);border-radius:12px;padding:14px;border-top:3px solid var(--lime)}
+.voice:nth-child(2){border-top-color:#88dd00}
+.voice:nth-child(3){border-top-color:#66bb00}
+.voice:nth-child(4){border-top-color:#44a899}
+.voice:nth-child(5){border-top-color:#229e8f}
+.voice:nth-child(6){border-top-color:var(--teal)}
+.voice:nth-child(7){border-top-color:#7088aa}
+.voice .name{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.voice .vibe{font-family:'Instrument Serif',serif;font-size:14px;color:var(--ink);margin:0 0 8px;font-style:italic;line-height:1.25}
+.voice .desc{font-size:11px;color:var(--txt);line-height:1.4;font-weight:300}
+
+.day-card{background:var(--white);border:1px solid var(--bstr);border-radius:14px;margin-bottom:18px;overflow:hidden}
+.day-head{background:var(--ink);color:var(--white);padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:3px solid var(--lime)}
+.day-head h2{margin:0;font-family:'Instrument Serif',serif;font-size:24px;font-weight:400;color:var(--white)}
+.day-head h2 em{color:var(--lime);font-style:italic}
+.day-meta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.day-body{padding:0}
+.channel-row{display:grid;grid-template-columns:160px 1fr;border-bottom:1px solid var(--border);padding:14px 24px;gap:18px}
+.channel-row:last-child{border-bottom:none}
+.channel-row .channel-label{display:flex;flex-direction:column;gap:2px}
+.channel-row .ch-name{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:500}
+.channel-row .ch-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.channel-row .post{font-size:14px;color:var(--txt);line-height:1.55}
+.channel-row .post strong{color:var(--ink);font-weight:600}
+.channel-row .post .copy{font-family:'Instrument Serif',serif;font-size:15px;color:var(--ink);font-style:italic;line-height:1.4;margin:6px 0;display:block}
+.channel-row .post .checklist{margin:8px 0 0;padding-left:18px;font-size:12px;color:var(--muted)}
+.channel-row .post .checklist li{margin:2px 0;line-height:1.5}
+.channel-row .post .checklist li::marker{content:'☐ '}
+.channel-row.lime{background:rgba(170,255,0,.04)}
+.channel-row.teal{background:rgba(0,196,180,.03)}
+.post-blocks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 8px}
+@media (max-width:780px){.post-blocks{grid-template-columns:1fr}}
+.block{background:var(--off);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.block.full{grid-column:1/-1}
+.block-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;font-weight:500}
+.block-content{font-size:12px;color:var(--ink);line-height:1.55;margin:0;white-space:pre-line;font-weight:400}
+.block-content em{color:var(--teal);font-style:italic}
+.block-content strong{color:var(--ink);font-weight:600}
+.format-card{background:var(--white);border:1px solid var(--bstr);border-radius:10px;padding:14px 16px;margin:8px 0;border-left:3px solid var(--lime)}
+.format-card.video{border-left-color:#88dd00}
+.format-card.carousel{border-left-color:var(--teal)}
+.format-card.image{border-left-color:#7088aa}
+.format-tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);font-weight:600;display:block;margin-bottom:8px;padding-bottom:6px;border-bottom:1px dashed var(--border)}
+.format-card .block-content{font-size:12px;line-height:1.6;color:var(--txt);white-space:pre-line}
+.format-card .block-content strong{color:var(--ink);font-weight:600}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:12px}
+.h2{font-family:'Instrument Serif',Georgia,serif;font-size:28px;line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin:32px 0 16px;font-weight:400}
+.h2 em{color:var(--teal);font-style:italic}
+.intro{font-size:14px;color:var(--txt);line-height:1.7;max-width:760px;margin-bottom:24px}
+.intro strong{color:var(--ink);font-weight:600}
+.footer-note{margin-top:64px;padding-top:24px;border-top:1px solid var(--bmd);color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8;letter-spacing:.04em}
+.footer-note strong{color:var(--ink);font-weight:500}
+@media (max-width:780px){
+  .channel-row{grid-template-columns:1fr;padding:14px 18px}
+  .channel-row .channel-label{flex-direction:row;gap:10px;align-items:center}
+  .hero-headline{font-size:32px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="doc-header">
+  <div class="logo-row">
+    <div class="logo-box">V</div>
+    <div class="logo-name">Videfy / Launch Week</div>
+  </div>
+  <div class="doc-meta">
+    Day-by-day · Per channel<br/>
+    
+    Launch · Day 1
+  </div>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">Day 1 = soft + teaser · Day 2 = main launch · Day 3-7 = sustain</span>
+  <h1 class="hero-headline">Launch Week.<br/><em>Every channel. We voice. Always.</em></h1>
+  <p class="hero-body">All posts go through <strong>company accounts</strong>. Personal LinkedIn stays clean. X allows "I" + "we" mix. Every channel has its own personality. We default to "we" everywhere else — it's a team.</p>
+</div>
+
+<!-- Channel voice grid -->
+<span class="eyebrow">Channel personalities</span>
+<h2 class="h2">Each channel has a <em>distinct voice</em></h2>
+<p class="intro">Lock these voices Mon. Don't drift. Each platform reads different — same brand, different volume.</p>
+
+<div class="voice-grid">
+  <div class="voice">
+    <span class="name">TikTok</span>
+    <p class="vibe">Punchy. Hook-first.</p>
+    <p class="desc">"We shipped this." POV + bold thesis + BTS. First 1.5s = hook. No fluff. Casual.</p>
+  </div>
+  <div class="voice">
+    <span class="name">Instagram</span>
+    <p class="vibe">Visual flex. Save-worthy.</p>
+    <p class="desc">Carousels that solve a problem. Reels that look intentional. We design for the bookmark, not the like.</p>
+  </div>
+  <div class="voice">
+    <span class="name">LinkedIn</span>
+    <p class="vibe">Brand-led. Thoughtful.</p>
+    <p class="desc">Company page only. Industry thesis + ROI math + agency case studies. We sound smart, not corporate.</p>
+  </div>
+  <div class="voice">
+    <span class="name">X (Twitter)</span>
+    <p class="vibe">Build in public. I + We mix.</p>
+    <p class="desc">"I" for opinions / takes / personality · "we" when talking company / shipping / numbers. Numbers + screenshots. Threads Wed.</p>
+  </div>
+  <div class="voice">
+    <span class="name">YouTube Shorts</span>
+    <p class="vibe">Recycle the wins.</p>
+    <p class="desc">Top TikTok wins re-cut for YT. Long-tail SEO compounds. Pin best to channel.</p>
+  </div>
+  <div class="voice">
+    <span class="name">Discord</span>
+    <p class="vibe">Warm. Team voice.</p>
+    <p class="desc">"We" not "I." Founder presence + 5 personality bots (Curator · Coach · Critic · Connector · Brainstorm).</p>
+  </div>
+  <div class="voice">
+    <span class="name">Email</span>
+    <p class="vibe">Direct. Behind scenes.</p>
+    <p class="desc">Founder signature ok (private channel). Numbers + transparency + one CTA. Ship Tuesdays.</p>
+  </div>
+</div>
+
+<span class="eyebrow">How to read</span>
+<h2 class="h2">7 days · <em>every channel · every asset</em></h2>
+<p class="intro">Each day below shows what publishes, hook copy in brand voice, and what needs to ship. <strong>on camera (Avatar/screen-record default) + voice + scripts. Co handles all editing + design + scheduling.</strong> Check off as you go.</p>
+
+<!-- DAY 1 / MON -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 1 · <em>Monday</em> · Soft Launch + Teaser</h2>
+    <span class="day-meta">Hook today: <em>Production companies have 24 hours left</em></span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">Email · Beta</span><span class="ch-tag">9:00 AM ET · ONE FORMAT</span></div>
+      <div class="post">
+        <strong>Beta thank-you email + Beta_Prompt_Pack.pdf</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Subject</span><p class="block-content">We're live. You made this happen.</p></div>
+          <div class="block full"><span class="block-label">Body</span><p class="block-content">Hey [first name],
+
+Today Videfy goes live. Wanted you to be the first to hear it.
+
+You're part of a small group that helped us figure out what was actually broken — what worked, what didn't, what made you swear at your screen. Every one of those notes shaped what we shipped.
+
+Honestly: we couldn't have improved this fast without you.
+
+Two things, no pressure:
+
+1. The product is live in your account already. Same login. Everything you tested, plus what we built off your feedback.
+
+2. We built a 20 Prompt Pack — pulled from our internal vault. Ship-ready inside Videfy. Public version drops in a few weeks. You get it first. [PDF attached]
+
+That's it. Thank you for being early. It mattered more than you probably know.
+
+— the Videfy team</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-row teal">
+      <div class="channel-label"><span class="ch-name">Hero Post · Mon</span><span class="ch-tag">12:00 PM ET · 4 FORMATS · pick by time</span></div>
+      <div class="post">
+        <strong>Hook: "Production companies have 24 hours left."</strong>
+        <p style="font-size:13px;color:var(--muted);margin:6px 0">Same message, 4 formats. Co picks by time available. Cross-post the chosen format(s) to TT · IG · X · LinkedIn · YT.</p>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · 5 min</span>
+          <div class="block-content"><strong>Caption (works for X / LinkedIn / Discord):</strong>
+
+Production companies have 24 hours left.
+
+6 months of building. Tomorrow at 9 AM ET we open the doors.
+
+Comment STUDIO below — we DM you the link the second it goes live.</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 15 sec · 1-2 hrs to shoot/edit</span>
+          <div class="block-content"><strong>VO (15 sec):</strong>
+"Production companies have 24 hours left. Six months of building. Tomorrow at 9 AM Eastern, we open the doors."
+
+<strong>Visual:</strong>
+0-3s: black screen → "PRODUCTION COMPANIES HAVE 24 HOURS LEFT"
+3-8s: cut to Videfy interface · subtle UI motion
+8-13s: rapid-cut 3-4 polished output examples
+13-15s: hold on logo + "9 AM ET TOMORROW · videfy.com"
+
+<strong>Caption:</strong> Comment <strong>STUDIO</strong> below — we DM you the link the second it goes live.
+
+<strong>Faceless:</strong> Avatar VO OR audio-only over screen-record</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 3 slides · 1 hr design</span>
+          <div class="block-content"><strong>Slide 1:</strong> Massive type "24 HOURS" on dark bg + Videfy logo small bottom-right
+
+<strong>Slide 2:</strong> Hero film still · text overlay "9 AM ET TOMORROW"
+
+<strong>Slide 3:</strong> CTA card · "Comment STUDIO — we DM you the link the second it goes live"
+
+<strong>Caption:</strong> 24 hours. Comment STUDIO ↓</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 30 min design</span>
+          <div class="block-content"><strong>Visual:</strong> Dark vertical 4:5 · product shot or hero still · massive Instrument Serif headline over middle: "24 HOURS" · small text bottom: "9 AM ET · videfy.com"
+
+<strong>On-screen text:</strong>
+PRODUCTION
+COMPANIES
+HAVE 24 HRS
+LEFT
+
+<strong>Caption:</strong> 9 AM ET tomorrow. Comment <strong>STUDIO</strong> for early access.</div>
+        </div>
+
+        <ul class="checklist">
+          <li>Pick 1-2 formats based on capacity</li>
+          <li>Co posts to @videfy across chosen channels</li>
+          <li>Comment trigger: "STUDIO" (manual DM for Wk 1 · ManyChat live Wk 2)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">9:30 AM + 3 PM</span></div>
+      <div class="post">
+        <strong>Welcome pin (9:30 AM) + Day 1 update (3 PM)</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Pin · 9:30 AM</span><p class="block-content">Day 1. We're live to you. Public goes tomorrow at 9 AM ET.
+
+A few things to know:
+— Drop anything that's broken in #feedback — we'll fix in real time today
+— Share what you're building in #show-your-work
+— Founder office hours start Wednesday, 2 PM ET, here in voice
+
+Tell us what breaks first. We're listening.
+
+— the team</p></div>
+          <div class="block full"><span class="block-label">Update post · 3 PM</span><p class="block-content">Day 1 update.
+
+Today went smoother than we expected. A few small bugs caught (thanks @[name] @[name]). Nothing on fire.
+
+Tomorrow's the public push. If anything's still feeling broken, drop it in #feedback now.
+
+Tomorrow's plan:
+— 9 AM ET: public reel drops on TT + IG + X + LinkedIn
+— All day: manual DM replies to "STUDIO" comments
+— 2 PM ET: live in this Discord, dropping numbers in real time
+
+Bring popcorn.
+
+— the team</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 2 / TUE -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 2 · <em>Tuesday</em> · Main Launch</h2>
+    <span class="day-meta">Hook today: <em>Your agency charges $80K. We ship it for $59/mo.</em></span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">Hero Post · Tue</span><span class="ch-tag">9:00 AM ET · 4 FORMATS · pick by time</span></div>
+      <div class="post">
+        <strong>Hook: "Your agency charges $80K. We ship it for $59/mo."</strong>
+        <p style="font-size:13px;color:var(--muted);margin:6px 0">Tue is the main bomb. At minimum ship the Video format. Add Text + Single Image if time permits.</p>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · 10 min</span>
+          <div class="block-content"><strong>Caption / X tweet:</strong>
+
+Your agency charges $80K for this campaign.
+
+We ship it for $59/mo. Built in a Claude chat — here's what came out.
+
+videfy.com
+
+<strong>LinkedIn version (200-300 words):</strong>
+Production companies are middlemen now.
+
+Six months ago we said this out loud and a few people got mad. So we built Videfy to prove it.
+
+Every video team uses a six-tool stack: Notion · Milanote · Drive · Slack · Premiere · Frame.io. Six logins. Six versions of "the latest." Six places work goes to die.
+
+The work isn't the bottleneck. The handoffs are.
+
+Videfy is one project. Concept to finished video. Same workspace, same brand, same hour.
+
+Try Videfy free → videfy.com
+
+Comment STUDIO for the workflow.</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 30-45 sec · 3-4 hrs to shoot/edit</span>
+          <div class="block-content"><strong>VO (30-45 sec):</strong>
+"Your ad agency charges $80K for a 30-second campaign. Six weeks. Six handoffs. Notion to Milanote to Premiere to Slack — work goes to die in the gaps.
+
+We built one project tab. Idea to finished video. $59 a month. Today it's live."
+
+<strong>Visual sequence:</strong>
+0-3s: rapid-cut 3 polished AI outputs · text "$80K → $59/MO"
+3-8s: screen-record · brief typed in Videfy → storyboard generates
+8-15s: shots generate (time-lapse)
+15-22s: cut sequence appears · drag to timeline
+22-30s: render preview plays · final ad
+30-35s: text "30 SECONDS. NOT 6 WEEKS."
+35-45s: Videfy logo · CTA "Try free at videfy.com"
+
+<strong>Caption:</strong> Try Videfy free — no signup needed. Comment <strong>STUDIO</strong> for the trial link.
+
+<strong>Faceless:</strong> Avatar VO or audio-only</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 6 slides · 2-3 hrs design</span>
+          <div class="block-content"><strong>Slide 1:</strong> <strong>Skeleton: Single-Word Headline (15K-likes pattern).</strong> Massive type "$80K → $59" + sub "What your agency charges vs what we charge"
+
+<strong>Slide 2:</strong> Screenshot · 6 tabs open (the old way)
+
+<strong>Slide 3:</strong> Single text: "Six tools. Six handoffs. Two weeks gone."
+
+<strong>Slide 4:</strong> Screenshot · Videfy single project
+
+<strong>Slide 5:</strong> Single text: "One place. Idea to finished video."
+
+<strong>Slide 6:</strong> CTA · "Try free → videfy.com" + tag @videfy
+
+<strong>Caption:</strong> Production companies are middlemen now. Comment <strong>STUDIO</strong> ↓</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 45 min design</span>
+          <div class="block-content"><strong>Visual:</strong> Hero film still as background · big Instrument Serif headline over · small CTA bottom
+
+<strong>On-screen text:</strong>
+$80K → $59
+Videfy is live.
+videfy.com
+
+<strong>Caption:</strong> Your agency charges $80K. We charge $59/mo. Comment <strong>STUDIO</strong> ↓</div>
+        </div>
+
+        <ul class="checklist">
+          <li>Cross-post chosen formats: TT · IG · X · LinkedIn · YT Shorts</li>
+          <li>LinkedIn always uses Text Only or Carousel format · brand voice "we"</li>
+          <li>X embed video clip if Video format made</li>
+          <li>Comment STUDIO → we DM the link manually for now (ManyChat goes live Wk 2 — too early to ship pre-launch)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">2:00 PM ET</span></div>
+      <div class="post">
+        <strong>🔜 DEFER · Wk 2 (Discord pending) · Day 2 update — public is in</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Post copy</span><p class="block-content">Public went live 9 AM. Numbers as of 1 PM ET:
+
+— [X] views across TT/IG
+— [Y] Generate tier signups
+— [Z] DMs from "LAUNCH" comments
+
+We'll be in this thread for the next hour — drop your questions, we'll answer live.
+
+— the team</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 3 / WED -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 3 · <em>Wednesday</em> · Build-in-Public + Office Hours</h2>
+    <span class="day-meta">Hook today: <em>We didn't film it. Didn't book talent. Didn't open Premiere.</em> · Wed = 3× engagement on X + LinkedIn</span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">Hero Post · Wed</span><span class="ch-tag">9:00 AM ET · 4 FORMATS</span></div>
+      <div class="post">
+        <strong>Hook: "We didn't film it. Didn't book talent. Didn't open Premiere. 47 beta users rebuilt it twice."</strong>
+        <p style="font-size:13px;color:var(--muted);margin:6px 0">Wed is build-in-public day. X thread = primary format. Carousel + Image versions for IG/LinkedIn cross-promo.</p>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · X Thread · 1-1.5 hrs</span>
+          <div class="block-content"><strong>Tweet 1 (hook):</strong> We didn't film it. Didn't book talent. Didn't open Premiere. 47 beta users rebuilt it twice. Here's the receipt ↓
+
+<strong>Tweet 2:</strong> I was burning 4 hours a week explaining why a video took 6 weeks. Every tool was good. The seams between them were the problem.
+
+<strong>Tweet 3:</strong> Started sketching what "one workflow" could look like. Brief → board → AI shots → cut → review → export. All same screen.
+
+<strong>Tweet 4:</strong> Hardest part wasn't the AI. It was making the gaps disappear without making the tools worse.
+
+<strong>Tweet 5:</strong> We landed on 4 ways in: Claude MCP. No-signup Generate. Avatar. Premiere extension. One product, four doors.
+
+<strong>Tweet 6:</strong> Beta users broke a lot of it. We rebuilt 60% of the storyboard module twice.
+
+<strong>Tweet 7:</strong> [Screenshot of worst beta bug + the fix]
+
+<strong>Tweet 8:</strong> Today the doors are open. videfy.com
+
+<strong>Tweet 9:</strong> We didn't build this to compete with Premiere. We built it to kill the 8-tool stack everyone hates.
+
+<strong>Tweet 10:</strong> If you've felt the chaos — try the free Generate tier. No signup. 30 seconds. videfy.com/generate
+
+<strong>Tweet 11:</strong> Office Hours today, 2 PM ET in our Discord.
+
+<strong>Tweet 12:</strong> Building this in public for 6 more months. Watch us → @videfy</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 30 sec BTS · 2 hrs</span>
+          <div class="block-content"><strong>VO (30 sec):</strong>
+"Brief paste. Storyboard generates. Shots come back. Cut auto-aligns. 30 seconds of work, not 30 days. This is what one project tab looks like."
+
+<strong>Visual:</strong>
+Pure screen-record · POV style · speed-ramp through the workflow. Brief paste → storyboard generates → shots animate → cuts to render. <em>Faceless.</em>
+
+<strong>Caption:</strong> Comment <strong>STUDIO</strong> for the full walkthrough.</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 8 slides · 3-4 hrs (Co designs)</span>
+          <div class="block-content"><strong>"What chaos looked like before" — IG carousel</strong>
+
+Slide 1: Bold thesis "WHAT CHAOS LOOKED LIKE / BEFORE VIDEFY"
+
+Slide 2: Screenshot · 8 browser tabs (Notion · Milanote · Drive · Slack · Frame.io · Premiere · Runway · CapCut). Caption: "Eight tools to ship one ad."
+
+Slide 3: Screenshot · file naming horror "v3_FINAL_FINAL_use-this-one_v2.mp4"
+
+Slide 4: Screenshot · Slack thread feedback chaos
+
+Slide 5: Quote · "It used to take 6 weeks to ship a 30-second ad."
+
+Slide 6: Screenshot · Videfy single project · "Now: one project."
+
+Slide 7: Beta user quote (real or anonymized)
+
+Slide 8: CTA · "Try Videfy free → videfy.com"
+
+<strong>Caption:</strong> What 8 tools looked like before Videfy. Swipe ↓</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 30 min</span>
+          <div class="block-content"><strong>Visual:</strong> Split-screen design · left side "BEFORE" with 8-tool icons · right side "AFTER" with single Videfy interface · headline overlay
+
+<strong>On-screen text:</strong>
+8 TOOLS → 1 PROJECT
+6 WEEKS → 6 HOURS
+
+<strong>Caption:</strong> Building Videfy in public. Today's drop: how we killed the 8-tool stack.</div>
+        </div>
+
+        <ul class="checklist">
+          <li>X thread = primary format</li>
+          <li>Carousel = primary for IG · cross-post to LinkedIn as document</li>
+          <li>Single image = backup for fast cross-post day</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">2:00 PM ET · Live</span></div>
+      <div class="post">
+        <strong>🔜 DEFER · Wk 2 (Discord pending) · Office Hours · 1st live · 30-45 min</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Pre-tweet (30 min before)</span><p class="block-content">Office hours starts in 30 min in voice. We'll do live demos, take feedback, show what's coming Wk 2.
+
+Bring your weirdest workflow problem. We'll try to break Videfy in real time.</p></div>
+          <div class="block full"><span class="block-label">Format</span><p class="block-content">30-45 min in Discord voice channel. Audio only. Co records + clips for Thu/Fri reels (audio over b-roll). Sesh bot reminders 24h + 1h prior.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 4 / THU -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 4 · <em>Thursday</em> · Generate Tier Push</h2>
+    <span class="day-meta">Hook today: <em>Stop creating accounts. Start using AI that doesn't ask.</em></span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">Hero Post · Thu</span><span class="ch-tag">9:00 AM ET · 4 FORMATS</span></div>
+      <div class="post">
+        <strong>Hook: "Stop creating accounts to test AI. Start using one that doesn't ask."</strong>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · 5 min</span>
+          <div class="block-content"><strong>Caption / X tweet / LinkedIn:</strong>
+
+Stop creating accounts to test AI tools. Start using one that doesn't ask.
+
+videfy.com/generate. 30 seconds. No signup.
+
+Comment STUDIO for the link.</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 30-45 sec · 2-3 hrs</span>
+          <div class="block-content"><strong>VO:</strong>
+"Stop creating accounts to test AI tools. Start using one that doesn't ask. videfy slash generate. Paste a prompt. Watch the output land. Share the URL like a normal link. No signup. Free credits."
+
+<strong>Visual:</strong>
+0-3s: text "NO ACCOUNT NEEDED"
+3-8s: navigate to videfy.com/generate
+8-25s: paste prompt → output generates → shareable URL appears
+25-35s: drag URL into fake DM "look what I made"
+35-45s: text "GO TRY IT — videfy.com/generate"
+
+<strong>Caption:</strong> Comment <strong>STUDIO</strong> for the link.
+
+<strong>Faceless:</strong> Screen-record only</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 4 slides · 1.5 hrs</span>
+          <div class="block-content"><strong>Slide 1:</strong> Massive type "NO ACCOUNT NEEDED"
+
+<strong>Slide 2:</strong> Screenshot · videfy.com/generate page · text "Just go here."
+
+<strong>Slide 3:</strong> Screenshot · output rendering · text "Paste prompt. Get video. Share link."
+
+<strong>Slide 4:</strong> CTA · "Comment GENERATE for the link"
+
+<strong>Caption:</strong> No signup. Try Videfy in 30 seconds. ↓</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 20 min</span>
+          <div class="block-content"><strong>Visual:</strong> Phone screen mockup showing videfy.com/generate · arrow pointing to "Try Free · No Signup" button
+
+<strong>On-screen text:</strong>
+NO ACCOUNT.
+NO SIGNUP.
+JUST GO →
+
+<strong>Caption:</strong> videfy.com/generate. 30 seconds. Comment <strong>STUDIO</strong>.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">3:00 PM ET</span></div>
+      <div class="post">
+        <strong>🔜 DEFER · Wk 2 (Discord pending) · Drop in #show-your-work</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Post copy</span><p class="block-content">Generate tier is live for everyone now — no signup needed.
+
+We made this in 30 seconds: [screenshot]
+
+What are you building? Drop it in this thread. Funniest one wins free Pro for a month.
+
+— the team</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 5 / FRI -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 5 · <em>Friday</em> · Social Proof + Live</h2>
+    <span class="day-meta">Hook today: <em>Her agency quoted $40K. She made it in 47 minutes.</em></span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">Hero Post · Fri</span><span class="ch-tag">10:00 AM ET · 4 FORMATS</span></div>
+      <div class="post">
+        <strong>Hook: "Her agency quoted $40K. She made it in 47 minutes."</strong>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · LinkedIn 200-400 words · 30 min</span>
+          <div class="block-content"><strong>Hook:</strong> Her agency quoted $40K for this campaign. She made it in 47 minutes.
+
+<strong>Body:</strong>
+Here's what they built:
+— 30-second hero ad
+— 3 social cuts (TikTok / IG / LinkedIn formats)
+— Founder voiceover via Avatar
+— Brand-locked across every output
+
+Tools used: one Videfy project. That's it. No editor. No production house. No render farm.
+
+Total time: 47 minutes from brief to finished render.
+
+Quote from [beta user]: "[real quote about saving time / sanity / money]"
+
+We're highlighting case studies every Friday. If you've shipped something in Videfy and want to share — DM us. Featured users get a free Pro year.
+
+Try Videfy free → videfy.com
+
+<strong>CTA:</strong> Comment <strong>STUDIO</strong> to be next.</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 30-60 sec · 3-4 hrs (interview + edit)</span>
+          <div class="block-content"><strong>Visual sequence:</strong>
+0-5s: beta user clip · 3-5 sec talking head (their consent)
+5-20s: cut to their actual work · 10-15 sec
+20-30s: cut back · text "and they made it in [X time]"
+30-50s: split-screen old way vs Videfy way
+50-60s: Videfy logo + "Your turn → videfy.com"
+
+<strong>Voiceover/Dialogue:</strong> Beta user's words from interview. Real, raw. Not scripted.
+
+<strong>Caption:</strong> Built by [beta user] in Videfy. Want to be next? Comment <strong>STUDIO</strong>.
+
+<strong>Note:</strong> Co interviews + edits. Beta user permission confirmed before posting.</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 7 slides · 2.5 hrs design</span>
+          <div class="block-content"><strong>Slide 1:</strong> Massive type "$40K SAVED. 1 HOUR SPENT."
+
+<strong>Slide 2:</strong> Beta user photo + quote pull-out
+
+<strong>Slide 3:</strong> What they built (4-bullet list)
+
+<strong>Slide 4:</strong> Screenshot of finished work
+
+<strong>Slide 5:</strong> Time breakdown (47 min)
+
+<strong>Slide 6:</strong> Single quote from beta user
+
+<strong>Slide 7:</strong> CTA · "Want to be next? DM us."
+
+<strong>Caption:</strong> [Beta user] just made our brains explode. Swipe for the receipt ↓</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 30 min</span>
+          <div class="block-content"><strong>Visual:</strong> Beta user photo in 4:5 framed shot · stat overlay
+
+<strong>On-screen text:</strong>
+$40K SAVED.
+1 HOUR.
+ONE PROJECT.
+
+<strong>Caption:</strong> Built by [beta user] in Videfy. Comment <strong>STUDIO</strong> to be next.</div>
+        </div>
+
+        <ul class="checklist">
+          <li>Beta user permission confirmed before any version posts</li>
+          <li>Tag beta user · they reshare</li>
+          <li>Co interviews + edits any video version</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">X / TT Live</span><span class="ch-tag">2:00 PM ET</span></div>
+      <div class="post">
+        <strong>Live Q&A · 30-45 min · ONE FORMAT</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Pre-tweet (30 min before)</span><p class="block-content">Going live in 30 min on @videfy. 30-min Q&A. Bring the hardest video production problem you've got.</p></div>
+          <div class="block full"><span class="block-label">Format</span><p class="block-content">X Spaces audio-only. Voice-only OK. Live demo + open Q&A. Co records + clips for Wk 2 content.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">4:00 PM ET</span></div>
+      <div class="post">
+        <strong>🔜 DEFER · Wk 2 (Discord pending) · Friday wrap post</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Post copy</span><p class="block-content">Wk 1 numbers · full transparency:
+
+— [X] views across TT/IG/YT
+— [Y] Generate tier signups
+— [Z] paying users
+— [N] DMs from comment triggers
+
+What worked: [feature reveal that hit] · [reel format that crushed]
+
+What didn't: [be honest — the meh ones]
+
+Wk 2 plan: [first feature reveal · podcast tour starts · case study #2]
+
+Big shoutouts to:
+@[beta user 1] @[beta user 2] @[beta user 3] — thanks for being early.
+
+— the team</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Affiliate</span><span class="ch-tag">EOD</span></div>
+      <div class="post">
+        <strong>Affiliate program goes live</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Landing page banner</span><p class="block-content">Make 30% on every Videfy user you refer.
+
+Earn 30% of every Pro user you refer for their first 12 months. Free Pro account while active. Top 5 monthly affiliates extended to 18 months. Public earnings leaderboard.
+
+[Sign up here →]</p></div>
+        </div>
+        <ul class="checklist">
+          <li>Portal accepts signups</li>
+          <li>Footer link added to landing</li>
+          <li>First batch of cold outreach DMs sent (Tier 3 list)</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 6 / SAT -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 6 · <em>Saturday</em> · Light Recap</h2>
+    <span class="day-meta">Hook today: <em>Most launches lie about week 1. Here are our actual receipts.</em> · Schedule Friday night · Day off</span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row teal">
+      <div class="channel-label"><span class="ch-name">Hero Post · Sat</span><span class="ch-tag">11:00 AM ET · 4 FORMATS</span></div>
+      <div class="post">
+        <strong>Hook: "Most launches lie about week 1. Here are our actual receipts."</strong>
+
+        <div class="format-card text">
+          <span class="format-tag">📝 Text Only · 10 min</span>
+          <div class="block-content"><strong>Caption:</strong>
+
+Wk 1 receipts ↓
+
+— [X] views across the stack
+— [Y] Generate signups
+— [Z] paying users
+
+What worked: [winner]
+What's next: [Wk 2 hero]
+
+Building in public for 5 more months → @videfy</div>
+        </div>
+
+        <div class="format-card video">
+          <span class="format-tag">🎬 Video Script · 30 sec · 2 hrs</span>
+          <div class="block-content"><strong>VO:</strong>
+"Week one. Here's what shipped, what hit, and what we're sending up Monday."
+
+<strong>Visual:</strong>
+0-5s: text "WK 1"
+5-15s: rapid-cut · 5 best moments from week
+15-25s: numbers overlay
+25-30s: "Wk 2 starts Monday → @videfy"
+
+<strong>Caption:</strong> Most launches lie about week 1. We won't. Wk 2 starts Mon.</div>
+        </div>
+
+        <div class="format-card carousel">
+          <span class="format-tag">🎴 Carousel · 8 slides · 1.5 hrs · Schedule Fri night</span>
+          <div class="block-content"><strong>Slide 1:</strong> "WK 1 · BY THE NUMBERS" massive type
+
+<strong>Slide 2:</strong> "[X] views across the stack" + screenshot
+
+<strong>Slide 3:</strong> "[Y] Generate signups" + screenshot
+
+<strong>Slide 4:</strong> "[Z] paying users" + screenshot
+
+<strong>Slide 5:</strong> "What worked: [reel format]" + clip thumbnail
+
+<strong>Slide 6:</strong> "What we ship Wk 2: [feature]"
+
+<strong>Slide 7:</strong> Beta user shoutout · names + thanks
+
+<strong>Slide 8:</strong> CTA · "Try Videfy free → videfy.com"
+
+<strong>Caption:</strong> Most launches lie about week 1. Save these.</div>
+        </div>
+
+        <div class="format-card image">
+          <span class="format-tag">🖼 Single Image · 25 min</span>
+          <div class="block-content"><strong>Visual:</strong> 4:5 dark · Big Numeral hook style · single huge stat
+
+<strong>On-screen text:</strong>
+WK 1
+[X views] · [Y signups]
+[Z paying]
+
+<strong>Caption:</strong> Most launches lie. We won't.</div>
+        </div>
+
+        <ul class="checklist">
+          <li>Schedule Friday night so Sat is actually off</li>
+          <li>Carousel = primary · Image = fallback</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Replies only</span><span class="ch-tag">Light</span></div>
+      <div class="post">
+        <strong>60-90 min replies total · day off otherwise</strong>
+        <ul class="checklist">
+          <li>No new posts</li>
+          <li>2 days off non-negotiable — take Sat</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DAY 7 / SUN -->
+<div class="day-card">
+  <div class="day-head">
+    <h2>Day 7 · <em>Sunday</em> · Reset</h2>
+    <span class="day-meta">Hook today: <em>Wk 1 numbers thread</em> · Day off</span>
+  </div>
+  <div class="day-body">
+
+    <div class="channel-row lime">
+      <div class="channel-label"><span class="ch-name">X · @videfy</span><span class="ch-tag">10:00 AM ET · TEXT ONLY (auto-post)</span></div>
+      <div class="post">
+        <strong>Weekly metrics tweet · build-in-public</strong>
+        <div class="post-blocks">
+          <div class="block full"><span class="block-label">Tweet copy</span><p class="block-content">Wk 1 numbers ↓
+
+— [X] followers added across stack
+— [Y] Generate signups
+— [Z] paying users
+— [N] Discord members
+
+What worked: [winner]
+What didn't: [be honest]
+Ship next: [Wk 2 hero]
+
+Building in public for 5 more months. Watch us → @videfy</p></div>
+        </div>
+        <ul class="checklist">
+          <li>Pre-write Friday · auto-post Sunday</li>
+          <li>Numbers screenshot · radical transparency</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Internal · Plan Wk 2</span><span class="ch-tag">PM · 1 hr max</span></div>
+      <div class="post">
+        <strong>Quick weekly review</strong>
+        <ul class="checklist">
+          <li>Top 3 wins / Top 3 things broken</li>
+          <li>Wk 2 hero post locked</li>
+          <li>Co briefed on Mon shoot list</li>
+          <li>Done by 5 PM. Rest of day off.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GITHUB PUBLIC CHANGELOG -->
+<span class="eyebrow">06 · GitHub presence</span>
+<h2 class="h2">GitHub — <em>build in public live changelog</em></h2>
+<p class="intro">GitHub is set up. Use the public repo as build-in-public proof. Each week ship a release note · tag commits with launch milestones · keep changelog current. X audience checks GitHub when investigating new tools.</p>
+
+<div class="day-card">
+  <div class="day-body">
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">GitHub · Wk 1</span><span class="ch-tag">Daily</span></div>
+      <div class="post">
+        <strong>Public changelog + commits</strong>
+        <ul class="checklist">
+          <li>Tag launch commit "v1.0.0 — public launch"</li>
+          <li>README updated with current product description + links</li>
+          <li>Changelog entries for any Wk 1 fixes (visible to early adopters)</li>
+          <li>Star count visible on landing page (social proof)</li>
+          <li>Add "Watch" CTA in X bio for build-in-public audience</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">GitHub · Wk 2+</span><span class="ch-tag">Weekly</span></div>
+      <div class="post">
+        <strong>Sunday release notes</strong>
+        <ul class="checklist">
+          <li>Weekly release note posted Sunday</li>
+          <li>Cross-post to X · @videfy: "Wk N release notes →"</li>
+          <li>Build credibility through visible iteration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSET PRODUCTION CHECKLIST -->
+<span class="eyebrow">Production checklist</span>
+<h2 class="h2">Assets that need to be <em>ready before Mon</em></h2>
+
+<div class="day-card">
+  <div class="day-body">
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Email + Copy</span><span class="ch-tag">Tonight</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>Beta email Version A loaded in Beehiiv/ConvertKit</li>
+          <li>Beta_Prompt_Pack.pdf attached</li>
+          <li>Discord invite link non-expiring + tested</li>
+          <li>Mon teaser reel script written</li>
+          <li>Tue main reel script written</li>
+          <li>Wed X thread drafted</li>
+          <li>Thu Generate demo screen-record cued</li>
+          <li>Fri case study confirmed with beta user</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Video</span><span class="ch-tag">Sun + Mon AM shoot block</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>Mon teaser reel shot (Sun OR Mon AM 8 AM)</li>
+          <li>Tue "We're open" reel shot Mon AM batch</li>
+          <li>Tue reel re-cut for IG · YT Shorts (Co Mon PM)</li>
+          <li>Wed BTS reel shot Wed AM</li>
+          <li>Thu Generate demo screen-record</li>
+          <li>Fri case study clip prepared</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Carousel</span><span class="ch-tag">Wed + Sat</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>Wed "Chaos before" carousel — Copy written by Tue EOD, Co designs by Wed AM</li>
+          <li>Sat recap carousel — Copy written by Fri EOD, Co designs Fri night</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name" style="opacity:0.5">Discord</span><span class="ch-tag">Tonight</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>🔜 Wk 2: server channels (#welcome · #show-your-work · #feedback · #founder-hours · #prompts-and-tips)</li>
+          <li>🔜 Wk 2: 5 personality bots (Curator · Coach · Critic · Connector · Brainstorm)</li>
+          <li>🔜 Wk 2: Office hours scheduled · invite link circulated</li>
+          <li>For Wk 1: comments + DMs are the community channel — reply within 1 hr</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Manual DMs</span><span class="ch-tag">All week</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>Reply to every "STUDIO" comment within 1 hr · DM the right asset for that day</li>
+          <li>Mon-Tue: DM Beta_Prompt_Pack PDF</li>
+          <li>Wed-Thu: DM Generate landing URL · or trial link</li>
+          <li>Fri: DM "want to be next case study?" form link</li><li>ManyChat installed + automated Wk 2 once volume warrants</li>
+        </ul>
+      </div>
+    </div>
+    <div class="channel-row">
+      <div class="channel-label"><span class="ch-name">Tracking</span><span class="ch-tag">Sun</span></div>
+      <div class="post">
+        <ul class="checklist">
+          <li>Mixpanel + Stripe + UTM links per channel</li>
+          <li>Daily metrics doc set up</li>
+          <li>Phone notifications minimal (focus mode AM)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p><strong>Companion docs</strong> · Launch_Overview.html · Content_Plan.html · Outreach_Plan.html · Beta_Thank_You_Emails.md · Beta_Prompt_Pack.pdf · Discord_Bots_Setup.md</p>
+  <p><strong>Voice rules</strong> · "WE" not "I" in public copy. All posts via @videfy company accounts. on camera (Avatar/screen-record default) + voice + scripts. Co handles all edit + design + scheduling.</p>
+  <p><strong>Last updated</strong> · 2026-05-03 · v2 Launch Week</p>
+</div>
+
+</div>
+</body>
+</html>

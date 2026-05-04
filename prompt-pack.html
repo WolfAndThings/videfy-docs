@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Videfy — 20 Prompt Pack · Beta Drop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#AAFF00;--teal:#00C4B4;--ink:#0A0C14;--white:#FAFBFF;--off:#F2F4F8;--muted:#6B7280;--txt:#2C3040;--bstr:rgba(10,12,20,0.18);--bmd:rgba(10,12,20,0.12);--border:rgba(10,12,20,0.08)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65}
+.wrap{max-width:980px;margin:0 auto;padding:48px 32px 96px}
+.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ink);flex-wrap:wrap;gap:18px}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-box{width:34px;height:34px;background:var(--ink);border-radius:8px;display:grid;place-items:center;color:var(--lime);font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1}
+.logo-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.doc-meta{text-align:right;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:2;letter-spacing:.04em;text-transform:uppercase}
+.hero{background:var(--ink);border-radius:16px;padding:56px 48px;margin-bottom:32px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),var(--teal))}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:18px}
+.hero-headline{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(40px,5.5vw,64px);line-height:1.05;letter-spacing:-.025em;color:var(--white);margin-bottom:22px;font-weight:400}
+.hero-headline em{color:var(--lime);font-style:italic}
+.hero-body{font-size:16px;color:rgba(255,255,255,.7);line-height:1.65;font-weight:300;max-width:640px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:12px}
+.h2{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(24px,3vw,32px);line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin:32px 0 16px;font-weight:400}
+.h2 em{color:var(--teal);font-style:italic}
+.body{font-size:14px;color:var(--txt);line-height:1.75;font-weight:300;max-width:760px}
+.body strong{font-weight:600;color:var(--ink)}
+.section-intro{background:var(--off);border-left:3px solid var(--lime);padding:20px 24px;border-radius:0 12px 12px 0;margin:24px 0}
+.section-intro p{margin:0;font-size:13px;color:var(--txt);line-height:1.6}
+.prompt{background:var(--white);border:1px solid var(--bstr);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.prompt-head{padding:14px 20px;background:var(--off);border-bottom:1px solid var(--bmd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.prompt-num{font-family:'Instrument Serif',serif;font-style:italic;font-size:18px;color:var(--teal);font-weight:400}
+.prompt-title{font-weight:700;font-size:15px;color:var(--ink);flex:1;margin:0 0 0 12px}
+.prompt-engine{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:var(--white);border:1px solid var(--bstr);padding:4px 10px;border-radius:999px}
+.prompt-body{padding:18px 20px}
+.prompt-text{font-family:'DM Mono',monospace;font-size:12px;color:var(--txt);background:var(--off);padding:14px 16px;border-radius:8px;line-height:1.7;border:1px solid var(--border);margin:0;word-wrap:break-word;orphans:3;widows:3}
+
+/* ===== Print-specific styling — proper PDF generation ===== */
+@page{size:Letter;margin:14mm 12mm}
+@page:first{margin-top:8mm}
+
+@media print{
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important}
+  html,body{background:var(--white) !important;font-size:13px;line-height:1.5}
+  .wrap{padding:0;max-width:100%}
+
+  /* Tighter doc header */
+  .doc-header{margin-bottom:18px;padding-bottom:12px}
+
+  /* Smaller hero so doesn't eat full page */
+  .hero{padding:28px 28px;margin-bottom:18px;break-inside:avoid;break-after:auto;page-break-inside:avoid}
+  .hero-headline{font-size:36px !important;margin-bottom:14px}
+  .hero-body{font-size:13px;line-height:1.5}
+  .hero-eyebrow{margin-bottom:12px}
+
+  /* Section intro */
+  .section-intro{padding:14px 18px;margin:16px 0;break-inside:avoid;page-break-inside:avoid}
+  .section-intro p{font-size:12px}
+
+  /* Dividers — tight, no orphan space */
+  .divider{margin:18px 0 10px;padding-bottom:6px;font-size:9px;break-after:avoid;page-break-after:avoid}
+
+  /* Prompt cards — never split across pages */
+  .prompt{break-inside:avoid !important;page-break-inside:avoid !important;margin-bottom:10px;border-radius:8px}
+  .prompt-head{padding:10px 14px}
+  .prompt-num{font-size:15px}
+  .prompt-title{font-size:13px}
+  .prompt-engine{font-size:9px;padding:3px 8px}
+  .prompt-body{padding:12px 14px}
+  .prompt-text{font-size:11px;line-height:1.55;padding:10px 12px}
+  .prompt-tip{margin-top:8px;font-size:11px}
+
+  /* Outro never splits */
+  .outro{margin-top:24px;padding:32px 28px;break-inside:avoid !important;page-break-inside:avoid !important}
+  .outro-headline{font-size:24px}
+  .outro-grid{margin-top:20px;padding-top:18px;gap:18px}
+  .outro-grid{grid-template-columns:1fr 1fr 1fr !important}
+
+  /* Footer */
+  .footer-meta{margin-top:14px;font-size:9px}
+}
+
+/* Screen-only override for break-inside (so cards still avoid splits even in screen view) */
+.prompt{break-inside:avoid;page-break-inside:avoid}
+.outro{break-inside:avoid;page-break-inside:avoid}
+.section-intro{break-inside:avoid;page-break-inside:avoid}
+.hero{break-inside:avoid;page-break-inside:avoid}
+.prompt-tip{margin-top:10px;font-size:12px;color:var(--muted);font-style:italic}
+.divider{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin:48px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--bmd)}
+.outro{margin-top:56px;background:var(--ink);border-radius:16px;padding:48px 40px;color:var(--white);position:relative;overflow:hidden;page-break-inside:avoid;break-inside:avoid}
+.outro::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--lime))}
+.outro-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:18px}
+.outro-headline{font-family:'Instrument Serif',Georgia,serif;font-size:32px;line-height:1.1;letter-spacing:-.02em;color:var(--white);margin:0 0 18px;font-weight:400}
+.outro-headline em{color:var(--lime);font-style:italic}
+.outro-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:32px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+@media (max-width:780px){.outro-grid{grid-template-columns:1fr;gap:18px}.outro-headline{font-size:24px}}
+.outro-block h4{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);margin:0 0 8px;font-weight:500}
+.outro-block p{font-size:13px;color:rgba(255,255,255,.75);line-height:1.55;margin:0;font-weight:300}
+.outro-block strong{color:var(--white);font-weight:500}
+.footer-meta{margin-top:24px;color:var(--muted);font-size:11px;font-family:'DM Mono',monospace;letter-spacing:.08em;text-transform:uppercase;text-align:center}
+@media (max-width:780px){.hero-headline{font-size:36px}.prompt-head{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="doc-header">
+  <div class="logo-row">
+    <div class="logo-box">V</div>
+    <div class="logo-name">Videfy / Beta Drop</div>
+  </div>
+  <div class="doc-meta">
+    20 Prompt Pack · Beta Only<br/>
+    Updated · 2026-05-03<br/>
+    For · early access only
+  </div>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">For our beta users only · Day 1 launch drop</span>
+  <h1 class="hero-headline">20 prompts. <em>Built for you first.</em></h1>
+  <p class="hero-body">Real, tested, production-grade prompts pulled from our internal vault. Cinematic, editorial, product, motion, avatar. Ship-ready inside Videfy. Public version drops in a few weeks — you get them now.</p>
+</div>
+
+<div class="section-intro">
+  <p><strong>How to use:</strong> drop any prompt into Videfy's Generate tier or Avenue 1 (Claude MCP) chat. Swap bracketed [variables] with your subject / brand / scene. Engine recommendation in the corner of each card. Hit "regenerate" liberally — first output is rarely the keeper.</p>
+</div>
+
+<div class="divider">Section 01 · Cinematic</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">01</span><h3 class="prompt-title">Editorial product hero · burnt orange studio</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Premium minimalist studio product photograph featuring [your product] as the hero subject, placed slightly left of center in a seamless burnt-orange matte studio environment with matching floor and backdrop. 85mm portrait lens look, shallow depth of field (f/2.8), sharp focus on the product, softly blurred edges. Single soft key light from upper left, gentle fill from right, no harsh shadows. Real photo aesthetic — film grain, slight imperfection, color science of a Sony Venice. 4:5 aspect.</p>
+    <p class="prompt-tip">Tip: swap "burnt-orange" for any single Pantone-grade color to match brand</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">02</span><h3 class="prompt-title">Wide cinematic establishing · golden hour</h3><span class="prompt-engine">Veo 3 · Video</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Wide cinematic establishing shot of [location/scene], golden hour, low sun raking across the frame from camera left. Slow dolly-in toward main subject. Anamorphic 2.39:1, Kodak Portra 400 grain, real shadows, atmospheric haze. No motion blur on subject — clean focus. 8 seconds.</p>
+    <p class="prompt-tip">Pair with NB2 first frame to lock the look before animating</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">03</span><h3 class="prompt-title">Editorial close-up portrait · directional light</h3><span class="prompt-engine">NanoBanana 2</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Tight close-up portrait of [subject], face fills 70% of frame, directional Rembrandt lighting from upper-right, deep falloff to shadow on left half of face. Sharp focus on the eyes, freckles and pore detail visible, no skin smoothing. Editorial fashion magazine aesthetic. Background single deep matte color (forest green, oxblood, or charcoal). 4:5.</p>
+    <p class="prompt-tip">Generates much sharper than default — leans into pore detail for "real" feel</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">04</span><h3 class="prompt-title">Subject + product hero · lifestyle integration</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Cinematic mid-shot of [subject demographic] holding [product] naturally, looking off-camera. Real environment ([cafe / studio / kitchen / street]). Diffused natural daylight from a window left of frame. Subject in focus, environment softly blurred (f/1.8 portrait look). Real-photo grain, slight color cast (warm amber or cool teal), shot-on-film aesthetic. 9:16 for vertical.</p>
+    <p class="prompt-tip">Swap demographic + environment to fit any brand niche</p>
+  </div>
+</div>
+
+<div class="divider">Section 02 · Editorial + Brand</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">05</span><h3 class="prompt-title">4-quadrant brand grid · fashion editorial</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Single 4:5 image divided into 4 equal quadrants. Each quadrant: a different but tonally connected scene featuring [brand subject] — one product close-up, one model in motion, one environmental detail, one tight texture/material. Same color palette across all four. Magazine spread aesthetic. Shot-on-film grain. Subtle white inner gutter between quadrants.</p>
+    <p class="prompt-tip">Best for IG carousel cover or hero post that summarizes a campaign</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">06</span><h3 class="prompt-title">Wood-panel framed photo + huge sans typography</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Vertical 4:5 composition. Background: warm wood paneling, slight grain. Center: square white-bordered photo frame containing a 1970s-style portrait of [subject]. Below the photo: large white sans-serif headline reading "[YOUR HEADLINE]" in 200pt+ weight. Bottom: small dark pill button with text "[CTA] →". Editorial poster aesthetic. Shot-on-film paper feel.</p>
+    <p class="prompt-tip">Adriana Bubori-style editorial. Works for Claude / agency / workflow content</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">07</span><h3 class="prompt-title">Versus split poster · two faces in profile</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Vertical poster, 4:5. Two faces in profile facing each other, mirror-image composition, both lit cinematically against deep blue/black void. Between them: large white sans headline "[OPTION A] VS [OPTION B]" in poster typography, top half white / bottom half blue accent. Bottom: small chevron + "swipe for the comparison" microtype.</p>
+    <p class="prompt-tip">Highest-engagement format for tool comparison posts</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">08</span><h3 class="prompt-title">Massive type over photo · single thesis statement</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Full-bleed vertical 4:5 photo of [subject in environment]. Across the middle of frame: massive white sans-serif headline "[YOUR THESIS]" — 280pt+, no shadow, full opacity, slight vertical compression for stacked feel. Photo: real, grainy, anti-AI-look. No other text.</p>
+    <p class="prompt-tip">core.aivision style. Works for declarative / manifesto posts</p>
+  </div>
+</div>
+
+<div class="divider">Section 03 · Avatar + UGC</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">09</span><h3 class="prompt-title">Founder talking-head · natural office setting</h3><span class="prompt-engine">Avatar · Veo 3</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Natural founder-style talking-head of [character], sitting at desk in warm-toned office, looking directly at camera, speaking conversationally. Hands occasionally gesture in frame. Soft window light from left. 50mm look, shallow depth of field. Subtle camera shake (handheld feel). 8-second loop, lip-synced to script.</p>
+    <p class="prompt-tip">Drop your script into Avenue 3 Avatar — generates without needing live shoot</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">10</span><h3 class="prompt-title">UGC selfie aesthetic · iPhone-style</h3><span class="prompt-engine">NanoBanana 2</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Selfie-angle shot of [subject], iPhone front-camera aesthetic, shot in natural light at [location]. Subject framed slightly off-center, holding phone visible at lower edge of frame. Real-photo color cast — slightly warm, mild lens distortion at edges. Clear motivational expression / casual confidence.</p>
+    <p class="prompt-tip">Anti-polished. Use for "real founder behind the brand" content</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">11</span><h3 class="prompt-title">POV shot · over-shoulder workspace</h3><span class="prompt-engine">Veo 3 · Video</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">POV shot from over the shoulder of [character] working at [setup]. Camera shows the screen / workspace with [activity] in clear focus. Slow zoom-in toward main task. 50mm. Natural ambient room lighting. 6-8 seconds.</p>
+    <p class="prompt-tip">Best for showing actual product use, screen recording style</p>
+  </div>
+</div>
+
+<div class="divider">Section 04 · Motion + Animation</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">12</span><h3 class="prompt-title">Subject parallax · static camera, moving subject</h3><span class="prompt-engine">Veo 3</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Static locked camera. [Subject] enters frame from left, walks across center, exits right. Slow steady pace, no camera move. Background depth-of-field separation. Real-world physics — natural gait, hair movement, fabric drift. Cinematic light direction unchanged. 8 seconds.</p>
+    <p class="prompt-tip">Lock the camera, let subject motion carry the clip — cleaner than dolly moves</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">13</span><h3 class="prompt-title">Liquid pour close-up · slow motion</h3><span class="prompt-engine">Veo 3 / Kling</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Macro close-up of [liquid] being poured slowly into [vessel]. 200fps slow-motion feel. Side light reveals translucency, surface tension, micro-bubbles. Background out of focus, single color. 6 seconds. No motion blur on liquid surface.</p>
+    <p class="prompt-tip">Works for any beverage / product reveal / texture moment</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">14</span><h3 class="prompt-title">Object reveal · slow rotation on plinth</h3><span class="prompt-engine">Veo 3</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">[Product] sitting on dark plinth in deep matte studio. Camera does slow 90-degree dolly arc around the object, maintaining eye-level angle. Single soft key light from upper-left, deep shadows untouched. Background 100% black. 8-second clip.</p>
+    <p class="prompt-tip">High-end product reveal that costs thousands in real production</p>
+  </div>
+</div>
+
+<div class="divider">Section 05 · Concept + Story</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">15</span><h3 class="prompt-title">Storyboard-from-brief · 4 scenes</h3><span class="prompt-engine">Avenue 1 · Claude MCP</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Take this brief: "[paste 1-2 sentence ad concept]". Build a 4-scene storyboard for a 30-second [vertical / horizontal] piece. Scene 1: hook (3 sec). Scene 2: tension (8 sec). Scene 3: reveal/payoff (12 sec). Scene 4: CTA (7 sec). For each scene: shot type, action, voiceover line, on-screen text. Then generate first-frame images for each.</p>
+    <p class="prompt-tip">The Claude MCP killer demo — brief in, finished storyboard out</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">16</span><h3 class="prompt-title">Variant generation · 3 hooks from one concept</h3><span class="prompt-engine">Avenue 1 · Claude MCP</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">From this campaign concept: "[paste concept]". Generate 3 distinct opening hooks (first 1.5 seconds): one POV/personal, one cost reframe, one bold thesis. For each hook: 1 line of dialogue, 1 visual description, 1 reason it lands. Generate first frame for each.</p>
+    <p class="prompt-tip">Test 3 directions before committing to a full edit</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">17</span><h3 class="prompt-title">Brand-locked image set · 6-shot campaign</h3><span class="prompt-engine">ChatGPT · Image</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Generate 6 images for a single brand campaign for [brand name]. Lock palette: [3 colors]. Lock typography reference: [serif / sans / mixed]. Lock lighting: [natural / studio / neon / etc.]. Vary the 6 shots across these roles: hero subject, environmental, product close-up, lifestyle in-use, texture detail, group/community moment. All must feel like one campaign.</p>
+    <p class="prompt-tip">Ensures cohesive brand feel across an entire post set</p>
+  </div>
+</div>
+
+<div class="divider">Section 06 · Practical Workflows</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">18</span><h3 class="prompt-title">Reference + style transfer</h3><span class="prompt-engine">NanoBanana 2 · Image edit</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">[Upload reference image]. Apply this style to [new subject / scene]: same lighting, same color palette, same lens look, same framing principles. Replace the subject with [new subject]. Keep the original photographic feel — no AI gloss.</p>
+    <p class="prompt-tip">Best way to maintain visual consistency across content drops</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">19</span><h3 class="prompt-title">Avatar lip-sync · script to video</h3><span class="prompt-engine">Avenue 3 · Avatar</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Generate Avatar talking-head for this script: "[paste script under 60 sec]". Use [character preset]. Setting: [office / studio / outdoor]. Tone: [casual / professional / energetic]. Output 9:16 vertical. Auto-generate captions in [brand color] at bottom third.</p>
+    <p class="prompt-tip">Replace shoot day with a 60-sec generation</p>
+  </div>
+</div>
+
+<div class="prompt">
+  <div class="prompt-head"><span class="prompt-num">20</span><h3 class="prompt-title">Full ad in one chat · brief to render</h3><span class="prompt-engine">Avenue 1 · Claude MCP</span></div>
+  <div class="prompt-body">
+    <p class="prompt-text">Build a 30-second [product launch / awareness / conversion] ad for [brand]. Audience: [target]. Tone: [direction]. Aspect: 9:16. Run the full pipeline: brief lock → storyboard → image gen for each frame → animate to video → voiceover → subtitles → export-ready render. Surface decision points before committing to full render.</p>
+    <p class="prompt-tip">Whole campaign, single chat, finished output. The killer demo.</p>
+  </div>
+</div>
+
+<div class="outro">
+  <span class="outro-eyebrow">Thank you for being early</span>
+  <h2 class="outro-headline">Now go make something <em>weird and good.</em></h2>
+  <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.6;font-weight:300;max-width:560px;margin:0">These 20 are a starting line, not a finish line. The first output is rarely the keeper — but the second or third often is. Iterate. Regenerate. Mix engines. Make it yours.</p>
+
+  <div class="outro-grid">
+    <div class="outro-block">
+      <h4>Beta-only</h4>
+      <p>Public version drops in a few weeks. <strong>Don't share publicly</strong> — this pack is our thank-you for being early.</p>
+    </div>
+    <div class="outro-block">
+      <h4>Built one that crushes?</h4>
+      <p>Drop it in our <strong>Discord</strong>. We feature the best community prompts in the next pack.</p>
+    </div>
+    <div class="outro-block">
+      <h4>Stuck?</h4>
+      <p>Founder office hours · <strong>Wednesday 2 PM ET</strong> live in Discord. Bring the broken thing.</p>
+    </div>
+  </div>
+</div>
+
+<p class="footer-meta">Videfy · Beta Drop v1 · 2026-05-03</p>
+
+</div>
+</body>
+</html>
