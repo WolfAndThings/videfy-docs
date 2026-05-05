@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Videfy — Content Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#AAFF00;--teal:#00C4B4;--ink:#0A0C14;--white:#FAFBFF;--off:#F2F4F8;--soft:#E8EAF0;--muted:#6B7280;--txt:#2C3040;--warn:#B91C1C;--warn-soft:rgba(185,28,28,.06);--gold:#92400E;--border:rgba(10,12,20,0.08);--bmd:rgba(10,12,20,0.12);--bstr:rgba(10,12,20,0.18)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--white);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.65}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 32px 96px}
+.doc-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid var(--ink);flex-wrap:wrap;gap:18px}
+.logo-row{display:flex;align-items:center;gap:12px}
+.logo-box{width:34px;height:34px;background:var(--ink);border-radius:8px;display:grid;place-items:center;color:var(--lime);font-family:'Instrument Serif',serif;font-style:italic;font-size:22px;line-height:1}
+.logo-name{font-weight:700;font-size:15px;letter-spacing:-.01em}
+.doc-meta{text-align:right;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);line-height:2;letter-spacing:.04em;text-transform:uppercase}
+.doc-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px}
+.doc-nav a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);background:var(--off);border:1px solid var(--bstr);padding:8px 14px;border-radius:999px;text-decoration:none;transition:all .15s}
+.doc-nav a:hover{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.doc-nav a.current{background:var(--ink);color:var(--lime);border-color:var(--ink)}
+.hero{background:var(--ink);border-radius:16px;padding:48px 44px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--lime),var(--teal))}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:18px}
+.hero-headline{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(36px,5vw,56px);line-height:1.05;letter-spacing:-.025em;color:var(--white);margin-bottom:22px;font-weight:400}
+.hero-headline em{color:var(--lime);font-style:italic}
+.hero-body{font-size:16px;color:rgba(255,255,255,.7);line-height:1.65;font-weight:300;max-width:620px}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:12px}
+.h2{font-family:'Instrument Serif',Georgia,serif;font-size:clamp(28px,3.5vw,38px);line-height:1.15;letter-spacing:-.02em;color:var(--ink);margin:0 0 12px;font-weight:400}
+.h2 em{color:var(--teal);font-style:italic}
+.h3{font-family:'DM Sans',sans-serif;font-size:18px;font-weight:600;letter-spacing:-.01em;margin:0 0 10px;color:var(--ink)}
+.h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px;display:block}
+.body{font-size:14px;color:var(--txt);line-height:1.75;font-weight:300;max-width:760px}
+.body strong{font-weight:600;color:var(--ink)}
+hr.rule{border:none;border-top:1px solid var(--bmd);margin:48px 0}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:880px){.grid-2,.grid-3{grid-template-columns:1fr}.hero-headline{font-size:36px}}
+.card{border:1px solid var(--bstr);border-radius:14px;overflow:hidden;background:var(--white)}
+.card-head{padding:14px 20px;border-bottom:1px solid var(--bmd)}
+.card-head.dark{background:var(--ink);color:var(--white)}
+.card-head.lime{background:rgba(170,255,0,.08)}
+.card-head.teal{background:rgba(0,196,180,.07)}
+.card-head.off{background:var(--off)}
+.card-head.warn{background:var(--warn-soft)}
+.card-head .label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.card-head.dark .label{color:rgba(255,255,255,.55)}
+.card-body{padding:20px}
+.card-body p{margin:0 0 10px;font-size:14px;color:var(--txt);line-height:1.65}
+.kpi-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--bstr)}
+.kpi-table.flush{border-radius:0;border:none}
+.kpi-table th{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:left;padding:14px 16px;background:var(--off);border-bottom:1px solid var(--bmd)}
+.kpi-table td{padding:14px 16px;border-bottom:1px solid var(--border);color:var(--txt);font-size:13px;font-weight:400}
+.kpi-table tr:last-child td{border-bottom:none}
+.kpi-table td.metric{font-weight:500;color:var(--ink)}
+.kpi-table td.num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.channel{background:var(--white);border:1px solid var(--bstr);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.channel-head{padding:14px 20px;background:var(--off);border-bottom:1px solid var(--bmd);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.channel-head h3{margin:0;font-size:18px;font-weight:700}
+.channel-head .pill{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--white);border:1px solid var(--bstr);padding:5px 10px;border-radius:999px}
+.channel-body{padding:20px}
+.channel-body p{margin:0 0 8px;font-size:13px;color:var(--txt)}
+.channel-body strong{color:var(--ink);font-weight:600}
+.scripts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:780px){.scripts{grid-template-columns:1fr}}
+.script{background:var(--white);border:1px solid var(--bstr);border-radius:10px;padding:14px 16px;border-left:3px solid var(--lime)}
+.script:nth-child(even){border-left-color:var(--teal)}
+.script .hook{font-family:'Instrument Serif',serif;font-size:16px;line-height:1.3;color:var(--ink);margin-bottom:6px;font-weight:400}
+.script .meta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+ul.tight{margin:6px 0 12px;padding-left:18px}
+ul.tight li{font-size:13px;color:var(--txt);margin:4px 0;line-height:1.55}
+ul.tight strong{color:var(--ink)}
+.note{color:var(--muted);font-size:13px}
+.mt-18{margin-top:18px}.mt-24{margin-top:24px}.mt-28{margin-top:28px}
+.principle{font-size:18px;line-height:1.5}
+.footer-note{margin-top:64px;padding-top:24px;border-top:1px solid var(--bmd);color:var(--muted);font-size:12px;font-family:'DM Mono',monospace;line-height:1.8;letter-spacing:.04em}
+.footer-note strong{color:var(--ink);font-weight:500}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="doc-header">
+  <div class="logo-row">
+    <div class="logo-box">V</div>
+    <div class="logo-name">Videfy / Content Plan</div>
+  </div>
+  <div class="doc-meta">
+    Doc 2 of 4 · Content<br/>
+    Updated · 2026-05-03<br/>
+    Owner · Alex Lamb
+  </div>
+</div>
+
+<div class="doc-nav">
+  <a href="Launch_Overview.html">01 · Overview</a>
+  <a href="Content_Plan.html" class="current">02 · Content</a>
+  <a href="Outreach_Plan.html">03 · Outreach</a>
+  <a href="Delegation_and_ROI.md">04 · Operations</a>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">Doc 2 / 4 · Content engine · Where + when + what</span>
+  <h1 class="hero-headline">Content first.<br/><em>Layers later.</em></h1>
+  <p class="hero-body">Wk 1-3 = pure content cadence. No newsletter, no ManyChat, no PH yet. Build the engine. Prove the cadence works. Then layer in everything else.</p>
+</div>
+
+<hr class="rule" />
+
+<!-- Launch Week -->
+<span class="eyebrow">01 · Launch Week</span>
+<h2 class="h2">Week 1 calendar — <em>open for business</em></h2>
+<p class="body">Monday product live. Beta gets thank-you email + Discord invite. Public content launches Tuesday. Best content of what we've already built.</p>
+
+<table class="kpi-table mt-24">
+<thead><tr><th>Day</th><th>Hero post</th><th>Channels</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td class="metric">Mon</td><td>Beta thank-you email · Discord invite link · soft launch only</td><td>Email · Discord</td><td>Private. No public push. Catch bugs.</td></tr>
+<tr><td class="metric">Tue</td><td><strong>"We're open for business"</strong> founder reel · LinkedIn long-form: "Why we're doing this"</td><td>TT · IG · X · LinkedIn</td><td>First public day. Founder face. Story-led.</td></tr>
+<tr><td class="metric">Wed</td><td>Founder X thread: "How we built Videfy" build-in-public · IG carousel: "What chaos looked like before"</td><td>X · IG · LinkedIn</td><td>Wed = highest engagement on X + LI.</td></tr>
+<tr><td class="metric">Thu</td><td>Avenue 2 demo reel: "Try Videfy without signing up" Generate tier walkthrough</td><td>TT · IG · YT Shorts</td><td>Drives Generate signups.</td></tr>
+<tr><td class="metric">Fri</td><td>First case study reel from beta user · founder Q&A on TT/X live</td><td>TT · IG · X live</td><td>Social proof + community presence.</td></tr>
+<tr><td class="metric">Sat</td><td>BTS carousel: "What we shipped this week" · light replies only</td><td>IG · LI</td><td>Light day. Recap energy.</td></tr>
+<tr><td class="metric">Sun</td><td>Weekly metrics post on X · plan Wk 2</td><td>X · internal</td><td>Build-in-public.</td></tr>
+</tbody>
+</table>
+
+<hr class="rule" />
+
+<!-- Cross-post map -->
+<span class="eyebrow">02 · Distribution</span>
+<h2 class="h2">Weekly content map — <em>cross-posting is leverage</em></h2>
+<p class="body">Don't cross-post raw. Adapt per platform. 1 reel = up to 4 distribution posts. 1 transcript = X thread + LI long-form + newsletter section.</p>
+
+<div class="card mt-24">
+  <div class="card-head dark"><span class="label">Originals + cross-posts</span></div>
+  <div class="card-body">
+    <table class="kpi-table flush">
+      <thead><tr><th>Platform</th><th>Originals / wk</th><th>Cross-posts / wk</th><th>Total / wk</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="metric">TikTok</td><td class="num">3–4 reels</td><td class="num">—</td><td class="num">3–4</td><td>Lead platform</td></tr>
+        <tr><td class="metric">Instagram</td><td class="num">1 carousel</td><td class="num">3–4 reels</td><td class="num">4–5</td><td>TT re-edited</td></tr>
+        <tr><td class="metric">YouTube Shorts</td><td class="num">—</td><td class="num">3–4 reels</td><td class="num">3–4</td><td>TT re-edited</td></tr>
+        <tr><td class="metric">LinkedIn</td><td class="num">1 long-form + 1 carousel</td><td class="num">1–2 reels</td><td class="num">3–5</td><td>IG + TT re-cuts</td></tr>
+        <tr><td class="metric">X</td><td class="num">1 thread</td><td class="num">0–1 reel</td><td class="num">1–2</td><td>From transcript</td></tr>
+        <tr><td class="metric">Newsletter (Wk 4+)</td><td class="num">1 email</td><td class="num">—</td><td class="num">1</td><td>Week recap</td></tr>
+        <tr><td class="metric"><strong>Total</strong></td><td class="num"><strong>~8 originals</strong></td><td class="num"><strong>~10–12 cross</strong></td><td class="num"><strong>~18–22 / wk</strong></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<!-- Channel plans -->
+<span class="eyebrow">03 · Per platform</span>
+<h2 class="h2">Channel plans</h2>
+
+<div class="mt-18">
+
+<div class="channel">
+  <div class="channel-head"><h3>TikTok</h3><span class="pill">Lead acquisition · 3–4 reels/wk</span></div>
+  <div class="channel-body">
+    <p><strong>Audience:</strong> Creators, freelance editors, marketers (18–34). Top of funnel.</p>
+    <p><strong>Mix:</strong> 40% hook+demo, 25% bold thesis, 20% BTS workflow, 15% Avatar output flex.</p>
+    <p><strong>Lead hooks:</strong> POV + cost reframe + tool-stack reveal. First 1.5s = hook. 15–45s sweet spot.</p>
+    <p><strong>Day-90 floor:</strong> 8–25K followers, 5–10 posts hit 100K+ views.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="channel-head"><h3>Instagram</h3><span class="pill">Visual archive · 4 reels + 1–2 carousels/wk</span></div>
+  <div class="channel-body">
+    <p><strong>Audience:</strong> Creators, designers, in-house creative teams (25–44).</p>
+    <p><strong>Mix:</strong> Cross-post TT wins (re-edited) + 23 carousel design skeletons from bank + daily Stories.</p>
+    <p><strong>Carousel topics:</strong> Old workflow vs Videfy · 5 reasons your videos take 6 weeks · $80K agency vs $59 Videfy seat.</p>
+    <p><strong>Day-90 floor:</strong> 5–15K followers. Saves &gt; reels for IG creator audience.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="channel-head"><h3>LinkedIn</h3><span class="pill">B2B conversion · 3 posts + 1 long-form/wk</span></div>
+  <div class="channel-body">
+    <p><strong>Audience:</strong> Agency CDs, in-house marketers, CMOs. Highest LTV channel ($300–1500/mo accounts).</p>
+    <p><strong>Mix:</strong> 30% case study, 25% thesis, 20% ROI breakdown, 15% tool stack reveal, 10% hot take.</p>
+    <p><strong>Wednesday lock:</strong> Long-form weekly. 5–10 strategic comments/day on agency leaders.</p>
+    <p><strong>Day-90 floor:</strong> 2–6K followers, 50–150 high-LTV trial signups.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="channel-head"><h3>X (Twitter)</h3><span class="pill">Founder voice · 1–2 threads + daily replies</span></div>
+  <div class="channel-body">
+    <p><strong>Audience:</strong> Devs, builders, AI/SaaS founders, press, investors.</p>
+    <p><strong>Mix:</strong> 50% build-in-public, 30% Avenue-1 (Claude MCP) demos, 20% replies to AI/video accounts.</p>
+    <p><strong>Wednesday thread = 3× engagement.</strong> "I spent $X on Y before figuring out Z" formula. 1 calculated provocation/month.</p>
+    <p><strong>Day-90 floor:</strong> 3–10K followers, dev/investor attention.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="channel-head"><h3>YouTube Shorts</h3><span class="pill">Cross-post · 3/wk</span></div>
+  <div class="channel-body">
+    <p><strong>Audience:</strong> Same as TikTok but slightly older. Shorts trend toward longer watch time.</p>
+    <p><strong>Mix:</strong> Recycle TikTok wins. Pin top-performing as profile featured.</p>
+    <p><strong>Day-90 floor:</strong> 1–3K subs. Long-tail SEO benefit grows year-over-year.</p>
+  </div>
+</div>
+
+<div class="channel">
+  <div class="channel-head"><h3>Email · Newsletter</h3><span class="pill">Starts Wk 4 · Tuesday weekly</span></div>
+  <div class="channel-body">
+    <p><strong>Wk 1–3:</strong> Build email list only. Lead magnets live, ManyChat capturing. <strong>No sends yet.</strong></p>
+    <p><strong>Wk 4+:</strong> First newsletter ships Tue. Cadence locks weekly.</p>
+    <p><strong>Sections:</strong> Hook · Wins/numbers · Build log · Featured affiliate · Tip · CTA.</p>
+    <p><strong>Day-90 floor:</strong> 1K–3K subs. Highest-conversion channel by margin (5–10× social).</p>
+  </div>
+</div>
+
+</div>
+
+<hr class="rule" />
+
+<!-- Viral content -->
+<span class="eyebrow">04 · What we have</span>
+<h2 class="h2">Viral content bank — <em>lean into</em></h2>
+<p class="body"><strong>48 scripts in Airtable</strong> + <strong>23 carousel design skeletons</strong>. Top 8 flagged "Final Pick" — production-ready bombs to lead with on launch + first 60 days.</p>
+
+<h4 class="h4 mt-24">The Final 8 — production-ready hooks</h4>
+<div class="scripts">
+  <div class="script"><div class="hook">"After Effects is dead. You just don't know it yet."</div><div class="meta">Era-flip · 2–3 min reel</div></div>
+  <div class="script"><div class="hook">"Your kids will never open After Effects."</div><div class="meta">Generation flip · Carousel + reel</div></div>
+  <div class="script"><div class="hook">"The studio system just died. You're the studio now."</div><div class="meta">Identity flip · Manifesto-tier</div></div>
+  <div class="script"><div class="hook">"This editor works for free. Better than the $8K one."</div><div class="meta">Cost reveal · Reel + LinkedIn</div></div>
+  <div class="script"><div class="hook">"This editor works for free, and he doesn't do 'rounds'."</div><div class="meta">Chaos kill · Reel</div></div>
+  <div class="script"><div class="hook">"Your video team just got an unfair advantage."</div><div class="meta">Claude MCP · X thread + reel</div></div>
+  <div class="script"><div class="hook">"$40K campaign from a Claude chat. Zero tabs."</div><div class="meta">Process flex · Demo reel</div></div>
+  <div class="script"><div class="hook">"Stop testing creative on launch day."</div><div class="meta">Contrarian · LinkedIn long-form</div></div>
+</div>
+
+<div class="grid-2 mt-24">
+  <div class="card">
+    <div class="card-head lime"><span class="label">Backlog</span></div>
+    <div class="card-body">
+      <p><strong>30 viral hook rewrites</strong> in Airtable Video Script Bank — cost reframes, era flips, anti-tool, comparison, identity. All paired with original source.</p>
+      <p><strong>23 carousel design skeletons</strong> ranked by engagement. Each tagged with unique Style Type (Massive Type Over Photo · News Headline Strip · Versus Split · etc.)</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head teal"><span class="label">Hero film (single bomb)</span></div>
+    <div class="card-body">
+      <p><strong>90-second short film</strong> made 100% inside Videfy. Indistinguishable from $250K commercial. Live screen-record. Founder voiceover narrating workflow.</p>
+      <p><strong>10–15 hours team time</strong> to build. Single highest-leverage launch asset.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<!-- Lead magnets -->
+<span class="eyebrow">05 · Email capture</span>
+<h2 class="h2">Lead magnets — <em>email subs engine</em></h2>
+<p class="body">5 channels feed email subs. Highest leverage = lead magnet on landing page (40% of subs). Ship 2–3 magnets, not all of them.</p>
+
+<div class="grid-2 mt-24">
+  <div class="card">
+    <div class="card-head lime"><span class="label">Magnets to ship</span></div>
+    <div class="card-body">
+      <ul class="tight">
+        <li><strong>"30 Viral Video Hooks for AI Tools"</strong> — built from our 30 rewrites. Notion/PDF.</li>
+        <li><strong>"23 Carousel Design Skeletons"</strong> — Figma file from our bank.</li>
+        <li><strong>"8-tool video stack → one project"</strong> — chaos-killer PDF.</li>
+        <li><strong>Free 2,500 Generate credits</strong> — actual product perk.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head teal"><span class="label">Source acquisition mix · Day 90</span></div>
+    <div class="card-body">
+      <ul class="tight">
+        <li><strong>Lead magnet on landing</strong> — 30–40%</li>
+        <li><strong>Founder X / LinkedIn</strong> — 20–25%</li>
+        <li><strong>Waitlist + referrals</strong> — 15–20%</li>
+        <li><strong>Reel content upgrades (DM trigger)</strong> — 10–15%</li>
+        <li><strong>Generate tier soft-gate</strong> — 5–10%</li>
+        <li><strong>Misc (HN, Reddit, podcasts)</strong> — 5%</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="rule" />
+
+<!-- ManyChat -->
+<span class="eyebrow">06 · Conversion flow</span>
+<h2 class="h2">ManyChat — <em>comment to DM to email</em></h2>
+<p class="body">Reels with comment-trigger CTAs convert at <strong>5–15× higher</strong> than bio-link. ManyChat auto-DMs commenters → captures email → drops lead magnet. Bring in by Wk 4.</p>
+
+<div class="grid-3 mt-18">
+  <div class="card">
+    <div class="card-head off"><span class="label">When to add</span></div>
+    <div class="card-body"><p>Wk 4. Need 2–3 reels averaging 50K+ views first. ManyChat without organic traction wastes the integration.</p></div>
+  </div>
+  <div class="card">
+    <div class="card-head lime"><span class="label">Trigger keywords</span></div>
+    <div class="card-body"><p><strong>"PROMPTS"</strong> — drops 30 hooks PDF<br/><strong>"SKELETONS"</strong> — drops carousel Figma<br/><strong>"WORKFLOW"</strong> — drops 8-tool stack PDF<br/><strong>"GENERATE"</strong> — drops 2,500 credits</p></div>
+  </div>
+  <div class="card">
+    <div class="card-head teal"><span class="label">Auto-flow</span></div>
+    <div class="card-body"><p>Comment → ManyChat DMs → "Drop your email" → Beehiiv subscribe → tag in CRM by trigger word → trial nurture sequence.</p></div>
+  </div>
+</div>
+
+<p class="body mt-18 note"><strong>Setup cost:</strong> ManyChat Pro $15/mo + ConvertKit/Beehiiv free tier. <strong>Maintenance:</strong> 1 hr/month. <strong>ROI:</strong> typical IG creator using ManyChat doubles email capture per viral reel.</p>
+
+<hr class="rule" />
+
+<!-- Production line -->
+<span class="eyebrow">07 · Team machine</span>
+<h2 class="h2">Production line — <em>2-person team</em></h2>
+<p class="body">Two people producing. <strong>Both full-time — 40–50 hrs/wk each, 80–100 hrs combined.</strong> Sustainable for 6 months only with batching + AI assist + 2 days off/week.</p>
+
+<h4 class="h4 mt-24">Role split</h4>
+<div class="grid-2 mt-18">
+  <div class="card">
+    <div class="card-head lime"><span class="label">Alex · Strategy + Written + On-camera</span></div>
+    <div class="card-body">
+      <p><strong>Hat 1 — Strategy + Systems:</strong> Airtable, ManyChat flows, affiliate ops, KPIs, planning, press. ~10–13 hrs/wk.</p>
+      <p><strong>Hat 2 — Written:</strong> LinkedIn long-form, X thread, newsletter, carousel copy, all reel scripts. ~17–22 hrs/wk.</p>
+      <p><strong>Hat 3 — On-camera:</strong> 3-4 reels/wk + Avatar + podcast + hero film. ~5–7 hrs/wk (batch Mon + Thu).</p>
+      <p><strong>Total:</strong> <strong>40–50 hrs/wk · full-time +.</strong></p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-head teal"><span class="label">Co · Production + Ops</span></div>
+    <div class="card-body">
+      <p><strong>Owns:</strong> all video editing, cross-platform re-cuts, carousel design, scheduling via Blotato, TT/IG community, ManyChat ops support, screen-record demos, podcast appearances when on-camera.</p>
+      <p><strong>Output:</strong> 3-4 edited originals + 3-4 cross-post adapts + 1 carousel + daily TT/IG community.</p>
+      <p><strong>Total:</strong> <strong>40–50 hrs/wk · full-time.</strong></p>
+    </div>
+  </div>
+</div>
+
+<h4 class="h4 mt-28">Daily rhythm — batched, sustainable</h4>
+<table class="kpi-table mt-18">
+<thead><tr><th>Day</th><th>Alex</th><th>Co</th></tr></thead>
+<tbody>
+<tr><td class="metric">Mon</td><td><strong>SHOOT BLOCK</strong> 90 min · 2 reels + Avatar VO · weekly strategy 2 hrs</td><td>Edit Friday's leftover · prep Mon shoot · schedule TT/IG</td></tr>
+<tr><td class="metric">Tue</td><td>Newsletter draft + send · X thread · LI replies</td><td>Edit Mon shoots · cross-post adaptations · TT/IG community</td></tr>
+<tr><td class="metric">Wed</td><td>LinkedIn long-form · X reply block · affiliate check-in</td><td>Carousel design · scheduling · ManyChat tune</td></tr>
+<tr><td class="metric">Thu</td><td><strong>SHOOT BLOCK</strong> 90 min · 2 reels + screen-record demo · carousel copy</td><td>Edit Wed leftover · prep Thu shoot · TT/IG community</td></tr>
+<tr><td class="metric">Fri</td><td>Weekly KPI review · plan next week · ManyChat analytics</td><td>Final edits · schedule weekend posts · community wrap-up</td></tr>
+</tbody>
+</table>
+<p class="body mt-18 note">Sat/Sun: light replies only. 2 days off — non-negotiable for 6-month sustain.</p>
+
+<div class="card mt-24">
+  <div class="card-head lime"><span class="label">One Mon shoot block → 8 outputs by Friday</span></div>
+  <div class="card-body">
+    <p>Alex performs 2 reels Mon morning (raw 4–6 min total) → Co cuts <strong>3 TikTok versions</strong> → Co adapts <strong>IG Reels</strong> + <strong>YouTube Shorts</strong> → Alex builds <strong>X thread</strong> from transcript → Alex reframes as <strong>LinkedIn post</strong> → Alex pulls <strong>Email newsletter</strong> section → Alex writes <strong>IG carousel</strong> copy → Co designs.</p>
+    <p><strong>Result:</strong> 1 shoot block (90 min Alex + 6-8 hrs Co) = 8 outputs across 5 platforms by Friday.</p>
+  </div>
+</div>
+
+<div class="card mt-24">
+  <div class="card-head off"><span class="label">How to keep this sustainable</span></div>
+  <div class="card-body">
+    <ul class="tight">
+      <li><strong>Batch shoot Mon + Thu.</strong> 90 min shoots → 4-5 reels each block.</li>
+      <li><strong>AI first drafts.</strong> ChatGPT/Videfy for newsletter + LI long-form (Alex edits) — saves ~40% writing time.</li>
+      <li><strong>Templates over fresh design.</strong> 23 carousel skeletons → swap copy + image, don't redesign.</li>
+      <li><strong>Reply caps.</strong> 30 min morning + 30 min evening. Not infinite.</li>
+      <li><strong>Two days off/week.</strong> Non-negotiable.</li>
+      <li><strong>Cut signal:</strong> if either hits 50+ hrs/wk for 2 weeks, drop to 2 reels/wk.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer-note">
+  <p><strong>Companion docs</strong> · Launch_Overview.html · Outreach_Plan.html · Delegation_and_ROI.md</p>
+  <p><strong>Last updated</strong> · 2026-05-03 · v3 / Doc 2 of 4</p>
+</div>
+
+</div>
+</body>
+</html>
