@@ -230,7 +230,14 @@ hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
 <div class="section" id="s3">
   <span class="eyebrow">03 · Surprise finding</span>
   <h2 class="h2">Studio has a <em>real</em> NLE</h2>
-  <p class="body">First read of the README suggested Studio was a preview-only tool. Source disagrees. <code>packages/studio/src/components/nle/NLELayout.tsx</code> is 458 lines. <code>packages/studio/src/player/components/Timeline.tsx</code> is 1,693 lines. This is closer to CapCut Web than to Remotion's preview pane.</p>
+
+  <div class="vp-box" style="margin-top:0;margin-bottom:18px;">
+    <span class="vp-label">First — what is "Studio"?</span>
+    <p class="vp-text">Studio = the <em>browser-based editor</em> that ships with HyperFrames. React app served at <code>localhost:3002</code> when you run <code>npx hyperframes preview</code>.</p>
+    <p class="vp-why">Live preview iframe + multi-track NLE timeline + asset sidebar + code editor + render queue, all in one window. Tech: React 18/19, Zustand state, CodeMirror 6 editor, Tailwind, Vite. Source lives in <a href="https://github.com/heygen-com/hyperframes/tree/main/packages/studio" target="_blank" rel="noopener"><code>packages/studio/</code></a> · README: <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/README.md" target="_blank" rel="noopener"><code>packages/studio/README.md</code></a>. <strong>Think CapCut Web meets a code editor.</strong> When this doc says "Studio", it means that app.</p>
+  </div>
+
+  <p class="body">First read of the README suggested Studio was a preview-only tool. Source disagrees. <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/nle/NLELayout.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/nle/NLELayout.tsx</code></a> is 458 lines. <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/player/components/Timeline.tsx" target="_blank" rel="noopener"><code>packages/studio/src/player/components/Timeline.tsx</code></a> is 1,693 lines. This is closer to CapCut Web than to Remotion's preview pane.</p>
 
   <div class="two-col">
     <div class="card">
@@ -1015,31 +1022,76 @@ videfy stamp reel-template \
 <!-- 17 -->
 <div class="section" id="s17">
   <span class="eyebrow">17 · Deep dive</span>
-  <h2 class="h2">Files to read in order</h2>
+  <h2 class="h2">Files to read in order — <em>linked</em></h2>
+  <p class="body">All links open the file directly on GitHub.</p>
+
+  <span class="tbl-label">Root docs</span>
   <table class="tbl">
     <tr><th>#</th><th>File</th><th>Why</th></tr>
-    <tr><td>1</td><td><code>README.md</code></td><td>Overview</td></tr>
-    <tr><td>2</td><td><code>DESIGN.md</code></td><td>Architectural rationale (most important)</td></tr>
-    <tr><td>3</td><td><code>packages/core/src/core.types.ts</code></td><td>Schema</td></tr>
-    <tr><td>4</td><td><code>packages/core/src/runtime/README.md</code></td><td>Runtime model</td></tr>
-    <tr><td>5</td><td><code>packages/core/src/runtime/timeline.ts</code></td><td>Timeline impl</td></tr>
-    <tr><td>6</td><td><code>packages/core/src/runtime/init.ts</code></td><td>Runtime boot</td></tr>
-    <tr><td>7</td><td><code>packages/core/src/studio-api/createStudioApi.ts</code></td><td>API server</td></tr>
-    <tr><td>8</td><td><code>packages/core/src/studio-api/routes/*.ts</code></td><td>All routes</td></tr>
-    <tr><td>9</td><td><code>packages/engine/README.md</code></td><td>Render engine</td></tr>
-    <tr><td>10</td><td><code>packages/engine/src/services/frameCapture.ts</code></td><td>Frame capture</td></tr>
-    <tr><td>11</td><td><code>packages/engine/src/services/streamingEncoder.ts</code></td><td>Encoder</td></tr>
-    <tr><td>12</td><td><code>packages/engine/src/services/parallelCoordinator.ts</code></td><td>Distributed render</td></tr>
-    <tr><td>13</td><td><code>packages/producer/src/services/renderOrchestrator.ts</code></td><td>Orchestrator</td></tr>
-    <tr><td>14</td><td><code>packages/producer/src/services/htmlCompiler.ts</code></td><td>Compile step</td></tr>
-    <tr><td>15</td><td><code>packages/studio/src/components/nle/NLELayout.tsx</code></td><td>NLE</td></tr>
-    <tr><td>16</td><td><code>packages/studio/src/player/components/Timeline.tsx</code></td><td>Timeline (1693 lines)</td></tr>
-    <tr><td>17</td><td><code>packages/studio/src/components/sidebar/AssetsTab.tsx</code></td><td>Assets</td></tr>
-    <tr><td>18</td><td><code>packages/studio/src/components/renders/RenderQueue.tsx</code></td><td>Render queue</td></tr>
-    <tr><td>19</td><td><code>skills/hyperframes/SKILL.md</code></td><td>Main skill</td></tr>
-    <tr><td>20</td><td><code>skills/hyperframes/references/video-composition.md</code></td><td>Composition rules</td></tr>
-    <tr><td>21</td><td><code>skills/hyperframes/references/prompt-expansion.md</code></td><td>Agent expansion pattern</td></tr>
-    <tr><td>22</td><td><code>registry/registry.json</code></td><td>Catalog index</td></tr>
+    <tr><td>1</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/README.md" target="_blank" rel="noopener"><code>README.md</code></a></td><td>Overview + install + tagline</td></tr>
+    <tr><td>2</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/DESIGN.md" target="_blank" rel="noopener"><code>DESIGN.md</code></a></td><td><strong>Architectural rationale — read this first</strong></td></tr>
+    <tr><td>3</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener"><code>CONTRIBUTING.md</code></a></td><td>How they accept PRs (mirror for Videfy)</td></tr>
+    <tr><td>4</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/AGENTS.md" target="_blank" rel="noopener"><code>AGENTS.md</code></a></td><td>Agent-facing repo guide</td></tr>
+    <tr><td>5</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CLAUDE.md" target="_blank" rel="noopener"><code>CLAUDE.md</code></a></td><td>Their Claude Code instructions</td></tr>
+    <tr><td>6</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/ADOPTERS.md" target="_blank" rel="noopener"><code>ADOPTERS.md</code></a></td><td>Public adopter list</td></tr>
+    <tr><td>7</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CREDITS.md" target="_blank" rel="noopener"><code>CREDITS.md</code></a></td><td>Attribution (Remotion, etc.)</td></tr>
+  </table>
+
+  <span class="tbl-label">Per-package READMEs (one per package)</span>
+  <table class="tbl">
+    <tr><th>#</th><th>Package README</th><th>What it covers</th></tr>
+    <tr><td>8</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/cli/README.md" target="_blank" rel="noopener"><code>packages/cli/README.md</code></a></td><td>CLI commands: init, lint, preview, render, publish, doctor</td></tr>
+    <tr><td>9</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/README.md" target="_blank" rel="noopener"><code>packages/core/README.md</code></a></td><td>Types, parsers, generators, linter, runtime, frame adapters</td></tr>
+    <tr><td>10</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/README.md" target="_blank" rel="noopener"><code>packages/engine/README.md</code></a></td><td>Puppeteer + FFmpeg seekable capture engine</td></tr>
+    <tr><td>11</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/README.md" target="_blank" rel="noopener"><code>packages/producer/README.md</code></a></td><td>Render orchestrator (capture + encode + audio mix)</td></tr>
+    <tr><td>12</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/README.md" target="_blank" rel="noopener"><code>packages/studio/README.md</code></a></td><td>Browser editor (NLE, code editor, live preview)</td></tr>
+    <tr><td>13</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/player/README.md" target="_blank" rel="noopener"><code>packages/player/README.md</code></a></td><td>Embeddable <code>&lt;hyperframes-player&gt;</code> web component</td></tr>
+    <tr><td>14</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/shader-transitions/README.md" target="_blank" rel="noopener"><code>packages/shader-transitions/README.md</code></a></td><td>WebGL transition library</td></tr>
+  </table>
+
+  <span class="tbl-label">Internal sub-package READMEs</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>15</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/README.md" target="_blank" rel="noopener"><code>packages/core/src/runtime/README.md</code></a></td><td>Runtime model — how compositions execute</td></tr>
+  </table>
+
+  <span class="tbl-label">Source files (deep architecture)</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>16</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/core.types.ts" target="_blank" rel="noopener"><code>packages/core/src/core.types.ts</code></a></td><td>Timeline schema, element types</td></tr>
+    <tr><td>17</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/timeline.ts" target="_blank" rel="noopener"><code>packages/core/src/runtime/timeline.ts</code></a></td><td>Timeline implementation</td></tr>
+    <tr><td>18</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/init.ts" target="_blank" rel="noopener"><code>packages/core/src/runtime/init.ts</code></a></td><td>Runtime boot</td></tr>
+    <tr><td>19</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/studio-api/createStudioApi.ts" target="_blank" rel="noopener"><code>packages/core/src/studio-api/createStudioApi.ts</code></a></td><td>HTTP API server</td></tr>
+    <tr><td>20</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/packages/core/src/studio-api/routes" target="_blank" rel="noopener"><code>packages/core/src/studio-api/routes/</code></a></td><td>All API routes (files, render, lint, thumbnail, waveform)</td></tr>
+    <tr><td>21</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/frameCapture.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/frameCapture.ts</code></a></td><td>Per-frame Puppeteer capture</td></tr>
+    <tr><td>22</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/streamingEncoder.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/streamingEncoder.ts</code></a></td><td>image2pipe → FFmpeg</td></tr>
+    <tr><td>23</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/parallelCoordinator.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/parallelCoordinator.ts</code></a></td><td>Distributed Chrome render</td></tr>
+    <tr><td>24</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/src/services/renderOrchestrator.ts" target="_blank" rel="noopener"><code>packages/producer/src/services/renderOrchestrator.ts</code></a></td><td>Render orchestrator (the conductor)</td></tr>
+    <tr><td>25</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/src/services/htmlCompiler.ts" target="_blank" rel="noopener"><code>packages/producer/src/services/htmlCompiler.ts</code></a></td><td>HTML → render-ready bundle</td></tr>
+    <tr><td>26</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/nle/NLELayout.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/nle/NLELayout.tsx</code></a></td><td>NLE layout (458 lines)</td></tr>
+    <tr><td>27</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/player/components/Timeline.tsx" target="_blank" rel="noopener"><code>packages/studio/src/player/components/Timeline.tsx</code></a></td><td>Timeline component (1,693 lines)</td></tr>
+    <tr><td>28</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/sidebar/AssetsTab.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/sidebar/AssetsTab.tsx</code></a></td><td>Asset sidebar (drag-drop, thumbs)</td></tr>
+    <tr><td>29</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/renders/RenderQueue.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/renders/RenderQueue.tsx</code></a></td><td>Render queue UI</td></tr>
+  </table>
+
+  <span class="tbl-label">Skills + registry</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>30</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/skills" target="_blank" rel="noopener"><code>skills/</code></a></td><td>All 13 skills (browse directory)</td></tr>
+    <tr><td>31</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md" target="_blank" rel="noopener"><code>skills/hyperframes/SKILL.md</code></a></td><td>Main composition skill</td></tr>
+    <tr><td>32</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/skills/hyperframes/references" target="_blank" rel="noopener"><code>skills/hyperframes/references/</code></a></td><td>Composition rules + prompt expansion + beat direction</td></tr>
+    <tr><td>33</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/registry/registry.json" target="_blank" rel="noopener"><code>registry/registry.json</code></a></td><td>Catalog index — 55 items</td></tr>
+    <tr><td>34</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/blocks" target="_blank" rel="noopener"><code>registry/blocks/</code></a></td><td>44 ready-to-use blocks</td></tr>
+    <tr><td>35</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/components" target="_blank" rel="noopener"><code>registry/components/</code></a></td><td>3 reusable components</td></tr>
+    <tr><td>36</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/examples" target="_blank" rel="noopener"><code>registry/examples/</code></a></td><td>8 full-composition examples</td></tr>
+  </table>
+
+  <span class="tbl-label">Plugin manifests</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>37</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.claude-plugin/plugin.json" target="_blank" rel="noopener"><code>.claude-plugin/plugin.json</code></a></td><td>Claude Code plugin manifest</td></tr>
+    <tr><td>38</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.cursor-plugin/plugin.json" target="_blank" rel="noopener"><code>.cursor-plugin/plugin.json</code></a></td><td>Cursor plugin manifest</td></tr>
+    <tr><td>39</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.codex-plugin/plugin.json" target="_blank" rel="noopener"><code>.codex-plugin/plugin.json</code></a></td><td>OpenAI Codex plugin manifest</td></tr>
   </table>
 </div>
 
