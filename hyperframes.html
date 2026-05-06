@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy — HyperFrames Deep Dive + Builder Kit</title>
+<meta name="description" content="HeyGen open-sourced HyperFrames. Full architectural deep dive plus the Videfy integration plan.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:900px; margin:0 auto; padding:56px 48px 80px; }
+
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:56px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:2; }
+
+.hero { background:var(--ink); border-radius:16px; padding:40px 44px; margin-bottom:14px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:14px; }
+.hero-headline { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(24px,3.5vw,36px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:18px; }
+.hero-headline em { color:var(--lime); font-style:italic; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.65); line-height:1.7; font-weight:300; max-width:640px; }
+.hero-body a { color:var(--lime); text-decoration:none; border-bottom:1px solid rgba(170,255,0,.4); }
+
+.section { margin-bottom:48px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:12px; }
+.h2 { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(20px,2.8vw,28px); line-height:1.15; letter-spacing:-.015em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-style:italic; color:var(--teal); }
+.body { font-size:14px; color:#2C3040; line-height:1.75; font-weight:300; max-width:680px; }
+.body strong { font-weight:600; color:var(--ink); }
+.body code { font-family:'DM Mono',monospace; font-size:12.5px; background:var(--off); padding:1px 6px; border-radius:4px; color:var(--ink); }
+.body a { color:#005C54; border-bottom:1px solid rgba(0,196,180,.3); text-decoration:none; }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
+
+.card { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; }
+.card-head { padding:14px 20px; border-bottom:1px solid var(--bmd); display:flex; align-items:center; gap:10px; }
+.card-head.dark { background:var(--ink); }
+.card-head.off { background:var(--off); }
+.card-head.lime { background:rgba(170,255,0,.07); }
+.card-head.teal { background:rgba(0,196,180,.06); }
+.card-head.red  { background:rgba(239,68,68,.06); }
+.card-head.amber { background:rgba(245,158,11,.06); }
+.card-icon { font-size:17px; }
+.card-title { font-size:14px; font-weight:600; line-height:1.3; }
+.card-head.dark .card-title { color:var(--white); }
+.card-head.off .card-title, .card-head.lime .card-title, .card-head.teal .card-title, .card-head.red .card-title, .card-head.amber .card-title { color:var(--ink); }
+.card-sub { font-family:'DM Mono',monospace; font-size:10px; }
+.card-head.dark .card-sub { color:rgba(255,255,255,.35); }
+.card-head.off .card-sub, .card-head.lime .card-sub, .card-head.teal .card-sub, .card-head.red .card-sub, .card-head.amber .card-sub { color:var(--muted); }
+.card-body { padding:16px 20px; }
+.card-text { font-size:13px; color:#2C3040; line-height:1.6; font-weight:300; }
+.card-text strong { font-weight:600; color:var(--ink); }
+.card-list { list-style:none; display:flex; flex-direction:column; gap:5px; margin-top:6px; }
+.card-list li { font-size:13px; color:#2C3040; padding-left:13px; position:relative; line-height:1.45; font-weight:300; }
+.card-list li::before { content:''; position:absolute; left:0; top:6px; width:5px; height:5px; border-radius:50%; background:var(--soft); border:1px solid var(--bstr); }
+.card-list li.hi::before { background:var(--lime); border-color:rgba(170,255,0,.5); }
+.card-list li.tl::before { background:var(--teal); border-color:rgba(0,196,180,.5); }
+.card-list li.am::before { background:#F59E0B; border-color:rgba(245,158,11,.5); }
+.card-list li.rd::before { background:#EF4444; border-color:rgba(239,68,68,.4); }
+
+.vp-box { background:linear-gradient(135deg, rgba(170,255,0,.06) 0%, rgba(0,196,180,.06) 100%); border:1px solid rgba(170,255,0,.25); border-radius:14px; padding:28px 32px; margin-top:20px; }
+.vp-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#2D6000; display:block; margin-bottom:12px; }
+.vp-text { font-family:'Instrument Serif',Georgia,serif; font-size:22px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; margin-bottom:14px; }
+.vp-text em { font-style:italic; color:#2D6000; }
+.vp-why { font-size:13px; color:var(--muted); line-height:1.65; font-weight:300; }
+.vp-why strong { font-weight:600; color:var(--ink); }
+
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:24px 0 6px; display:block; }
+.tbl code { font-family:'DM Mono',monospace; font-size:11.5px; background:rgba(10,12,20,0.04); padding:1px 5px; border-radius:3px; }
+
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
+.callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout .cl-text strong { color:var(--lime); font-weight:500; }
+
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
+.note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
+.note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.65; font-weight:300; }
+.note-box .nb-text strong { font-weight:600; color:var(--ink); }
+
+.stat-row { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-top:20px; }
+.stat-card { background:var(--off); border-radius:12px; padding:20px 18px; border:1px solid var(--border); }
+.stat-num { font-family:'Instrument Serif',Georgia,serif; font-size:28px; line-height:1; color:var(--ink); margin-bottom:6px; }
+.stat-num.lime { color:#2D6000; }
+.stat-num.teal { color:#005C54; }
+.stat-num.amber { color:#92400E; }
+.stat-label { font-size:12px; color:var(--muted); line-height:1.45; font-weight:300; }
+
+.steps { display:flex; flex-direction:column; gap:2px; margin-top:20px; }
+.step { display:flex; align-items:flex-start; gap:16px; padding:16px 20px; border:1px solid var(--bmd); border-radius:10px; background:var(--off); }
+.step-num { font-family:'Instrument Serif',Georgia,serif; font-size:22px; color:var(--light); line-height:1; flex-shrink:0; padding-top:2px; min-width:24px; }
+.step-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.step-desc { font-size:13px; color:var(--muted); line-height:1.5; font-weight:300; }
+
+.code-block { background:var(--ink); color:#E8EAF0; border-radius:10px; padding:18px 20px; margin-top:14px; font-family:'DM Mono',monospace; font-size:12px; line-height:1.65; overflow-x:auto; white-space:pre; }
+.code-block .c { color:#6B7280; }
+.code-block .k { color:var(--lime); }
+.code-block .s { color:var(--teal); }
+
+.toc { background:var(--off); border:1px solid var(--bstr); border-radius:14px; padding:24px 28px; margin-top:20px; }
+.toc-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:block; }
+.toc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; }
+.toc-grid a { font-size:13px; color:var(--ink); text-decoration:none; padding:4px 0; border-bottom:1px dashed transparent; font-weight:400; }
+.toc-grid a:hover { border-bottom-color:var(--teal); color:#005C54; }
+.toc-grid .num { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-right:8px; }
+
+.doc-footer { margin-top:64px; padding-top:20px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-size:12px; color:var(--muted); }
+.ft-r { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+
+@media(max-width:680px) {
+  .page { padding:40px 20px 72px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero { padding:28px 24px; }
+  .stat-row,.two-col,.three-col,.toc-grid { grid-template-columns:1fr; }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:10px; }
+  .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+}
+.h3 { font-family:'Instrument Serif',Georgia,serif; font-size:20px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin:28px 0 10px; font-weight:400; }
+.code-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:18px 0 6px; display:block; }
+.code-label .file { color:var(--ink); font-weight:500; text-transform:none; letter-spacing:.02em; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">VIDEFY / HYPERFRAMES</span>
+  </div>
+  <div class="doc-meta">
+    Repo + integration plan<br/>
+    Updated 2026-05-06
+  </div>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">HeyGen open-sourced their render engine — Apache 2.0 — May 2026</span>
+  <h1 class="hero-headline">HyperFrames is the engine.<br/><em>Videfy is the brain.</em></h1>
+  <p class="hero-body">HeyGen released <a href="https://github.com/heygen-com/hyperframes" target="_blank" rel="noopener">hyperframes</a> — an HTML→MP4 renderer with a real browser NLE, 13 agent skills, 55 catalog blocks, and a full HTTP API. They kept the avatars closed; they gave away the rendering. We use it as our backend, layer Videfy's gen + script + post on top, and ship a complete agentic video stack the avatar incumbents cannot match.</p>
+</div>
+
+<!-- TOC -->
+<div class="section" style="margin-top:32px;">
+<div class="toc">
+  <span class="toc-label">Contents · 18 sections</span>
+  <div class="toc-grid">
+    <a href="#s1"><span class="num">01</span>What HyperFrames is</a>
+    <a href="#s2"><span class="num">02</span>Repo layout</a>
+    <a href="#s3"><span class="num">03</span>Studio has a real NLE</a>
+    <a href="#s4"><span class="num">04</span>Studio API surface</a>
+    <a href="#s5"><span class="num">05</span>Core types / schema</a>
+    <a href="#s6"><span class="num">06</span>What it CAN do</a>
+    <a href="#s7"><span class="num">07</span>What it CAN'T do</a>
+    <a href="#s8"><span class="num">08</span>Determinism model</a>
+    <a href="#s9"><span class="num">09</span>Render pipeline</a>
+    <a href="#s10"><span class="num">10</span>Skills system</a>
+    <a href="#s11"><span class="num">11</span>Plugin manifests</a>
+    <a href="#s12"><span class="num">12</span>Live data workaround</a>
+    <a href="#s13"><span class="num">13</span>Videfy integration plan</a>
+    <a href="#s14"><span class="num">14</span>Beating HeyGen</a>
+    <a href="#s15"><span class="num">15</span>What to borrow legally</a>
+    <a href="#s16"><span class="num">16</span>Action items</a>
+    <a href="#s17"><span class="num">17</span>Files to read in order</a>
+    <a href="#s18"><span class="num">18</span>Open questions</a>
+  </div>
+</div>
+
+<div class="toc" style="margin-top:14px;">
+  <span class="toc-label">Part Two — Builder Kit · 10 sections</span>
+  <div class="toc-grid">
+    <a href="#b1"><span class="num">B01</span>Dev setup — 5 commands</a>
+    <a href="#b2"><span class="num">B02</span>Skill skeleton: /videfy-gen</a>
+    <a href="#b3"><span class="num">B03</span>Videfy daemon (Hono)</a>
+    <a href="#b4"><span class="num">B04</span>Studio API curl recipes</a>
+    <a href="#b5"><span class="num">B05</span>Composition + variables</a>
+    <a href="#b6"><span class="num">B06</span>package.json + deps</a>
+    <a href="#b7"><span class="num">B07</span>Dockerfile.render (cloud)</a>
+    <a href="#b8"><span class="num">B08</span>Error catalog</a>
+    <a href="#b9"><span class="num">B09</span>Prompt cache strategy</a>
+    <a href="#b10"><span class="num">B10</span>Telemetry + billing</a>
+  </div>
+</div>
+</div>
+
+<!-- 1 -->
+<div class="section" id="s1">
+  <span class="eyebrow">01 · The premise</span>
+  <h2 class="h2">What <em>HyperFrames</em> actually is</h2>
+  <p class="body"><strong>One sentence:</strong> open-source HTML→MP4 renderer with built-in browser NLE, agent skills, and deterministic seek across animation runtimes. Tagline: <em>"Write HTML. Render video. Built for agents."</em></p>
+  <p class="body" style="margin-top:10px;">Built by HeyGen. Inspired by Remotion (they credit it in source) — same headless-Chrome + FFmpeg approach. The split: Remotion = React TSX. HF = HTML + <code>data-*</code> attributes.</p>
+
+  <div class="vp-box">
+    <span class="vp-label">Why HeyGen open-sourced it</span>
+    <p class="vp-text">Render engine isn't the moat. <em>Avatars + lipsync + voice cloning</em> are. HF is bait — community ships blocks and skills; HeyGen sells avatars on top.</p>
+    <p class="vp-why">License is <strong>Apache 2.0</strong> (OSI-approved). Use commercially at any scale. No per-render fees. No seat caps. Compare Remotion: source-available, paid above small-team thresholds.</p>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="section" id="s2">
+  <span class="eyebrow">02 · Code structure</span>
+  <h2 class="h2">Repo layout</h2>
+  <p class="body">Monorepo with seven packages, a registry of catalog items, thirteen agent skills, plugin manifests for three IDEs, and a public docs site.</p>
+  <pre class="code-block">hyperframes/
+├── packages/
+│   ├── cli                 init, lint, validate, inspect, preview, render, publish
+│   ├── core                Types, parsers, generators, linter, runtime, frame adapters, studio API
+│   ├── engine              Puppeteer + FFmpeg seekable capture
+│   ├── producer            Render orchestrator (capture + encode + audio mix + lint runtime)
+│   ├── studio              Browser editor (Vite + React + Tailwind)
+│   ├── player              Embeddable &lt;hyperframes-player&gt; web component
+│   └── shader-transitions  WebGL transition library
+├── registry/               55 catalog items — 44 blocks, 8 examples, 3 components
+├── skills/                 13 agent skills
+├── docs/                   Public docs site source
+├── .claude-plugin/         Claude Code plugin manifest
+├── .codex-plugin/          OpenAI Codex plugin manifest
+├── .cursor-plugin/         Cursor plugin manifest
+└── DESIGN.md               Architectural rationale (read this first)</pre>
+</div>
+
+<!-- 3 -->
+<div class="section" id="s3">
+  <span class="eyebrow">03 · Surprise finding</span>
+  <h2 class="h2">Studio has a <em>real</em> NLE</h2>
+
+  <div class="vp-box" style="margin-top:0;margin-bottom:18px;">
+    <span class="vp-label">First — what is "Studio"?</span>
+    <p class="vp-text">Studio = the <em>browser-based editor</em> that ships with HyperFrames. React app served at <code>localhost:3002</code> when you run <code>npx hyperframes preview</code>.</p>
+    <p class="vp-why">Live preview iframe + multi-track NLE timeline + asset sidebar + code editor + render queue, all in one window. Tech: React 18/19, Zustand state, CodeMirror 6 editor, Tailwind, Vite. Source lives in <a href="https://github.com/heygen-com/hyperframes/tree/main/packages/studio" target="_blank" rel="noopener"><code>packages/studio/</code></a> · README: <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/README.md" target="_blank" rel="noopener"><code>packages/studio/README.md</code></a>. <strong>Think CapCut Web meets a code editor.</strong> When this doc says "Studio", it means that app.</p>
+  </div>
+
+  <p class="body">First read of the README suggested Studio was a preview-only tool. Source disagrees. <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/nle/NLELayout.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/nle/NLELayout.tsx</code></a> is 458 lines. <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/player/components/Timeline.tsx" target="_blank" rel="noopener"><code>packages/studio/src/player/components/Timeline.tsx</code></a> is 1,693 lines. This is closer to CapCut Web than to Remotion's preview pane.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">🎬</span>
+        <div>
+          <div class="card-title">Timeline editing</div>
+          <div class="card-sub">CONFIRMED IN SOURCE</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi">Drag-drop clips between tracks</li>
+          <li class="hi">Resize start / duration / playback offset</li>
+          <li class="hi">Split + delete + ripple</li>
+          <li class="hi">Zoom + theming</li>
+          <li class="hi">Drop files from desktop into timeline</li>
+          <li class="hi">Drop assets from sidebar</li>
+          <li class="hi">Move actions persist back to source HTML</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">🎚️</span>
+        <div>
+          <div class="card-title">Sidebar + preview</div>
+          <div class="card-sub">FULL EDITOR UI</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl">Compositions tab — drill into sub-comps</li>
+          <li class="tl">Assets tab — import / drag / rename / delete</li>
+          <li class="tl">Render Queue — submit + monitor + download</li>
+          <li class="tl">Element picker — click in preview → select</li>
+          <li class="tl">Property panel + source editor</li>
+          <li class="tl">Audio waveforms + video frame thumbnails</li>
+          <li class="tl">Hot-reload iframe preview</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">Verdict</span>
+    <p class="nb-text">Closer to a real NLE than the README implies. Authoring still benefits from HTML literacy, but timeline manipulation is fully GUI. <strong>This raises the integration ceiling significantly</strong> — Videfy panels can live alongside this NLE, not replace it.</p>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="section" id="s4">
+  <span class="eyebrow">04 · Programmatic surface</span>
+  <h2 class="h2">Studio API — the <em>real</em> integration point</h2>
+  <p class="body">Hono server in <code>packages/core/src/studio-api/routes/</code>. Full HTTP CRUD over projects, files, lint, render. Videfy can drive the entire system without forking.</p>
+
+  <table class="tbl">
+    <tr><th>Method</th><th>Path</th><th>Purpose</th></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects</code></td><td>List all projects</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id</code></td><td>Project metadata</td></tr>
+    <tr><td><strong>GET / PUT / POST / PATCH / DELETE</strong></td><td><code>/projects/:id/files/*</code></td><td>File CRUD</td></tr>
+    <tr><td><strong>POST</strong></td><td><code>/projects/:id/duplicate-file</code></td><td>Duplicate file</td></tr>
+    <tr><td><strong>POST</strong></td><td><code>/projects/:id/file-mutations/remove-element/*</code></td><td>Remove timed element</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id/lint</code></td><td>Lint composition</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id/preview/*</code></td><td>Preview HTML / asset serve</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id/thumbnail/*?t=&lt;sec&gt;&w=&h=</code></td><td>Frame thumbnail at time t</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id/waveform/*</code></td><td>Audio waveform peaks (JSON)</td></tr>
+    <tr><td><strong>POST</strong></td><td><code>/projects/:id/render</code></td><td>Submit render job</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/render/:jobId/progress</code></td><td>Render progress</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/render/:jobId/view</code></td><td>Stream rendered video</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/render/:jobId/download</code></td><td>Download MP4</td></tr>
+    <tr><td><strong>DELETE</strong></td><td><code>/render/:jobId</code></td><td>Cancel render</td></tr>
+    <tr><td><strong>GET</strong></td><td><code>/projects/:id/renders</code></td><td>Render history</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="cl-label">The unlock</span>
+    <p class="cl-text">This means Videfy can run as <strong>a daemon next to HF Studio</strong>. Generated images written to <code>/projects/:id/files/assets/</code> appear in the Asset sidebar instantly. Render submitted via <code>POST /render</code>, status polled, MP4 served back. <strong>No fork required.</strong></p>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="section" id="s5">
+  <span class="eyebrow">05 · Schema</span>
+  <h2 class="h2">Core timeline types</h2>
+  <p class="body">From <code>packages/core/src/core.types.ts</code>. Read this once and the whole system clicks.</p>
+  <pre class="code-block">type TimelineElementType = "video" | "image" | "text" | "audio" | "composition";
+type Orientation = "16:9" | "9:16";
+
+CANVAS_DIMENSIONS = {
+  landscape: { width: 1920, height: 1080 },
+  portrait:  { width: 1080, height: 1920 },
+};
+
+interface TimelineElementBase {
+  id, type, name; startTime, duration, zIndex; x?, y?, scale?, opacity?;
+}
+
+interface TimelineMediaElement extends TimelineElementBase {
+  src, mediaStartTime?, sourceDuration?, isAroll?, volume?, hasAudio?
+}
+
+interface TimelineTextElement extends TimelineElementBase {
+  content, color?, fontFamily?, fontSize?, fontWeight?,
+  textShadow?, textOutline?, textHighlight?, textHighlightColor?, ...
+}
+
+interface TimelineCompositionElement extends TimelineElementBase {
+  src, compositionId, variableValues?: Record&lt;string, string|number|boolean&gt;
+}
+
+type CompositionVariableType = "string" | "number" | "color" | "boolean" | "enum";</pre>
+  <div class="note-box">
+    <span class="nb-label">Strategic insight</span>
+    <p class="nb-text"><strong>Composition variables = template slots.</strong> We can build "Reel templates" with named slots like <code>{title}</code>, <code>{ctaColor}</code>, <code>{logoSrc}</code>, then stamp out hundreds of variants without LLM-generating HTML. This is how Videfy keeps token cost near zero on the free tier.</p>
+  </div>
+</div>
+
+<!-- 6 -->
+<div class="section" id="s6">
+  <span class="eyebrow">06 · Capability map</span>
+  <h2 class="h2">What HyperFrames <em>can</em> do</h2>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Authoring</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>HTML w/ <code>data-start/duration/track-index</code></li>
+          <li>Sub-compositions via <code>data-composition-src</code></li>
+          <li>Composition variables (parameterizable templates)</li>
+          <li>Tailwind v4 browser runtime (no build)</li>
+          <li>16:9 (1920×1080) or 9:16 (1080×1920)</li>
+          <li>Custom CSS, <code>.woff2</code> fonts</li>
+          <li>Text outline / highlight / shadow / weight</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Animation</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>GSAP timelines (<code>window.__timelines</code>)</li>
+          <li>Anime.js (<code>window.__hfAnime</code>)</li>
+          <li>CSS keyframes (paused / seekable)</li>
+          <li>WAAPI via <code>document.getAnimations()</code></li>
+          <li>Lottie + dotLottie (<code>window.__hfLottie</code>)</li>
+          <li>Three.js (<code>hf-seek</code> events)</li>
+          <li>WebGL shader transitions (15 packs, 100+ FX)</li>
+          <li>Frame Adapter pattern — bring your own runtime</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Media</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>Video clips (muted, w/ separate audio track)</li>
+          <li>Image clips</li>
+          <li>Audio mix, per-clip volume</li>
+          <li>Audio waveform display</li>
+          <li>TTS (Kokoro, local)</li>
+          <li>Whisper transcription (word-level)</li>
+          <li>Background removal (u2net, local)</li>
+          <li>Caption sync + word-level highlighting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="three-col" style="margin-top:12px;">
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Rendering</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>Deterministic single-machine render</li>
+          <li>Parallel coordinator (multi-Chrome)</li>
+          <li>HDR capture support</li>
+          <li>Audio mix → AAC</li>
+          <li>Streaming encoder (image2pipe → ffmpeg)</li>
+          <li>Frame extraction cache</li>
+          <li>Video frame injection (skip re-render)</li>
+          <li>Font determinism (baked-in font data)</li>
+          <li>Docker render via <code>Dockerfile.test</code></li>
+          <li>Publish → shareable link (HeyGen-hosted)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Studio (Browser)</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>Live preview w/ hot reload</li>
+          <li>Multi-track NLE timeline</li>
+          <li>Asset sidebar (import + drag + thumbs)</li>
+          <li>File tree + source editor + property panel</li>
+          <li>Render queue UI w/ progress</li>
+          <li>Element picker</li>
+          <li>Composition thumbnail at any time t</li>
+          <li>Lint modal w/ inline issues</li>
+          <li>Edit modal (clip properties)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">CLI + Skills</div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><code>init / preview / lint / inspect / render</code></li>
+          <li><code>publish / doctor / docs / add &lt;block&gt;</code></li>
+          <li>13 agent skills (Claude Code, Cursor, Codex)</li>
+          <li>Slash commands: <code>/hyperframes</code>, <code>/gsap</code>, <code>/three</code>, <code>/lottie</code>, <code>/animejs</code>, <code>/css-animations</code>, <code>/waapi</code>, <code>/tailwind</code></li>
+          <li>Plugin manifests for 3 IDEs</li>
+          <li>Catalog: <code>npx hyperframes add &lt;name&gt;</code></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row" style="grid-template-columns:repeat(4,1fr);">
+    <div class="stat-card"><div class="stat-num lime">7</div><div class="stat-label">Packages in monorepo</div></div>
+    <div class="stat-card"><div class="stat-num teal">13</div><div class="stat-label">Agent skills (slash cmds)</div></div>
+    <div class="stat-card"><div class="stat-num">55</div><div class="stat-label">Catalog items (44 blocks)</div></div>
+    <div class="stat-card"><div class="stat-num amber">~100</div><div class="stat-label">Shader transitions</div></div>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="section" id="s7">
+  <span class="eyebrow">07 · Limits</span>
+  <h2 class="h2">What HyperFrames <em>cannot</em> do</h2>
+  <p class="body">Each gap is a Videfy lane.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head red">
+        <span class="card-icon">⛔</span>
+        <div class="card-title">Determinism rules (hard)</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="rd">No <code>Date.now()</code></li>
+          <li class="rd">No <code>Math.random()</code> (must seed)</li>
+          <li class="rd">No <code>fetch()</code> during render</li>
+          <li class="rd">No live tickers / breaking news</li>
+          <li class="rd">No webcam / live capture</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head red">
+        <span class="card-icon">⛔</span>
+        <div class="card-title">Authoring gaps</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="rd">No React/JSX (HTML only)</li>
+          <li class="rd">NLE handles timing, not <em>layout</em></li>
+          <li class="rd">No animation curve editor</li>
+          <li class="rd">Desktop only (no mobile authoring)</li>
+          <li class="rd">No audio waveform editing (display only)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:12px;">
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">Workflow gaps</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">No multi-user collab / real-time</li>
+          <li class="am">No comments / approvals (vs Frame.io)</li>
+          <li class="am">No version history / branches</li>
+          <li class="am">No client review portal</li>
+          <li class="am">Single-machine render (no Lambda)</li>
+          <li class="am">No proxy / draft render</li>
+          <li class="am">No render farm queue</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">AI / generation gaps (Videfy's lane)</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">No image gen (NB2, MJ, Veo, Sora, ChatGPT)</li>
+          <li class="am">No avatar gen (HeyGen kept this closed)</li>
+          <li class="am">No voice cloning (only Kokoro TTS)</li>
+          <li class="am">No lip-sync</li>
+          <li class="am">No B-roll search (Pexels, Storyblocks)</li>
+          <li class="am">No script-to-storyboard generator</li>
+          <li class="am">No auto-edit / story-from-text</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-top:12px;">
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">Asset management gaps</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">No cloud asset library (local files only)</li>
+          <li class="am">No S3 / R2 / Cloudinary sync</li>
+          <li class="am">No automatic image optimization</li>
+          <li class="am">No font subsetting</li>
+          <li class="am">No brand kit / brand library</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">Distribution gaps</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">No publish-to-social (no Blotato, no IG/TT/YT)</li>
+          <li class="am">No render-to-multiple-aspect</li>
+          <li class="am">No A/B variant generation built-in</li>
+          <li class="am">No analytics on rendered videos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 8 -->
+<div class="section" id="s8">
+  <span class="eyebrow">08 · Architectural insight</span>
+  <h2 class="h2">Determinism = <em>byte-identical</em> renders</h2>
+  <p class="body">HF's superpower. Same input → same output, every machine, every time. The mechanism is worth copying wholesale.</p>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Paused timelines</div><div class="step-desc">GSAP / Anime / etc registered on <code>window.__timelines</code> with <code>paused: true</code>. Animations never play forward on their own.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Per-frame seek hooks</div><div class="step-desc">Engine calls <code>timeline.seek(t)</code> for each frame, then captures. The runtime is driven, not free-running.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Wall-clock banned</div><div class="step-desc">No <code>Date.now</code>, no <code>requestAnimationFrame</code> for animation logic. Lint enforces this.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Font data baked in</div><div class="step-desc"><code>fontData.generated.ts</code> ensures cross-machine glyph consistency.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Frame Adapter pattern</div><div class="step-desc">Every animation runtime exposes a <code>seek(t)</code> interface. New runtimes plug in without changes to the engine.</div></div></div>
+  </div>
+
+  <div class="vp-box">
+    <span class="vp-label">Why this matters for Videfy</span>
+    <p class="vp-text">Pipelines need <em>determinism</em>. Re-runs become idempotent. Caching works. A/B variants are cheap. Distributed render becomes possible (chunk frames, recombine).</p>
+  </div>
+</div>
+
+<!-- 9 -->
+<div class="section" id="s9">
+  <span class="eyebrow">09 · Production grade</span>
+  <h2 class="h2">Render pipeline internals</h2>
+  <p class="body">Two packages do the heavy lifting: <code>engine/</code> handles capture + encode, <code>producer/</code> orchestrates.</p>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head dark">
+        <div class="card-title">@hyperframes/engine</div>
+        <div class="card-sub">CAPTURE + ENCODE</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><strong>browserManager</strong> · Chrome lifecycle</li>
+          <li><strong>frameCapture</strong> · Puppeteer screenshot per frame</li>
+          <li><strong>streamingEncoder</strong> · image2pipe → FFmpeg</li>
+          <li><strong>chunkEncoder</strong> · multi-process encoding</li>
+          <li><strong>parallelCoordinator</strong> · distributes across Chrome instances</li>
+          <li><strong>audioMixer</strong> · multi-track → AAC</li>
+          <li><strong>videoFrameExtractor</strong> · pull frames from source video (skip re-render)</li>
+          <li><strong>videoFrameInjector</strong> · inject extracted frames into output</li>
+          <li><strong>extractionCache</strong> · cache between renders</li>
+          <li><strong>hdrCapture</strong> · HDR pixel capture</li>
+          <li><strong>fileServer</strong> · local HTTP for asset serve</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <div class="card-title">@hyperframes/producer</div>
+        <div class="card-sub">ORCHESTRATOR</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><strong>renderOrchestrator</strong> · the conductor</li>
+          <li><strong>htmlCompiler</strong> · HTML → render-ready bundle</li>
+          <li><strong>hyperframeRuntimeLoader</strong> · injects runtime into Chrome</li>
+          <li><strong>hyperframeLint</strong> · pre-render validation</li>
+          <li><strong>frameDirCache</strong> · frame directory cache</li>
+          <li><strong>hdrImageTransferCache</strong></li>
+          <li><strong>deterministicFonts</strong> · font baking</li>
+          <li><strong>compilationRunner</strong> + <strong>compilationTester</strong></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">Performance hooks</span>
+    <p class="nb-text">Production-grade tooling — <code>perf-gate.ts</code>, <code>regression-harness.ts</code>, <code>parity-harness.ts</code>, <code>transparency-test.ts</code>, <code>runtime-conformance.ts</code>, <code>benchmark.ts</code>. <strong>This is not a hobby project.</strong> They run perf regression gates in CI.</p>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section" id="s10">
+  <span class="eyebrow">10 · Distribution playbook</span>
+  <h2 class="h2">Skills system — copy this verbatim</h2>
+  <p class="body">Each skill = directory with <code>SKILL.md</code> + <code>references/</code> + <code>templates/</code> + <code>scripts/</code>. Frontmatter declares <code>name</code> + <code>description</code>. Markdown body becomes the system prompt prepended to every user request.</p>
+
+  <p class="body" style="margin-top:10px;">Skill directory installs to <code>~/.agents/skills/</code> globally, symlinks to Claude Code, OpenClaw, etc. Cursor / Codex auto-discover via plugin manifests. Slash command auto-bound to skill name (<code>/hyperframes</code>, <code>/gsap</code>, etc.).</p>
+
+  <div class="tbl-label">Steal for Videfy — slash command set</div>
+  <table class="tbl">
+    <tr><th>Slash command</th><th>Purpose</th></tr>
+    <tr><td><code>/videfy</code></td><td>Main composition + orchestration</td></tr>
+    <tr><td><code>/videfy-gen</code></td><td>Image / video gen — NB2, Veo, Kling, ChatGPT, MJ</td></tr>
+    <tr><td><code>/videfy-script</code></td><td>Script writing + storyboard</td></tr>
+    <tr><td><code>/videfy-post</code></td><td>Blotato posting + scheduling</td></tr>
+    <tr><td><code>/videfy-stock</code></td><td>Pexels / Storyblocks B-roll</td></tr>
+    <tr><td><code>/videfy-clip</code></td><td>Timecode clipper API (already exists)</td></tr>
+    <tr><td><code>/videfy-shotlist</code></td><td>Shot list generation</td></tr>
+  </table>
+</div>
+
+<!-- 11 -->
+<div class="section" id="s11">
+  <span class="eyebrow">11 · IDE distribution</span>
+  <h2 class="h2">Plugin manifests = <em>three audiences for free</em></h2>
+  <p class="body">HF ships a manifest file for each of the major AI IDEs. Same skills, three install paths, three marketplaces.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Claude Code</div></div>
+      <div class="card-body">
+        <p class="card-text"><code>.claude-plugin/plugin.json</code></p>
+        <p class="card-text" style="margin-top:6px;">Auto-discovers root <code>skills/</code>. Marketplace title + dark/light icons.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">Cursor</div></div>
+      <div class="card-body">
+        <p class="card-text"><code>.cursor-plugin/plugin.json</code></p>
+        <p class="card-text" style="margin-top:6px;">Sideload: Settings → Plugins → Load unpacked.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div class="card-title">OpenAI Codex</div></div>
+      <div class="card-body">
+        <p class="card-text"><code>.codex-plugin/plugin.json</code></p>
+        <p class="card-text" style="margin-top:6px;">Sparse install: <code>--sparse .codex-plugin --sparse skills</code></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="cl-label">Distribution math</span>
+    <p class="cl-text">Three manifest files = <strong>three IDE marketplaces</strong> = three free distribution channels for Videfy. Identical skills, near-zero maintenance overhead. Mirror this 1:1.</p>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="section" id="s12">
+  <span class="eyebrow">12 · Snapshot pattern</span>
+  <h2 class="h2">Live-data workaround — <em>fetch + freeze</em></h2>
+  <p class="body">"No <code>fetch()</code> during render" looks like a hard limit, but there's a clean escape. Snapshot data at render submit time, write to project, render reads it synchronously.</p>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Pre-render hook</div><div class="step-desc">Videfy fetches API → writes <code>data.json</code> to HF project</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">HTML reads sync</div><div class="step-desc">Composition reads <code>data.json</code> via injected <code>&lt;script&gt;</code> at compile</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Render is deterministic</div><div class="step-desc">Given the snapshot, the output is byte-identical</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Re-render = re-snapshot</div><div class="step-desc">Idempotent — newer data, fresh render, no fragility</div></div></div>
+  </div>
+
+  <p class="body" style="margin-top:12px;">Better still: use HF composition <code>variableValues</code>. Already supported. Videfy fills variables, HF stamps the variant.</p>
+</div>
+
+<!-- 13 -->
+<div class="section" id="s13">
+  <span class="eyebrow">13 · The plan</span>
+  <h2 class="h2">Videfy + HyperFrames — <em>integration architecture</em></h2>
+
+  <div class="vp-box">
+    <span class="vp-label">Goal</span>
+    <p class="vp-text">Videfy = <em>brain</em> (gen + script + asset mgmt + posting). HF = <em>render layer + editor</em>. Together: complete agentic video stack that beats HeyGen on workflow + open positioning.</p>
+  </div>
+
+  <pre class="code-block">┌─────────────────────────────────────────────────────────────┐
+│                      VIDEFY (Brain)                          │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐    │
+│  │ Script Agent │  │ Asset Agent  │  │ Orchestrator     │    │
+│  │ /videfy-     │  │ /videfy-gen  │  │ /videfy          │    │
+│  │  script      │  │ NB2/MJ/Veo   │  │ Plans + sequences│    │
+│  └──────────────┘  └──────────────┘  └──────────────────┘    │
+│         │                  │                   │             │
+│         └────────────┬─────┴───────────────────┘             │
+│                      ▼                                       │
+│         ┌────────────────────────────┐                       │
+│         │ Composition Builder        │                       │
+│         │ (writes HF HTML via API)   │                       │
+│         └────────────────────────────┘                       │
+└──────────────────────┬───────────────────────────────────────┘
+                       │ HTTP (Studio API)
+                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│           HYPERFRAMES (Render Layer + Editor)                │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐    │
+│  │ Studio NLE   │  │ Render       │  │ Asset Server     │    │
+│  │ (browser)    │  │ Pipeline     │  │ /preview/*       │    │
+│  └──────────────┘  └──────────────┘  └──────────────────┘    │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+              ┌──────────────────┐
+              │ MP4 Output       │
+              │ Blotato → IG/TT  │
+              └──────────────────┘</pre>
+
+  <div class="tbl-label">Integration phases</div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head lime">
+      <span class="card-icon">①</span>
+      <div>
+        <div class="card-title">Phase 1 — Asset sync (this week)</div>
+        <div class="card-sub">CRITICAL · YOUR EXPLICIT ASK</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><strong>Goal:</strong> generated images + videos appear in HF Studio asset sidebar instantly, no copy-paste.</p>
+      <p class="card-text" style="margin-top:8px;"><strong>Approach:</strong> Videfy gen agents accept <code>--hf-project &lt;path&gt;</code> flag, write outputs to <code>&lt;project&gt;/assets/</code>. HF Studio file watcher already monitors this dir → Asset tab populates automatically. Drag-from-asset-tab to timeline already works.</p>
+      <p class="card-text" style="margin-top:8px;"><strong>Code:</strong></p>
+      <pre style="background:var(--off);border-radius:8px;padding:10px;font-family:'DM Mono',monospace;font-size:11px;margin-top:6px;overflow-x:auto;white-space:pre;">videfy gen image "remi night drive selfie" \
+  --engine nb2 \
+  --out /Users/alexlamb/.../hyperframes-test/assets/
+
+# Studio Assets tab populates → drag to timeline → clip + thumb appear</pre>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head teal">
+      <span class="card-icon">②</span>
+      <div>
+        <div class="card-title">Phase 2 — Wire Videfy tools to Studio</div>
+        <div class="card-sub">CHOOSE A OR B</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text"><strong>Path A · Fork Studio.</strong> Add Videfy panel in LeftSidebar. Buttons trigger gen / TTS / Blotato. Daemon at <code>localhost:7777</code> writes results back to <code>&lt;project&gt;/assets/</code>. Pro: in-editor flow. Con: maintenance burden.</p>
+      <p class="card-text" style="margin-top:8px;"><strong>Path B · Skills only.</strong> User talks to Claude Code: "generate beach selfie of Remi at 9pm and add as clip 2." Claude invokes <code>/videfy-gen</code> → writes asset → uses <code>/hyperframes</code> to wire into composition. Studio hot-reloads. Pro: zero fork. Con: requires AI agent w/ skills.</p>
+      <p class="card-text" style="margin-top:8px;"><strong>Recommend:</strong> ship B first, evaluate friction, add A only if needed.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head off">
+      <span class="card-icon">③</span>
+      <div>
+        <div class="card-title">Phase 3 — Videfy daemon</div>
+        <div class="card-sub">LOCAL ORCHESTRATOR</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <pre style="background:var(--off);border-radius:8px;padding:10px;font-family:'DM Mono',monospace;font-size:11px;margin-top:6px;overflow-x:auto;white-space:pre;">videfy-daemon (port 7777)
+├── /generate/image     POST {prompt, engine, out}
+├── /generate/video     POST {prompt, engine, refImage, out}
+├── /tts                POST {text, voice, out}
+├── /transcribe         POST {audioPath, out}
+├── /broll/search       POST {query, source, count}
+├── /broll/download     POST {urls, out}
+├── /post/blotato       POST {videoPath, accountIds, scheduledTime}
+├── /clip/timecode      POST {sourceVideo, in, out, target}
+└── /script/expand      POST {topic, length, format}</pre>
+      <p class="card-text" style="margin-top:8px;">Each route writes outputs to <code>&lt;project&gt;/assets/</code> of the active HF project (resolved via session).</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head off">
+      <span class="card-icon">④</span>
+      <div>
+        <div class="card-title">Phase 4 — Composition templates (parameterizable)</div>
+        <div class="card-sub">TOKEN-FREE STAMPING</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text">Use HF composition variables as template slots. Stamp variants without LLM regen.</p>
+      <pre style="background:var(--off);border-radius:8px;padding:10px;font-family:'DM Mono',monospace;font-size:11px;margin-top:6px;overflow-x:auto;white-space:pre;">&lt;div data-composition-id="reel-template"
+     data-variable-title="string"
+     data-variable-cta="string"
+     data-variable-bgColor="color"&gt;
+  &lt;h1 class="title"&gt;{{ title }}&lt;/h1&gt;
+  &lt;button style="background: {{ bgColor }}"&gt;{{ cta }}&lt;/button&gt;
+&lt;/div&gt;
+
+videfy stamp reel-template \
+  --title "Buy Now" --cta "Shop" --bgColor "#FF0066" --out var1.mp4</pre>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head off">
+      <span class="card-icon">⑤</span>
+      <div>
+        <div class="card-title">Phase 5 — Cloud render</div>
+        <div class="card-sub">CLOSES THE GAP ON REMOTION LAMBDA</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="card-list">
+        <li><strong>Option A.</strong> HF render in Docker on Modal / Replicate / Fly.io. Use existing <code>Dockerfile.test</code> as base. Submit job, poll progress, download MP4.</li>
+        <li><strong>Option B.</strong> Self-hosted render farm. Bun + bull queue + N Chrome workers. Distribute frames via HF's existing <code>parallelCoordinator</code>.</li>
+      </ul>
+      <p class="card-text" style="margin-top:8px;"><strong>Cost target:</strong> &lt; $0.10 per minute of 1080p video.</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px;">
+    <div class="card-head off">
+      <span class="card-icon">⑥</span>
+      <div>
+        <div class="card-title">Phase 6 — Distribution</div>
+        <div class="card-sub">SHIP TO USERS</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <ul class="card-list">
+        <li>Publish <code>videfy</code> npm package</li>
+        <li>Skills repo <code>videfy-com/videfy</code>, install via <code>npx skills add videfy-com/videfy</code></li>
+        <li>Plugin manifests for Claude Code + Cursor + Codex</li>
+        <li>Web app at <code>videfy.com/studio</code> — hosted Studio + Videfy daemon</li>
+        <li><strong>Free tier:</strong> BYOK (Fal / Kie / ElevenLabs)</li>
+        <li><strong>Paid tier:</strong> managed gen + cloud render + Blotato</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="section" id="s14">
+  <span class="eyebrow">14 · The competition</span>
+  <h2 class="h2">How Videfy + Claude <em>beat HeyGen</em></h2>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head red">
+        <div class="card-title">HeyGen — strengths + weaknesses</div>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><strong>Strengths.</strong> 100+ stock avatars, custom avatar option, voice cloning, lip-sync, translation, dubbing, $89/mo Creator.</p>
+        <p class="card-text" style="margin-top:8px;"><strong>Weaknesses.</strong></p>
+        <ul class="card-list">
+          <li class="rd">Avatars look <strong>uncanny corporate</strong> — nobody scrolls past one on TikTok</li>
+          <li class="rd">UI clicker, not agent — no "make 50 reel variants" workflow</li>
+          <li class="rd">Locked to their avatars, no NB2 / MJ / Veo / Sora</li>
+          <li class="rd">No real-footage + AI mix</li>
+          <li class="rd">B2B explainer focus, not reels / TikTok / IG</li>
+          <li class="rd">Per-seat pricing kills agencies + multi-account creators</li>
+          <li class="rd">API exists but locked-down + expensive</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head lime">
+        <div class="card-title">Videfy — what makes it win</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi">Agent-native: script → assets → render → post in one prompt</li>
+          <li class="hi">Multi-engine gen: NB2, MJ, ChatGPT, Veo, Seedance, Kling, Sora</li>
+          <li class="hi">Real footage + AI mix — Pexels B-roll + AI gen + user assets</li>
+          <li class="hi">Editorial look — film stock, grain, no corporate avatar tells</li>
+          <li class="hi">Reels / TikTok native — 9:16, hook-first, scroll-stoppers</li>
+          <li class="hi">Pipeline composability — chain steps, schedule, batch</li>
+          <li class="hi">Open render layer (HF Apache 2.0), no per-render fees</li>
+          <li class="hi">BYOK pricing — bring your own keys, pay actual cost</li>
+          <li class="hi">Voice clone + lip-sync via OSS (ElevenLabs + Wav2Lip / LatentSync)</li>
+          <li class="hi">Skills marketplace: <code>/videfy</code> ecosystem</li>
+          <li class="hi">Multi-account creator + agency support — one workspace, N brands</li>
+          <li class="hi">Determinism enables overnight 100-variant batches</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="vp-box">
+    <span class="vp-label">Positioning</span>
+    <p class="vp-text">"HeyGen for creators, <em>not corporates</em>."</p>
+    <p class="vp-why"><strong>Tagline:</strong> Type your reel. Get a reel. No avatars. <strong>ICP:</strong> creators 5K-100K followers, agencies running 5+ brands, content shops. <strong>Pricing:</strong> $29/mo Creator (BYOK), $99/mo Studio (managed gen + cloud render), $399/mo Agency (10 brands).</p>
+  </div>
+
+  <div class="callout">
+    <span class="cl-label">What HeyGen can't easily copy</span>
+    <p class="cl-text"><strong>Open-source positioning</strong> — their model = closed gen + locked avatars. <strong>Multi-engine gen</strong> — economics depend on selling their avatars. <strong>Editorial aesthetic</strong> — brand identity is corporate-explainer. <strong>Agent-native workflows</strong> — UI is template-clicker; rebuild = a new product.</p>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="section" id="s15">
+  <span class="eyebrow">15 · Apache 2.0 = legal moat</span>
+  <h2 class="h2">What we can borrow — <em>and how</em></h2>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head lime">
+        <div class="card-title">Direct npm install</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi"><code>@hyperframes/shader-transitions</code> — drop-in</li>
+          <li class="hi"><code>@hyperframes/player</code> — embeddable web component for Videfy preview</li>
+          <li class="hi"><code>@hyperframes/core</code> — runtime, types, lint, parsers</li>
+          <li class="hi"><code>@hyperframes/engine</code> — render engine</li>
+          <li class="hi"><code>@hyperframes/producer</code> — render orchestrator</li>
+        </ul>
+        <p class="card-text" style="margin-top:8px;"><strong>License compliance:</strong> include LICENSE + NOTICE in our repo. No source disclosure required.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <div class="card-title">Architectural patterns (study)</div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl">Frame Adapter pattern — universal <code>seek(t)</code></li>
+          <li class="tl">Determinism via paused timelines</li>
+          <li class="tl">Studio API design (REST + render queue)</li>
+          <li class="tl">Skill packaging (SKILL.md + references/)</li>
+          <li class="tl">Plugin manifests (Claude / Cursor / Codex)</li>
+          <li class="tl">Composition variables (parameterizable templates)</li>
+          <li class="tl"><code>llms.txt</code> — machine-readable docs index</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">What NOT to copy</span>
+    <p class="nb-text">HF branding / name / logo. Their docs site verbatim. Their tagline ("Write HTML. Render video."). LFS demo media (likely not licensed for redistribution).</p>
+  </div>
+</div>
+
+<!-- 16 -->
+<div class="section" id="s16">
+  <span class="eyebrow">16 · Execution</span>
+  <h2 class="h2">Action items</h2>
+
+  <div class="tbl-label">This week</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Read DESIGN.md end-to-end</div><div class="step-desc">Architectural rationale source-of-truth at <code>/tmp/hyperframes/DESIGN.md</code></div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Read NLELayout + Timeline source</div><div class="step-desc"><code>packages/studio/src/components/nle/NLELayout.tsx</code> + <code>packages/studio/src/player/components/Timeline.tsx</code> (1693 lines)</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Read createStudioApi.ts</div><div class="step-desc">API surface — exact integration point for Videfy daemon</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Hands-on: build a 15s test reel</div><div class="step-desc">Live install at <code>~/Desktop/AE_Exports/hyperframes-test/</code>, Studio at <code>localhost:3002</code></div></div></div>
+  </div>
+
+  <div class="tbl-label">This month</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Spec videfy-daemon HTTP API</div><div class="step-desc">Mirror Studio API + add gen routes</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Build /videfy-gen skill</div><div class="step-desc">Writes outputs to HF project <code>assets/</code> dir</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">Verify Phase 1 asset sync</div><div class="step-desc">Generated images appear in Studio Asset tab + draggable to timeline</div></div></div>
+    <div class="step"><div class="step-num">8</div><div><div class="step-title">Build composition template library</div><div class="step-desc">5 reel templates with composition variables</div></div></div>
+    <div class="step"><div class="step-num">9</div><div><div class="step-title">Decide Path A or Path B</div><div class="step-desc">Fork Studio (in-editor panel) vs skills-only (agent-driven)</div></div></div>
+  </div>
+
+  <div class="tbl-label">Next quarter</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">10</div><div><div class="step-title">Cloud render proof-of-concept</div><div class="step-desc">Modal or Fly.io w/ HF Docker. Cost &lt; $0.10/min target</div></div></div>
+    <div class="step"><div class="step-num">11</div><div><div class="step-title">Blotato post integration</div><div class="step-desc">Wire into render-complete hook (already have Blotato infra)</div></div></div>
+    <div class="step"><div class="step-num">12</div><div><div class="step-title">Pricing model + landing page</div><div class="step-desc">$29 Creator BYOK · $99 Studio · $399 Agency</div></div></div>
+    <div class="step"><div class="step-num">13</div><div><div class="step-title">Beta with 5 creators</div><div class="step-desc">Free Pro tier in exchange for case studies</div></div></div>
+    <div class="step"><div class="step-num">14</div><div><div class="step-title">Skills repo public</div><div class="step-desc">videfy-com/videfy on GitHub</div></div></div>
+  </div>
+</div>
+
+<!-- 17 -->
+<div class="section" id="s17">
+  <span class="eyebrow">17 · Deep dive</span>
+  <h2 class="h2">Files to read in order — <em>linked</em></h2>
+  <p class="body">All links open the file directly on GitHub.</p>
+
+  <span class="tbl-label">Root docs</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>1</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/README.md" target="_blank" rel="noopener"><code>README.md</code></a></td><td>Overview + install + tagline</td></tr>
+    <tr><td>2</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/DESIGN.md" target="_blank" rel="noopener"><code>DESIGN.md</code></a></td><td><strong>Architectural rationale — read this first</strong></td></tr>
+    <tr><td>3</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener"><code>CONTRIBUTING.md</code></a></td><td>How they accept PRs (mirror for Videfy)</td></tr>
+    <tr><td>4</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/AGENTS.md" target="_blank" rel="noopener"><code>AGENTS.md</code></a></td><td>Agent-facing repo guide</td></tr>
+    <tr><td>5</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CLAUDE.md" target="_blank" rel="noopener"><code>CLAUDE.md</code></a></td><td>Their Claude Code instructions</td></tr>
+    <tr><td>6</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/ADOPTERS.md" target="_blank" rel="noopener"><code>ADOPTERS.md</code></a></td><td>Public adopter list</td></tr>
+    <tr><td>7</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/CREDITS.md" target="_blank" rel="noopener"><code>CREDITS.md</code></a></td><td>Attribution (Remotion, etc.)</td></tr>
+  </table>
+
+  <span class="tbl-label">Per-package READMEs (one per package)</span>
+  <table class="tbl">
+    <tr><th>#</th><th>Package README</th><th>What it covers</th></tr>
+    <tr><td>8</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/cli/README.md" target="_blank" rel="noopener"><code>packages/cli/README.md</code></a></td><td>CLI commands: init, lint, preview, render, publish, doctor</td></tr>
+    <tr><td>9</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/README.md" target="_blank" rel="noopener"><code>packages/core/README.md</code></a></td><td>Types, parsers, generators, linter, runtime, frame adapters</td></tr>
+    <tr><td>10</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/README.md" target="_blank" rel="noopener"><code>packages/engine/README.md</code></a></td><td>Puppeteer + FFmpeg seekable capture engine</td></tr>
+    <tr><td>11</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/README.md" target="_blank" rel="noopener"><code>packages/producer/README.md</code></a></td><td>Render orchestrator (capture + encode + audio mix)</td></tr>
+    <tr><td>12</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/README.md" target="_blank" rel="noopener"><code>packages/studio/README.md</code></a></td><td>Browser editor (NLE, code editor, live preview)</td></tr>
+    <tr><td>13</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/player/README.md" target="_blank" rel="noopener"><code>packages/player/README.md</code></a></td><td>Embeddable <code>&lt;hyperframes-player&gt;</code> web component</td></tr>
+    <tr><td>14</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/shader-transitions/README.md" target="_blank" rel="noopener"><code>packages/shader-transitions/README.md</code></a></td><td>WebGL transition library</td></tr>
+  </table>
+
+  <span class="tbl-label">Internal sub-package READMEs</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>15</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/README.md" target="_blank" rel="noopener"><code>packages/core/src/runtime/README.md</code></a></td><td>Runtime model — how compositions execute</td></tr>
+  </table>
+
+  <span class="tbl-label">Source files (deep architecture)</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>16</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/core.types.ts" target="_blank" rel="noopener"><code>packages/core/src/core.types.ts</code></a></td><td>Timeline schema, element types</td></tr>
+    <tr><td>17</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/timeline.ts" target="_blank" rel="noopener"><code>packages/core/src/runtime/timeline.ts</code></a></td><td>Timeline implementation</td></tr>
+    <tr><td>18</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/runtime/init.ts" target="_blank" rel="noopener"><code>packages/core/src/runtime/init.ts</code></a></td><td>Runtime boot</td></tr>
+    <tr><td>19</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/studio-api/createStudioApi.ts" target="_blank" rel="noopener"><code>packages/core/src/studio-api/createStudioApi.ts</code></a></td><td>HTTP API server</td></tr>
+    <tr><td>20</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/packages/core/src/studio-api/routes" target="_blank" rel="noopener"><code>packages/core/src/studio-api/routes/</code></a></td><td>All API routes (files, render, lint, thumbnail, waveform)</td></tr>
+    <tr><td>21</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/frameCapture.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/frameCapture.ts</code></a></td><td>Per-frame Puppeteer capture</td></tr>
+    <tr><td>22</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/streamingEncoder.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/streamingEncoder.ts</code></a></td><td>image2pipe → FFmpeg</td></tr>
+    <tr><td>23</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/engine/src/services/parallelCoordinator.ts" target="_blank" rel="noopener"><code>packages/engine/src/services/parallelCoordinator.ts</code></a></td><td>Distributed Chrome render</td></tr>
+    <tr><td>24</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/src/services/renderOrchestrator.ts" target="_blank" rel="noopener"><code>packages/producer/src/services/renderOrchestrator.ts</code></a></td><td>Render orchestrator (the conductor)</td></tr>
+    <tr><td>25</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/producer/src/services/htmlCompiler.ts" target="_blank" rel="noopener"><code>packages/producer/src/services/htmlCompiler.ts</code></a></td><td>HTML → render-ready bundle</td></tr>
+    <tr><td>26</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/nle/NLELayout.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/nle/NLELayout.tsx</code></a></td><td>NLE layout (458 lines)</td></tr>
+    <tr><td>27</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/player/components/Timeline.tsx" target="_blank" rel="noopener"><code>packages/studio/src/player/components/Timeline.tsx</code></a></td><td>Timeline component (1,693 lines)</td></tr>
+    <tr><td>28</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/sidebar/AssetsTab.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/sidebar/AssetsTab.tsx</code></a></td><td>Asset sidebar (drag-drop, thumbs)</td></tr>
+    <tr><td>29</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/packages/studio/src/components/renders/RenderQueue.tsx" target="_blank" rel="noopener"><code>packages/studio/src/components/renders/RenderQueue.tsx</code></a></td><td>Render queue UI</td></tr>
+  </table>
+
+  <span class="tbl-label">Skills + registry</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>30</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/skills" target="_blank" rel="noopener"><code>skills/</code></a></td><td>All 13 skills (browse directory)</td></tr>
+    <tr><td>31</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/skills/hyperframes/SKILL.md" target="_blank" rel="noopener"><code>skills/hyperframes/SKILL.md</code></a></td><td>Main composition skill</td></tr>
+    <tr><td>32</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/skills/hyperframes/references" target="_blank" rel="noopener"><code>skills/hyperframes/references/</code></a></td><td>Composition rules + prompt expansion + beat direction</td></tr>
+    <tr><td>33</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/registry/registry.json" target="_blank" rel="noopener"><code>registry/registry.json</code></a></td><td>Catalog index — 55 items</td></tr>
+    <tr><td>34</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/blocks" target="_blank" rel="noopener"><code>registry/blocks/</code></a></td><td>44 ready-to-use blocks</td></tr>
+    <tr><td>35</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/components" target="_blank" rel="noopener"><code>registry/components/</code></a></td><td>3 reusable components</td></tr>
+    <tr><td>36</td><td><a href="https://github.com/heygen-com/hyperframes/tree/main/registry/examples" target="_blank" rel="noopener"><code>registry/examples/</code></a></td><td>8 full-composition examples</td></tr>
+  </table>
+
+  <span class="tbl-label">Plugin manifests</span>
+  <table class="tbl">
+    <tr><th>#</th><th>File</th><th>Why</th></tr>
+    <tr><td>37</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.claude-plugin/plugin.json" target="_blank" rel="noopener"><code>.claude-plugin/plugin.json</code></a></td><td>Claude Code plugin manifest</td></tr>
+    <tr><td>38</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.cursor-plugin/plugin.json" target="_blank" rel="noopener"><code>.cursor-plugin/plugin.json</code></a></td><td>Cursor plugin manifest</td></tr>
+    <tr><td>39</td><td><a href="https://github.com/heygen-com/hyperframes/blob/main/.codex-plugin/plugin.json" target="_blank" rel="noopener"><code>.codex-plugin/plugin.json</code></a></td><td>OpenAI Codex plugin manifest</td></tr>
+  </table>
+</div>
+
+<!-- 18 -->
+<div class="section" id="s18">
+  <span class="eyebrow">18 · Decisions outstanding</span>
+  <h2 class="h2">Open questions</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">Fork Studio or stay skills-only?</div><div class="step-desc">Fork unlocks Videfy panel inline but creates maintenance burden. Skills-only = clean but loses GUI integration.</div></div></div>
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">Local-only daemon or hosted?</div><div class="step-desc">Local = privacy + BYOK simple. Hosted = onboarding easier but we eat infra cost.</div></div></div>
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">Pricing — pure BYOK or managed?</div><div class="step-desc">Managed wins on simplicity. BYOK wins on margin + creator-friendly.</div></div></div>
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">Brand positioning — "anti-HeyGen" or own lane?</div><div class="step-desc">Anti-HeyGen = clear contrast. Own lane = more durable.</div></div></div>
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">HF as dependency or fork?</div><div class="step-desc">Dependency = updates free, fork = full control. Lean dependency.</div></div></div>
+    <div class="step"><div class="step-num">?</div><div><div class="step-title">Skill repo private or public?</div><div class="step-desc">Public = distribution. Private = moat. Probably public for distribution effect.</div></div></div>
+  </div>
+</div>
+
+
+<!-- PART TWO -->
+<div class="hero" id="part2" style="margin-top:32px;">
+  <span class="hero-eyebrow">Part Two · Implementation companion</span>
+  <h2 class="hero-headline" style="font-size:clamp(22px,3vw,32px);">Builder Kit.<br/><em>Code, curls, daemon, Dockerfile.</em></h2>
+  <p class="hero-body">Strategy is upstairs. Below is the toolbox. Real <code style="color:var(--lime);">SKILL.md</code>. Hono daemon scaffold. Studio API curl recipes. Composition w/ variables. <code style="color:var(--lime);">package.json</code>. <code style="color:var(--lime);">Dockerfile.render</code>. Error catalog. 5-command setup.</p>
+</div>
+
+<!-- 1 -->
+<div class="section" id="b1">
+  <span class="eyebrow">B1 · Get a working dev env</span>
+  <h2 class="h2">Dev setup — <em>5 commands</em></h2>
+  <p class="body">From zero to working Videfy + HF dev environment.</p>
+
+  <pre class="code-block"># 1. Prereqs (Mac)
+brew install node ffmpeg git-lfs && git lfs install
+
+# 2. Clone HF source (for reading + reference, not editing)
+git clone --depth 1 https://github.com/heygen-com/hyperframes.git ~/dev/hyperframes
+
+# 3. Scaffold a Videfy test project (HF as render backend)
+npx hyperframes init ~/dev/videfy-test --tailwind
+cd ~/dev/videfy-test &amp;&amp; npm install
+
+# 4. Install HF skills globally (slash commands in Claude Code, Cursor, Codex)
+npx skills add heygen-com/hyperframes --yes --global
+
+# 5. Boot Studio (browser editor at localhost:3002)
+npm run dev</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Verify</span>
+    <p class="nb-text">Open <code>http://localhost:3002</code> — you should see the HF Studio with NLE timeline + assets sidebar + render queue. Drop a PNG into <code>~/dev/videfy-test/assets/</code> and it should appear in the Assets tab automatically.</p>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="section" id="b2">
+  <span class="eyebrow">B2 · Real skill file</span>
+  <h2 class="h2">Skill skeleton: <em>/videfy-gen</em></h2>
+  <p class="body">Lives at <code>~/.agents/skills/videfy-gen/SKILL.md</code>. Frontmatter declares trigger criteria. Markdown body becomes system prompt prepended to user requests. Tool calls inherit full agent permissions.</p>
+
+  <span class="code-label"><span class="file">~/.agents/skills/videfy-gen/SKILL.md</span></span>
+  <pre class="code-block">---
+name: videfy-gen
+description: Generate images and short video clips for Videfy compositions. Use when the user asks to generate, create, or stage AI images or AI video clips for inclusion in a HyperFrames composition. Supports NanoBanana 2 (image), Midjourney (image), ChatGPT (image), Veo 3.1 (video), Kling (video), Seedance (video). Always writes outputs to the active HyperFrames project's `assets/` directory so HF Studio picks them up automatically.
+---
+
+# /videfy-gen
+
+You generate AI imagery and short video clips for Videfy compositions.
+Outputs MUST land in the active HF project's `assets/` directory.
+
+## Resolution rules
+
+1. Resolve the active HF project path from the conversation context.
+   - User explicit path? Use it.
+   - User in a `npx hyperframes preview` session? Read its project from `localhost:3002/projects`.
+   - Otherwise ASK: "Which HF project should I write into?"
+
+2. Aspect ratio defaults:
+   - 9:16 portrait for reels / TikTok / Stories
+   - 16:9 landscape for YouTube / explainers / web heroes
+   - 1:1 for IG feed posts
+
+3. Engine selection (default order):
+   - Photorealistic editorial → ChatGPT (`gpt-image-2`) or NB2
+   - Surreal / cinematic → Midjourney
+   - Motion clip → Veo 3.1 (start frame from NB2 image)
+
+## Tool usage
+
+Always call `videfy-daemon` first via HTTP:
+
+```
+POST http://localhost:7777/generate/image
+  { "prompt": "...", "engine": "nb2", "aspect": "9:16",
+    "out": "&lt;hf-project&gt;/assets/&lt;slug&gt;-&lt;n&gt;.png", "n": 4 }
+```
+
+The daemon downloads the image bytes and writes to `out`. HF Studio
+auto-refreshes the Assets tab via file watcher.
+
+## Banned engines
+
+NEVER use Flux. Stick to NB2, NB Pro, Midjourney, ChatGPT, Veo, Kling.
+
+## Realism rules
+
+- Film stock, grain, imperfection language
+- No "beautiful" / "stunning" / "perfect" / "8K" / "hyperrealistic"
+- No forced logos
+- Always humans in frame (no empty still lifes)
+
+## After generation
+
+- Verify file exists on disk
+- Report path back to user
+- Suggest the next step: "Drag this from Assets tab to track 1 at t=0:00"
+- Do NOT auto-edit the composition unless user requests
+
+## When to escalate
+
+If user asks for a full reel: hand off to `/videfy` orchestrator.
+If user wants to wire into composition HTML: hand off to `/hyperframes`.
+</pre>
+
+  <p class="body" style="margin-top:14px;">Mirror this structure for <code>/videfy-script</code>, <code>/videfy-post</code>, <code>/videfy-stock</code>, <code>/videfy-clip</code>, <code>/videfy-shotlist</code>. Each ~50-100 lines, frontmatter + body + tool usage + banned-paths + escalation.</p>
+</div>
+
+<!-- 3 -->
+<div class="section" id="b3">
+  <span class="eyebrow">B3 · Daemon code</span>
+  <h2 class="h2">Videfy daemon — <em>Hono server</em></h2>
+  <p class="body">Local-first orchestrator on <code>localhost:7777</code>. Receives gen requests from skills, writes outputs to the active HF project, calls third-party gen APIs (Fal, Kie, OpenAI), returns absolute paths back. Stateless, deterministic, BYOK.</p>
+
+  <span class="code-label"><span class="file">videfy-daemon/src/server.ts</span></span>
+  <pre class="code-block">import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { z } from "zod";
+import { writeFile, mkdir } from "node:fs/promises";
+import { dirname } from "node:path";
+import { generateImage } from "./engines/index.ts";
+import { generateVideo } from "./engines/video.ts";
+import { synthVoice } from "./tts/kokoro.ts";
+import { transcribe } from "./asr/whisper.ts";
+import { searchBroll } from "./broll/pexels.ts";
+import { postBlotato } from "./post/blotato.ts";
+
+const app = new Hono();
+app.use("*", cors({ origin: ["http://localhost:3002"] }));
+
+const ImageReq = z.object({
+  prompt: z.string().min(3),
+  engine: z.enum(["nb2", "nb-pro", "mj", "chatgpt"]),
+  aspect: z.enum(["9:16", "16:9", "1:1"]).default("9:16"),
+  out: z.string(),       // absolute path inside HF project /assets
+  n: z.number().int().min(1).max(8).default(1),
+  refImages: z.array(z.string()).optional(),
+});
+
+app.post("/generate/image", async (c) =&gt; {
+  const body = ImageReq.parse(await c.req.json());
+  await mkdir(dirname(body.out), { recursive: true });
+  const results = await generateImage(body);    // returns Buffer[]
+  const paths: string[] = [];
+  for (const [i, buf] of results.entries()) {
+    const p = body.out.replace(/(\.\w+)$/, `_${i + 1}$1`);
+    await writeFile(p, buf);
+    paths.push(p);
+  }
+  return c.json({ ok: true, paths });
+});
+
+const VideoReq = z.object({
+  prompt: z.string(),
+  engine: z.enum(["veo-3.1", "kling-2.1", "seedance"]),
+  startFrame: z.string().optional(),  // path to NB2 image
+  duration: z.number().min(1).max(10).default(8),
+  out: z.string(),
+});
+app.post("/generate/video", async (c) =&gt; {
+  const body = VideoReq.parse(await c.req.json());
+  await mkdir(dirname(body.out), { recursive: true });
+  const buf = await generateVideo(body);
+  await writeFile(body.out, buf);
+  return c.json({ ok: true, path: body.out });
+});
+
+const TtsReq = z.object({
+  text: z.string(),
+  voice: z.string().default("af_heart"),
+  out: z.string(),
+});
+app.post("/tts", async (c) =&gt; {
+  const body = TtsReq.parse(await c.req.json());
+  await synthVoice(body);
+  return c.json({ ok: true, path: body.out });
+});
+
+const TranscribeReq = z.object({
+  audioPath: z.string(),
+  out: z.string(),  // writes word-level JSON
+});
+app.post("/transcribe", async (c) =&gt; {
+  const body = TranscribeReq.parse(await c.req.json());
+  await transcribe(body);
+  return c.json({ ok: true, path: body.out });
+});
+
+app.post("/broll/search", async (c) =&gt; {
+  const { query, source = "pexels", count = 10 } = await c.req.json();
+  const results = await searchBroll({ query, source, count });
+  return c.json({ ok: true, results });
+});
+
+const PostReq = z.object({
+  videoPath: z.string(),
+  caption: z.string(),
+  accountIds: z.array(z.string()),
+  scheduledTime: z.string(),  // ISO 8601
+});
+app.post("/post/blotato", async (c) =&gt; {
+  const body = PostReq.parse(await c.req.json());
+  const submissionId = await postBlotato(body);
+  return c.json({ ok: true, submissionId });
+});
+
+// Health check
+app.get("/healthz", (c) =&gt; c.json({ ok: true, version: "0.1.0" }));
+
+export default { port: 7777, fetch: app.fetch };</pre>
+
+  <span class="code-label"><span class="file">videfy-daemon/src/engines/index.ts — engine router</span></span>
+  <pre class="code-block">import { generateNB2 } from "./nb2.ts";
+import { generateMJ } from "./mj.ts";
+import { generateChatGPT } from "./chatgpt.ts";
+
+export async function generateImage(req: {
+  prompt: string;
+  engine: "nb2" | "nb-pro" | "mj" | "chatgpt";
+  aspect: "9:16" | "16:9" | "1:1";
+  n: number;
+  refImages?: string[];
+}): Promise&lt;Buffer[]&gt; {
+  switch (req.engine) {
+    case "nb2":
+    case "nb-pro":  return generateNB2(req);
+    case "mj":      return generateMJ(req);
+    case "chatgpt": return generateChatGPT(req);
+  }
+}</pre>
+
+  <div class="callout">
+    <span class="cl-label">Why a daemon vs library</span>
+    <p class="cl-text">Daemon = <strong>language-agnostic</strong>. Skills call HTTP, not Node imports. Future Videfy clients (Python ML pipelines, n8n nodes, hosted web app) hit the same routes. Plus skills run inside Claude Code's process — calling external tools needs a network boundary anyway.</p>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="section" id="b4">
+  <span class="eyebrow">B4 · API recipes</span>
+  <h2 class="h2">Studio API — <em>every call as a curl</em></h2>
+  <p class="body">Assumes Studio running at <code>localhost:3002</code>. Replace <code>:id</code> with your HF project ID (slug from <code>meta.json</code>).</p>
+
+  <span class="code-label">List projects</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects | jq</pre>
+
+  <span class="code-label">Read a file (e.g. composition HTML)</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/files/index.html</pre>
+
+  <span class="code-label">Write a file (overwrite)</span>
+  <pre class="code-block">curl -s -X PUT http://localhost:3002/api/projects/my-video/files/index.html \
+  -H "Content-Type: text/plain" \
+  --data-binary @local-index.html</pre>
+
+  <span class="code-label">Patch a file (partial update — JSON patch / text edit)</span>
+  <pre class="code-block">curl -s -X PATCH http://localhost:3002/api/projects/my-video/files/index.html \
+  -H "Content-Type: application/json" \
+  -d '{ "find": "data-duration=\"5\"", "replace": "data-duration=\"7\"" }'</pre>
+
+  <span class="code-label">Drop an asset (e.g. generated image)</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/files/assets/remi-001.png \
+  --data-binary @/path/to/remi-001.png</pre>
+
+  <span class="code-label">Lint composition</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/lint | jq</pre>
+
+  <span class="code-label">Get frame thumbnail at t=2.5s, 480px wide</span>
+  <pre class="code-block">curl -s "http://localhost:3002/api/projects/my-video/thumbnail/index.html?t=2.5&w=480&format=jpeg" \
+  -o thumb.jpg</pre>
+
+  <span class="code-label">Get audio waveform peaks</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/waveform/assets/voiceover.wav | jq</pre>
+
+  <span class="code-label">Submit render</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "quality": "high"
+  }' | jq
+# returns { jobId: "abc123", status: "queued" }</pre>
+
+  <span class="code-label">Poll render progress</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/render/abc123/progress | jq
+# returns { status: "rendering", progress: 0.42, eta: 38 }</pre>
+
+  <span class="code-label">Download finished MP4</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/render/abc123/download -o output.mp4</pre>
+
+  <span class="code-label">Cancel render</span>
+  <pre class="code-block">curl -s -X DELETE http://localhost:3002/api/render/abc123</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Routing prefix</span>
+    <p class="nb-text">Studio API mounts under <code>/api</code> by default. Verify with <code>curl http://localhost:3002/api/projects</code> on your install — older versions used root paths. The handler factory is at <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/studio-api/createStudioApi.ts" target="_blank" rel="noopener"><code>packages/core/src/studio-api/createStudioApi.ts</code></a>.</p>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="section" id="b5">
+  <span class="eyebrow">B5 · Worked example</span>
+  <h2 class="h2">Composition w/ <em>variables</em> — full file</h2>
+  <p class="body">Parameterizable reel template. Videfy fills <code>data-variable-*</code> at render submit. One file = N variants without LLM regen.</p>
+
+  <span class="code-label"><span class="file">my-video/index.html</span></span>
+  <pre class="code-block">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"&gt;&lt;/script&gt;
+&lt;style&gt;
+  body { margin:0; background:#0A0C14; }
+  .stage { position:absolute; inset:0; }
+  .title  { position:absolute; left:60px; bottom:240px; color:#fff;
+            font-family:'Instrument Serif',serif; font-size:96px; line-height:1.05; opacity:0; }
+  .cta    { position:absolute; left:60px; bottom:120px; padding:18px 32px;
+            border-radius:12px; font-weight:600; font-size:24px; opacity:0; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id="stage" class="stage"
+     data-composition-id="reel-template"
+     data-start="0" data-width="1080" data-height="1920"
+     data-variable-title="string"
+     data-variable-cta="string"
+     data-variable-bgColor="color"
+     data-variable-bgImage="string"&gt;
+
+  &lt;img id="bg" class="clip"
+       data-start="0" data-duration="6" data-track-index="0"
+       src="{{ bgImage }}" style="width:100%; height:100%; object-fit:cover;" /&gt;
+
+  &lt;h1 class="title clip"
+      data-start="0.5" data-duration="5.5" data-track-index="1"&gt;
+    {{ title }}
+  &lt;/h1&gt;
+
+  &lt;button class="cta clip"
+          data-start="2" data-duration="4" data-track-index="1"
+          style="background: {{ bgColor }}; color: #0A0C14;"&gt;
+    {{ cta }}
+  &lt;/button&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.to(".title", { opacity: 1, y: -20, duration: 0.6, ease: "power2.out" }, 0.5);
+  tl.to(".cta",   { opacity: 1, y: -10, duration: 0.4, ease: "power2.out" }, 2.0);
+  window.__timelines["reel-template"] = tl;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+  <span class="code-label">Render variant 1</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "variables": {
+      "title": "Buy Now",
+      "cta": "Shop the drop",
+      "bgColor": "#FF0066",
+      "bgImage": "assets/lookbook-001.jpg"
+    }
+  }' | jq</pre>
+
+  <span class="code-label">Render variant 2 (different params, same composition)</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "variables": {
+      "title": "Open Now",
+      "cta": "Get yours",
+      "bgColor": "#00CC88",
+      "bgImage": "assets/lookbook-002.jpg"
+    }
+  }' | jq</pre>
+</div>
+
+<!-- 6 -->
+<div class="section" id="b6">
+  <span class="eyebrow">B6 · Deps</span>
+  <h2 class="h2">package.json — <em>Videfy daemon</em></h2>
+
+  <span class="code-label"><span class="file">videfy-daemon/package.json</span></span>
+  <pre class="code-block">{
+  "name": "@videfy/daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev":     "bun --hot run src/server.ts",
+    "start":   "bun run src/server.ts",
+    "build":   "bun build src/server.ts --target=bun --outfile=dist/server.js",
+    "test":    "bun test",
+    "lint":    "biome check src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono":               "^4.6.0",
+    "@hono/zod-validator": "^0.4.0",
+    "zod":                "^3.23.0",
+    "openai":             "^4.70.0",
+    "@anthropic-ai/sdk":  "^0.30.0",
+    "kokoro-js":          "^1.0.0",
+    "whisper-node":       "^1.1.0",
+    "node-fetch":         "^3.3.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome":     "^1.9.0",
+    "@types/bun":         "latest",
+    "typescript":         "^5.6.0"
+  }
+}</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Why Bun + Hono</span>
+    <p class="nb-text">Hono = ~50KB Web-standard router. Same code runs on Bun, Node, Cloudflare Workers, Deno — useful when we ship a hosted version. Bun = fast dev loop + native TypeScript + built-in test runner. Drop-in upgrade path to Node if Bun bites.</p>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="section" id="b7">
+  <span class="eyebrow">B7 · Cloud render</span>
+  <h2 class="h2">Dockerfile.render — <em>Modal / Fly.io</em></h2>
+  <p class="body">Headless HF renderer in a container. Submit jobs from Videfy daemon, rendered MP4 piped back. Base on HF's own <code>Dockerfile.test</code> — known-working Chrome + ffmpeg combo.</p>
+
+  <span class="code-label"><span class="file">render-worker/Dockerfile.render</span></span>
+  <pre class="code-block">FROM node:22-bookworm-slim
+
+# System deps for headless Chrome + ffmpeg (HDR-capable build)
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+      ffmpeg ca-certificates fonts-liberation libnss3 libatk1.0-0 \
+      libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
+      libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 \
+      libcairo2 libasound2 libxshmfence1 wget gnupg \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Chrome (Puppeteer's bundled Chromium ships during npm install)
+ENV PUPPETEER_DOWNLOAD_PATH=/opt/chromium
+ENV NODE_ENV=production
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+# Render worker entrypoint — receives jobs via HTTP POST, runs HF render,
+# returns MP4 path. Internally uses @hyperframes/producer.
+EXPOSE 8080
+CMD ["node", "dist/render-worker.js"]</pre>
+
+  <span class="code-label">Modal deploy snippet</span>
+  <pre class="code-block">import modal
+
+app = modal.App("videfy-render")
+image = (modal.Image.from_dockerfile("Dockerfile.render")
+         .pip_install("modal")
+         .add_local_dir("./", remote_path="/app"))
+
+@app.function(image=image, gpu=None, cpu=4, memory=8192, timeout=600)
+def render(job: dict) -&gt; bytes:
+    # Job: { compositionPath, variables, fps, width, height, quality }
+    import subprocess, json
+    out = "/tmp/output.mp4"
+    subprocess.run(
+        ["node", "dist/render-worker.js", "--job", json.dumps(job), "--out", out],
+        check=True,
+    )
+    with open(out, "rb") as f:
+        return f.read()</pre>
+
+  <p class="body" style="margin-top:14px;"><strong>Cost target:</strong> &lt; $0.10 per minute of 1080p output. Modal CPU-only @ 4 cores ≈ $0.000131/sec → ~$0.008/min compute + storage. Margin clears w/ $99/mo Studio tier rendering up to ~1000 minutes/month.</p>
+</div>
+
+<!-- 8 -->
+<div class="section" id="b8">
+  <span class="eyebrow">B8 · What breaks + how to recover</span>
+  <h2 class="h2">Error catalog</h2>
+  <table class="tbl">
+    <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td>HF Studio 404 on <code>/api/projects/...</code></td><td>API mounted at root in older HF</td><td>Drop <code>/api</code> prefix; check <code>createStudioApi.ts</code> to confirm</td></tr>
+    <tr><td><code>lint</code> errors: "wall-clock animation"</td><td>Found <code>Date.now()</code> / <code>requestAnimationFrame</code> in composition</td><td>Replace w/ GSAP timeline reading <code>seek(t)</code></td></tr>
+    <tr><td><code>lint</code>: "missing data-track-index"</td><td>Timed element w/o track</td><td>Add <code>data-track-index="0"</code> (or higher)</td></tr>
+    <tr><td><code>lint</code>: "missing class=clip"</td><td>Element has timing but no <code>clip</code> class</td><td>Add <code>class="clip"</code> — framework uses it for visibility</td></tr>
+    <tr><td>Render hangs at 0%</td><td>Chrome can't load asset (CORS, missing file)</td><td>Check <code>preview/&lt;path&gt;</code> serves the file. Confirm asset exists in project dir</td></tr>
+    <tr><td>Render finishes, MP4 silent</td><td>Audio track missing or video had <code>muted</code></td><td>Add <code>&lt;audio&gt;</code> element w/ <code>data-track-index</code> separate from video</td></tr>
+    <tr><td>Render finishes, audio out of sync</td><td>Mismatched <code>data-start</code> between video + audio</td><td>Use shared <code>data-start</code>; verify <code>data-duration</code> matches source</td></tr>
+    <tr><td>Render dies w/ "out of memory"</td><td>Long composition + parallel Chrome workers exceed RAM</td><td>Lower <code>--workers</code> or upgrade box</td></tr>
+    <tr><td>Studio assets tab empty</td><td>File watcher missed files (rare)</td><td>Hard refresh browser; or <code>POST /projects/:id/files/assets/&lt;name&gt;</code> manually</td></tr>
+    <tr><td>Daemon <code>/generate/image</code> 502</td><td>Upstream gen API (Fal/Kie/OpenAI) failed</td><td>Daemon should retry once w/ jitter, then surface upstream error to caller</td></tr>
+    <tr><td>Determinism mismatch — same input, different MP4 hash</td><td>Font missing locally OR system fonts overrode</td><td>Add <code>.woff2</code> to project <code>fonts/</code>; HF's <code>deterministicFonts.ts</code> bakes in</td></tr>
+    <tr><td>Composition variables not interpolating</td><td>Missing <code>data-variable-&lt;name&gt;</code> declaration on root</td><td>Declare every variable on root node before <code>{{ name }}</code> use</td></tr>
+    <tr><td>Render queue stuck</td><td>Stale jobs in queue</td><td><code>DELETE /render/:jobId</code> for each; or restart Studio</td></tr>
+    <tr><td>Lint passes, render fails silently</td><td>GSAP timeline not registered on <code>window.__timelines</code></td><td>Confirm <code>window.__timelines["composition-id"] = tl</code> + <code>paused: true</code></td></tr>
+  </table>
+</div>
+
+<!-- 9 -->
+<div class="section" id="b9">
+  <span class="eyebrow">B9 · Token economics</span>
+  <h2 class="h2">Prompt cache strategy</h2>
+  <p class="body">Anthropic's prompt cache = <strong>90% discount</strong> on repeated prefix tokens, 5-minute TTL on standard cache, 1-hour TTL on extended cache. Skills are big system prompts — caching them is the single biggest cost lever.</p>
+
+  <h3 class="h3">Rules</h3>
+  <ol class="body" style="padding-left:22px;">
+    <li><strong>Stable prefix.</strong> Skill bodies don't change between calls. Make them the first system block, mark <code>cache_control: { type: "ephemeral" }</code> on the last item of the cacheable section.</li>
+    <li><strong>Variables go after the cache cut.</strong> User prompt + composition state = post-cache. The cache key is the prefix hash.</li>
+    <li><strong>Keep skills under 2K tokens each.</strong> Bigger = pricier cold start. Move long examples into <code>references/</code> and load on demand via tool call, not prefix.</li>
+    <li><strong>Use extended cache for the orchestrator.</strong> <code>/videfy</code> runs across long sessions — 1-hour TTL is worth the slight surcharge.</li>
+    <li><strong>Watch the metric.</strong> Token usage event includes <code>cache_creation_input_tokens</code> and <code>cache_read_input_tokens</code>. Read = 90% off. Creation = full price (one-time). Aim for cache_read &gt; 95% of repeat calls within TTL.</li>
+  </ol>
+
+  <h3 class="h3">Anthropic SDK snippet</h3>
+  <pre class="code-block">import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic();
+const skillPrompt = await readFile(
+  "~/.agents/skills/videfy/SKILL.md", "utf8");
+
+const resp = await client.messages.create({
+  model: "claude-sonnet-4-6",
+  max_tokens: 1024,
+  system: [
+    {
+      type: "text",
+      text: skillPrompt,
+      cache_control: { type: "ephemeral" }   // 5-min TTL
+    }
+  ],
+  messages: [
+    { role: "user", content: userMessage }
+  ]
+});</pre>
+
+  <div class="callout">
+    <span class="cl-label">Free-tier math</span>
+    <p class="cl-text">Skill prompt ~1500 tokens. Without cache: 1500 × $3/MTok input = $0.0045 per call. With cache after warm-up: 1500 × $0.30/MTok = $0.00045 per call. <strong>10× saving.</strong> 100 calls/day per user × 1000 users × 30 days = $1,350/mo without cache, $135 with. Easy decision.</p>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section" id="b10">
+  <span class="eyebrow">B10 · Make money</span>
+  <h2 class="h2">Telemetry + billing hooks</h2>
+  <p class="body">Cloud render = the main billable event. Track everything else for product analytics.</p>
+
+  <h3 class="h3">Events to fire</h3>
+  <table class="tbl">
+    <tr><th>Event</th><th>Properties</th><th>Where</th></tr>
+    <tr><td><code>composition.created</code></td><td>projectId, templateId, mode (chat | template | manual)</td><td>Daemon <code>/projects</code> POST</td></tr>
+    <tr><td><code>asset.generated</code></td><td>projectId, engine, type (image | video), durationSec, costUsd</td><td>Daemon <code>/generate/*</code> response</td></tr>
+    <tr><td><code>render.submitted</code></td><td>projectId, fps, width, height, durationSec, expectedCostUsd</td><td>Daemon <code>/post/blotato</code></td></tr>
+    <tr><td><code>render.completed</code></td><td>projectId, jobId, actualDurationSec, actualCostUsd, fileSizeMB</td><td>Render worker on success</td></tr>
+    <tr><td><code>render.failed</code></td><td>projectId, jobId, errorCode, errorMessage</td><td>Render worker on error</td></tr>
+    <tr><td><code>post.scheduled</code></td><td>projectId, platform, accountId, scheduledTime</td><td>Daemon <code>/post/blotato</code></td></tr>
+    <tr><td><code>skill.invoked</code></td><td>skillName, userId, tokensUsed, cacheHit</td><td>Anthropic SDK wrapper</td></tr>
+  </table>
+
+  <h3 class="h3">Stripe metering</h3>
+  <pre class="code-block">import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+// On render.completed
+await stripe.subscriptionItems.createUsageRecord(
+  subscriptionItemId,
+  {
+    quantity: Math.ceil(actualDurationSec / 60),  // round up to minute
+    timestamp: Math.floor(Date.now() / 1000),
+    action: "increment",
+  }
+);</pre>
+
+  <h3 class="h3">Pricing tiers (proposed)</h3>
+  <table class="tbl">
+    <tr><th>Tier</th><th>Price</th><th>Includes</th></tr>
+    <tr><td><strong>Creator (BYOK)</strong></td><td>$29/mo</td><td>Skills + daemon + local render. User brings own keys (Fal, Kie, OpenAI, Anthropic). Unlimited.</td></tr>
+    <tr><td><strong>Studio</strong></td><td>$99/mo</td><td>Above + 500 min/mo cloud render + managed gen credits ($30 of NB2/Veo) + Blotato posting</td></tr>
+    <tr><td><strong>Agency</strong></td><td>$399/mo</td><td>Above + 10 brand workspaces + 2,500 min/mo render + priority queue + 3 user seats</td></tr>
+    <tr><td><strong>Enterprise</strong></td><td>Talk</td><td>SLA, custom volume, on-prem render workers, white-label</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="cl-label">Margin model</span>
+    <p class="cl-text">Studio tier @ $99 — assume average user renders 200 min/mo. Modal cost: 200 × $0.008 = <strong>$1.60</strong>. Anthropic skill calls @ cached: ~$0.50/user/mo. Stripe + infra: ~$3. <strong>Gross margin per Studio user ≈ $93/mo.</strong> Healthy.</p>
+  </div>
+</div>
+
+
+<div class="doc-footer">
+  <div class="ft-l">Videfy / HyperFrames · Deep Dive (18) + Builder Kit (10) · single file</div>
+  <div class="ft-r">v1 · 2026-05-06</div>
+</div>
+
+</div>
+</body>
+</html>
