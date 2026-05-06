@@ -117,8 +117,8 @@ Applied across Launch Week:
 - Manual DM replies Wk 1 · ManyChat goes live Wk 2
 
 ### Cadence (2-person team)
-- 18-22 outputs/wk
-- 80-100 hrs combined (Alex 40-50 · Co 40-50)
+- 10-14 outputs/wk
+- 60-70 hrs combined (Alex 20 · Co 40-50)
 - Batch shoot Mon + Thu
 - 2 days off non-negotiable
 
