@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy — First Live Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:900px; margin:0 auto; padding:56px 48px 80px; }
+
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:56px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:2; }
+
+.hero { background:var(--ink); border-radius:16px; padding:40px 44px; margin-bottom:14px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:14px; }
+.hero-headline { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(24px,3.5vw,36px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:18px; }
+.hero-headline em { color:var(--lime); font-style:italic; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.65); line-height:1.7; font-weight:300; max-width:620px; }
+
+.section { margin-bottom:48px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:12px; }
+.h2 { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(20px,2.8vw,28px); line-height:1.15; letter-spacing:-.015em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-style:italic; }
+.body { font-size:14px; color:#2C3040; line-height:1.75; font-weight:300; max-width:680px; }
+.body strong { font-weight:600; color:var(--ink); }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
+
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
+.four-col { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px; margin-top:20px; }
+
+.card { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; }
+.card-head { padding:14px 20px; border-bottom:1px solid var(--bmd); display:flex; align-items:center; gap:10px; }
+.card-head.dark { background:var(--ink); }
+.card-head.off { background:var(--off); }
+.card-head.lime { background:rgba(170,255,0,.07); }
+.card-head.teal { background:rgba(0,196,180,.06); }
+.card-head.red  { background:rgba(239,68,68,.06); }
+.card-head.amber { background:rgba(245,158,11,.06); }
+.card-icon { font-size:17px; }
+.card-title { font-size:14px; font-weight:600; line-height:1.3; }
+.card-head.dark .card-title { color:var(--white); }
+.card-head.off .card-title, .card-head.lime .card-title, .card-head.teal .card-title, .card-head.red .card-title, .card-head.amber .card-title { color:var(--ink); }
+.card-sub { font-family:'DM Mono',monospace; font-size:10px; }
+.card-head.dark .card-sub { color:rgba(255,255,255,.35); }
+.card-head.off .card-sub, .card-head.lime .card-sub, .card-head.teal .card-sub, .card-head.red .card-sub, .card-head.amber .card-sub { color:var(--muted); }
+.card-body { padding:16px 20px; }
+.card-text { font-size:13px; color:#2C3040; line-height:1.6; font-weight:300; }
+.card-text strong { font-weight:600; color:var(--ink); }
+.card-list { list-style:none; display:flex; flex-direction:column; gap:5px; margin-top:6px; }
+.card-list li { font-size:13px; color:#2C3040; padding-left:13px; position:relative; line-height:1.45; font-weight:300; }
+.card-list li::before { content:''; position:absolute; left:0; top:6px; width:5px; height:5px; border-radius:50%; background:var(--soft); border:1px solid var(--bstr); }
+.card-list li.hi::before { background:var(--lime); border-color:rgba(170,255,0,.5); }
+.card-list li.tl::before { background:var(--teal); border-color:rgba(0,196,180,.5); }
+.card-list li.am::before { background:#F59E0B; border-color:rgba(245,158,11,.5); }
+.card-list li.rd::before { background:#EF4444; border-color:rgba(239,68,68,.4); }
+
+.mission-block { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; margin-top:20px; }
+.mission-top { padding:24px 28px; background:var(--off); border-bottom:1px solid var(--bmd); }
+.mission-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
+.mission-text { font-family:'Instrument Serif',Georgia,serif; font-size:20px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; }
+.mission-text em { font-style:italic; color:#2D6000; }
+.mission-bottom { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; }
+.mission-bottom.three-col { grid-template-columns:1fr 1fr 1fr; }
+.mb-col { padding:16px 20px; border-right:1px solid var(--border); }
+.mb-col:last-child { border-right:none; }
+.mb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--light); display:block; margin-bottom:6px; }
+.mb-text { font-size:12px; color:#2C3040; line-height:1.55; font-weight:300; }
+.mb-text strong { font-weight:600; color:var(--ink); }
+
+.vp-box { background:linear-gradient(135deg, rgba(170,255,0,.06) 0%, rgba(0,196,180,.06) 100%); border:1px solid rgba(170,255,0,.25); border-radius:14px; padding:28px 32px; margin-top:20px; }
+.vp-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#2D6000; display:block; margin-bottom:12px; }
+.vp-text { font-family:'Instrument Serif',Georgia,serif; font-size:22px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; margin-bottom:14px; }
+.vp-text em { font-style:italic; color:#2D6000; }
+.vp-why { font-size:13px; color:var(--muted); line-height:1.65; font-weight:300; }
+.vp-why strong { font-weight:600; color:var(--ink); }
+
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:24px 0 6px; display:block; }
+
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
+.callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout .cl-text strong { color:var(--lime); font-weight:500; }
+
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
+.note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
+.note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.65; font-weight:300; }
+.note-box .nb-text strong { font-weight:600; color:var(--ink); }
+
+.steps { display:flex; flex-direction:column; gap:2px; margin-top:20px; }
+.step { display:flex; align-items:flex-start; gap:16px; padding:16px 20px; border:1px solid var(--bmd); border-radius:10px; background:var(--off); }
+.step-num { font-family:'Instrument Serif',Georgia,serif; font-size:22px; color:var(--light); line-height:1; flex-shrink:0; padding-top:2px; min-width:24px; }
+.step-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.step-desc { font-size:13px; color:var(--muted); line-height:1.5; font-weight:300; }
+
+.flow { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:22px; padding:22px; background:var(--ink); border-radius:14px; }
+.flow-node { flex:1; text-align:center; padding:14px 8px; background:rgba(255,255,255,.04); border-radius:10px; border:1px solid rgba(255,255,255,.1); }
+.flow-node.lime { background:rgba(170,255,0,.1); border-color:rgba(170,255,0,.3); }
+.flow-node.teal { background:rgba(0,196,180,.1); border-color:rgba(0,196,180,.3); }
+.flow-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); display:block; margin-bottom:6px; }
+.flow-title { font-family:'Instrument Serif',Georgia,serif; font-size:18px; color:var(--white); }
+.flow-node.lime .flow-title { color:var(--lime); }
+.flow-node.teal .flow-title { color:var(--teal); }
+.flow-arrow { color:rgba(255,255,255,.3); font-size:18px; flex-shrink:0; }
+
+.doc-footer { margin-top:64px; padding-top:20px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-size:12px; color:var(--muted); }
+.ft-r { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+
+@media(max-width:680px) {
+  .page { padding:40px 20px 72px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero { padding:28px 24px; }
+  .two-col,.three-col,.four-col { grid-template-columns:1fr; }
+  .mission-bottom,.mission-bottom.three-col { grid-template-columns:1fr; }
+  .mb-col { border-right:none; border-bottom:1px solid var(--border); }
+  .mb-col:last-child { border-bottom:none; }
+  .flow { flex-direction:column; }
+  .flow-arrow { transform:rotate(90deg); }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:10px; }
+  .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">First Live Playbook<br>Alex Lamb for Videfy</div>
+</header>
+
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-eyebrow">Livestream · in-person</span>
+  <div class="hero-headline">
+    Walk through the build.<br>
+    <em>Talk shop. Take questions.</em>
+  </div>
+  <div class="hero-body">
+    Our first live is one project, end-to-end on the Videfy platform, plus open Q&amp;A and a wider conversation about video production, AI tooling, and how Videfy fits the workflow. 60-minute target. One real build, narrated. Audience gets to see the platform under real hands instead of a demo reel.
+  </div>
+</div>
+
+<div style="height:48px;"></div>
+<hr class="rule">
+
+
+<!-- FLOW -->
+<section class="section">
+  <span class="eyebrow">Three stages</span>
+  <h2 class="h2">Pre-pro to live<br><em>to repurpose.</em></h2>
+  <p class="body">Most "first live" failures happen before the stream goes on. Three stages, each with its own owner, its own checklist, and its own failure mode.</p>
+
+  <div class="flow">
+    <div class="flow-node lime">
+      <span class="flow-label">Stage 01</span>
+      <div class="flow-title">Pre-production</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node">
+      <span class="flow-label">Stage 02</span>
+      <div class="flow-title">Live</div>
+    </div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node teal">
+      <span class="flow-label">Stage 03</span>
+      <div class="flow-title">Repurpose</div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">First live = the floor, not the ceiling</span>
+    <div class="nb-text">First stream sets cadence and proves the format. Don't optimize for production polish. Optimize for: one clean walkthrough, audio that works, and 5+ short clips that can travel after. Ship the rough version, learn, raise the bar live #2.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- THE SET UP -->
+<section class="section">
+  <span class="eyebrow">The set up</span>
+  <h2 class="h2">Gear, room,<br><em>software stack.</em></h2>
+  <p class="body">Three parts of the physical and digital environment that need to be locked before stream day. None are optional.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">①</span>
+        <div><div class="card-title">Gear (what we actually have)</div><div class="card-sub">Laptop · Loom · cheap audio</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi"><strong>Camera:</strong> built-in laptop webcam</li>
+          <li class="hi">Position laptop at eye level (stack books or laptop stand)</li>
+          <li class="hi"><strong>Audio:</strong> AirPods or cheap USB mic ($30 Fifine works)</li>
+          <li class="hi">Built-in laptop mic = last resort, sounds tinny</li>
+          <li class="hi"><strong>Light:</strong> face a window OR desk lamp behind laptop</li>
+          <li class="hi">No overhead lights only — kills your face</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">②</span>
+        <div><div class="card-title">Room</div><div class="card-sub">Background · sound · network</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl">Clean wall OR Videfy virtual background in Meet/Discord</li>
+          <li class="tl">No echoey rooms — pick a small carpeted space</li>
+          <li class="tl">Close door · kill HVAC noise · pets out</li>
+          <li class="tl"><strong>Hardwired ethernet</strong> if possible · phone hotspot fallback</li>
+          <li class="tl">All notifications OFF (Slack, iMessage, email)</li>
+          <li class="tl">Phone on silent, face down</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">③</span>
+        <div><div class="card-title">Software stack</div><div class="card-sub">Live + record + chat</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li><strong>Live:</strong> Discord Stage (or Google Meet) — native screen share</li>
+          <li><strong>Record:</strong> Loom running in background, full-screen capture</li>
+          <li>Loom = backup recording AND repurpose source</li>
+          <li>Videfy platform open in 1 browser tab, full-screen for share</li>
+          <li>Notes/outline on phone or 2nd device — never the streaming machine</li>
+          <li>CTA word <strong>STUDIO</strong> dropped in chat at minute 5 / 25 / close</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- PREPRODUCTION -->
+<section class="section">
+  <span class="eyebrow">Preproduction</span>
+  <h2 class="h2">Things to lock<br><em>before going live.</em></h2>
+  <p class="body">No fixed timeline — could be any day. Work the list top-down. Each item assumes the prior is done.</p>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Pick the project to walk through · <span style="color:#2D6000;">Vaughn + Alex</span></div><div class="step-desc">Real client work or demo brand. Vaughn drives the choice since he's running the walkthrough. Alex confirms it ladders to the live's title + audience promise.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">Decide the title of the live · <span style="color:#2D6000;">Alex + Doran</span></div><div class="step-desc">Title sets the audience expectation. Frame around what gets shown, not what Videfy is. Examples: "Building a brand video without opening Premiere" or "How AI video production actually works in 2026." Doran weighs in on positioning.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Write the outline · <span style="color:#2D6000;">Alex</span></div><div class="step-desc">Hook (60s) · Walkthrough (20-30 min) · Q&amp;A (15-20 min) · CTA close (2 min). Share doc with the full team so everyone knows the beat structure.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Draft seed questions for the Q&amp;A · <span style="color:#2D6000;">Alex + Doran</span></div><div class="step-desc">Pre-write 5-8 questions in case chat is quiet. Mix tactical ("how do you handle revisions?") with strategic ("where does AI hit its limit?"). Routing notes per question (who answers).</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Spin up Discord server + Stage channel · <span style="color:#B91C1C;">Live Ops · TBD</span></div><div class="step-desc">Channels: #announcements, #live-stage, #project-feedback, #beta-bugs. Roles: @host, @team, @member. Invite link ready to paste anywhere. <strong>Owner not yet assigned</strong> — see Live Ops options.</div></div></div>
+    <div class="step"><div class="step-num">6</div><div><div class="step-title">Run a private test session · <span style="color:#2D6000;">Full team</span></div><div class="step-desc">All 4 in Discord. Test cam, audio, screen share, Loom recording. Watch Loom playback together. Fix what breaks before announcing publicly.</div></div></div>
+    <div class="step"><div class="step-num">7</div><div><div class="step-title">Announce + collect signups · <span style="color:#2D6000;">Alex (post) + Live Ops (Discord pin)</span></div><div class="step-desc">Post on LinkedIn (company), X, IG. Email beta list. Discord invite link in every post. Pin announcement in server.</div></div></div>
+    <div class="step"><div class="step-num">8</div><div><div class="step-title">Reminder pass · <span style="color:#2D6000;">Alex</span></div><div class="step-desc">24 hours before: reminder email + story countdown + repost on each channel. Confirm all 4 team members are good to go.</div></div></div>
+    <div class="step"><div class="step-num">9</div><div><div class="step-title">Day-of buffer · 1 hour before · <span style="color:#2D6000;">Full team</span></div><div class="step-desc">Set rooms. Test webcam + audio + screen share in Discord. Live Ops confirms Loom records the right screen. Vaughn opens Videfy tab + logs in. Everyone joins the room 5 min early with cam off.</div></div></div>
+    <div class="step"><div class="step-num">10</div><div><div class="step-title">Pre-flight checklist · <span style="color:#2D6000;">Live Ops runs · whole team confirms</span></div><div class="step-desc">Webcam on · Audio working · Screen share = Videfy tab · Loom recording · Notifications OFF · Phone silent · Outline visible on 2nd device. Live Ops calls each item out loud, each person confirms theirs.</div></div></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- WHO DOES WHAT -->
+<section class="section">
+  <span class="eyebrow">Who does what</span>
+  <h2 class="h2">Four people.<br><em>Four lanes.</em></h2>
+  <p class="body">Each role has one job. No overlap, no improvising into someone else's lane. The walkthrough host drives the build. The technical answers tech. The domain expert answers strategy. The host runs flow + Q&amp;A pacing.</p>
+
+  <div class="two-col" style="margin-top:22px;">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">①</span>
+        <div><div class="card-title">Vaughn — walkthrough lead</div><div class="card-sub">Drives the build narration</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi">Shares screen, walks through the Videfy project end-to-end</li>
+          <li class="hi">Narrates what he's clicking and why, in real time</li>
+          <li class="hi">Owns pacing of the build segment (20-30 min)</li>
+          <li class="hi">Hands off to Alex for transitions + Q&amp;A</li>
+          <li class="hi">Stays focused on the screen share, not the chat</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">②</span>
+        <div><div class="card-title">Marta — platform technical (conditional)</div><div class="card-sub">Only joins if live is platform-focused</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl"><strong>Joins only when live showcases platform tech</strong></li>
+          <li class="tl">Answers deep technical questions about the Videfy platform</li>
+          <li class="tl">Backs up Vaughn during walkthrough · jumps in if a feature breaks</li>
+          <li class="tl">Catches platform bugs live · notes for engineering</li>
+          <li class="tl">Speaks to roadmap + what's shipping next</li>
+          <li class="tl"><strong>Not</strong> responsible for Discord, Loom, or live ops tech</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">③</span>
+        <div><div class="card-title">Doran — domain knowledge</div><div class="card-sub">Industry + strategy depth</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">Answers deeper questions on video production workflow</li>
+          <li class="am">Frames AI tooling context for the audience</li>
+          <li class="am">Speaks to "why this matters" for agencies + creators</li>
+          <li class="am">Steps in during Q&amp;A when domain expertise needed</li>
+          <li class="am">Adds anecdotes + war stories for credibility</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head dark">
+        <span class="card-icon">④</span>
+        <div><div class="card-title">Alex — host / moderator</div><div class="card-sub">Flow + Q&amp;A + CTA</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi">Opens the live · sets context · introduces the team</li>
+          <li class="hi">Manages transitions between segments</li>
+          <li class="hi">Reads chat questions aloud · routes to right person</li>
+          <li class="hi">Calls CTA at minute 5 / 25 / close</li>
+          <li class="hi">Owns the clock · wraps cleanly at 60 min</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;">
+    <span class="nb-label">Routing rule for Q&amp;A</span>
+    <div class="nb-text">Alex reads the question. Decides routing on the fly: <strong>"How does X feature work?"</strong> → Vaughn or Marta (if platform live) · <strong>"Why does video production work this way?"</strong> → Doran · <strong>"What's the roadmap?"</strong> → Alex. Anyone can pass to anyone. No question lingers on the wrong person.</div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.2);">
+    <span class="nb-label" style="color:#B91C1C;">Open role · Live Ops · owner TBD</span>
+    <div class="nb-text">Marta is platform-technical, not live-ops-technical. We still need someone to own Discord server setup, Loom recording, audience monitoring, and tech troubleshooting during the stream. <strong>Options to consider:</strong>
+    <ul style="margin-top:8px;">
+      <li><strong>Alex absorbs it</strong> — keeps team at 4. Adds load on host (already running outline + Q&amp;A + clock). Risk: spread thin live.</li>
+      <li><strong>Doran absorbs it</strong> — currently lightest live load (Q&amp;A only). Could double-hat as Live Ops + domain expert. Recommended if he has bandwidth.</li>
+      <li><strong>Hire a part-time producer / VA</strong> — $15-30/hr, remote. One-time Discord setup + monthly live ops. Cleanest separation of duties.</li>
+      <li><strong>Rotate</strong> — different team member each live until role is hired.</li>
+    </ul>
+    <strong style="display:block;margin-top:8px;">Decision needed before announcing live #1.</strong></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- DURING THE LIVE -->
+<section class="section">
+  <span class="eyebrow">During the live</span>
+  <h2 class="h2">Live duties —<br><em>who watches what.</em></h2>
+  <p class="body">Once the stream starts, everyone has a parallel job. Walkthrough goes on screen, but three other things must happen at the same time: chat, audience, and recording.</p>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">●</span>
+        <div><div class="card-title">Monitor people</div><div class="card-sub">Live Ops · TBD</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="hi">Watches who joins + leaves the Stage</li>
+          <li class="hi">Notes audience size at peak vs. close</li>
+          <li class="hi">Flags trolls or disruptors · mutes if needed</li>
+          <li class="hi">Watches energy: are people typing, reacting, dropping off?</li>
+          <li class="hi">Pings team in private channel if something's off</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head teal">
+        <span class="card-icon">●</span>
+        <div><div class="card-title">Monitor chat + questions</div><div class="card-sub">Alex (host) + Doran (backup)</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="tl">Reads every question that comes in</li>
+          <li class="tl">Surfaces best 5-8 to read aloud at Q&amp;A</li>
+          <li class="tl">Pre-drafted seed questions ready if chat goes quiet</li>
+          <li class="tl">Drops CTA + Discord link in chat at minute 5 / 25 / close</li>
+          <li class="tl">Saves question log post-live for content repurpose</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head amber">
+        <span class="card-icon">●</span>
+        <div><div class="card-title">Monitor recording + tech</div><div class="card-sub">Live Ops · TBD</div></div>
+      </div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li class="am">Loom red dot visible · capturing right screen</li>
+          <li class="am">Watches Discord audio levels · flags drops</li>
+          <li class="am">Has reconnect plan ready if anyone disconnects</li>
+          <li class="am">Notes timecodes for clip-worthy moments live</li>
+          <li class="am">Confirms Loom uploads cleanly post-live</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;">
+    <span class="nb-label">Backchannel · team-only Discord DM or thread</span>
+    <div class="nb-text">Set up a private team-only thread or DM group. Use it during live for silent coordination: <strong>"chat just lit up — bring up Q&amp;A"</strong> · <strong>"audio dropped on Doran"</strong> · <strong>"15 min left, wrap up build"</strong>. Never speak about tech issues on stream — solve them silently in the backchannel.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- PLATFORM OPTIONS -->
+<section class="section">
+  <span class="eyebrow">Options · platform</span>
+  <h2 class="h2">Where to host<br><em>when no accounts exist yet.</em></h2>
+  <p class="body">No X Live · no YouTube channel · no LinkedIn Live approval. We're spinning something up cold. Comparison weights setup time, replay value, and whether the platform leaves a community asset behind after the stream ends.</p>
+
+  <table class="tbl">
+    <thead>
+      <tr><th style="width:18%;">Platform</th><th style="width:14%;">Setup time</th><th style="width:34%;">Pros</th><th style="width:34%;">Cons</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Discord Stage</strong></td><td>~1 hour</td><td>Free · server doubles as permanent Videfy community · audience returns between lives · screen share clean · dev/creator crowd already here</td><td>Need to build a server from scratch · audience must join server first</td></tr>
+      <tr><td><strong>Google Meet</strong></td><td>~5 min</td><td>Fastest start · everyone has a Google account · no install · screen share works</td><td>No replay community · 100-person cap free tier · 60-min cap on free · throwaway after stream</td></tr>
+      <tr><td><strong>Zoom Webinar</strong></td><td>~30 min</td><td>Polished UX · registration capture · replay built-in · Q&amp;A panel · best-in-class screen share</td><td>Paid only ($79+/mo) · feels corporate · no community asset after</td></tr>
+      <tr><td><strong>StreamYard</strong></td><td>~20 min</td><td>Browser-based · streams to X / YouTube / LinkedIn / custom RTMP · free tier works · branded overlays</td><td>Still need a destination platform · free tier watermarked</td></tr>
+      <tr><td><strong>Riverside.fm</strong></td><td>~20 min</td><td>Studio-quality recording · separate audio/video tracks · live + post-edit ready</td><td>Paid for full features · less of a "live" feel · audience as guests, not viewers</td></tr>
+      <tr><td><strong>Twitch</strong></td><td>~30 min</td><td>Free · replay built-in · chat native · low barrier</td><td>Gaming-coded · audience tiny without warm-up · weak B2B fit</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="cl-label">Recommend — Discord Stage primary</span>
+    <div class="cl-text">Discord wins because the <strong>server itself is the asset</strong>. Spin one up once, every future live keeps the audience there, and it compounds into a community where Videfy beta users hang out, share builds, and ask questions between streams. Google Meet ships fastest but leaves nothing behind. StreamYard is the bridge layer to add later once X/YouTube accounts warm up.</div>
+  </div>
+
+  <div class="note-box" style="margin-top:14px;">
+    <span class="nb-label">Account setup path · 3 steps · ~90 min total</span>
+    <div class="nb-text"><strong>1.</strong> Create Discord server (free) — channels: #announcements, #live-stage, #project-feedback, #beta-bugs · invite link in email + bio. <strong>2.</strong> Set up Stage channel for live walkthroughs · use Discord's native screen share (no OBS needed for rough cut). <strong>3.</strong> Optional add-on later: connect StreamYard to broadcast Discord audio/video into X + YouTube simultaneously once those channels grow.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- FORMAT OPTIONS -->
+<section class="section">
+  <span class="eyebrow">Options · format</span>
+  <h2 class="h2">Four formats.<br><em>Pick one for the first.</em></h2>
+  <p class="body">All four work. Each weights production effort and audience engagement differently. For live #1 we want the lowest variance, not the highest ceiling.</p>
+
+  <div class="four-col">
+    <div class="card">
+      <div class="card-head lime">
+        <span class="card-icon">A</span>
+        <div><div class="card-title">Pure walkthrough</div><div class="card-sub">Recommended · live #1</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Full project end-to-end. Q&amp;A at the end, one chunk. <strong>Cleanest, best replay.</strong> Lowest tech variance.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">B</span>
+        <div><div class="card-title">Build-along</div><div class="card-sub">Audience-driven</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Audience suggests prompts/edits live. Higher engagement, harder to control. Best for live #3+.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">C</span>
+        <div><div class="card-title">Guest + demo</div><div class="card-sub">Reach amplifier</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Invite a client or partner. Doubles reach if guest has audience. Adds a coordination dependency.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">D</span>
+        <div><div class="card-title">Office hours</div><div class="card-sub">Recurring cadence</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Open Q&amp;A only. No scripted walkthrough. Use as the recurring slot once first live lands.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- RECOMMENDED CONFIG -->
+<section class="section">
+  <span class="eyebrow">Locked config</span>
+  <h2 class="h2">First live —<br><em>recommended setup.</em></h2>
+  <p class="body">All decisions consolidated. Use this exact config unless something blocks. Each field is a hard call we already made.</p>
+
+  <div class="mission-block">
+    <div class="mission-top">
+      <span class="mission-label">First Live · Videfy · rough cut</span>
+      <div class="mission-text">One real Videfy build, narrated end-to-end. Q&amp;A at the close. <em>Discord Stage primary, Loom records.</em> Sixty minutes. Webcam + AirPods. Ship rough.</div>
+    </div>
+    <div class="mission-bottom">
+      <div class="mb-col">
+        <span class="mb-label">Platform</span>
+        <div class="mb-text"><strong>Discord Stage</strong> · Loom recording in background</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Gear</span>
+        <div class="mb-text">Laptop webcam · AirPods/USB mic · window light</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Length</span>
+        <div class="mb-text"><strong>60 min</strong> target · cap at 90</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">CTA</span>
+        <div class="mb-text"><strong>videfy.com/studio</strong> · keyword <strong>STUDIO</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vp-box">
+    <span class="vp-label">The bet · live #1 = rough cut</span>
+    <div class="vp-text">Ship rough. Prove the format. <em>Don't optimize gear yet.</em> The walkthrough is the marketing.</div>
+    <div class="vp-why"><strong>Why rough is right:</strong> Live #1 is a floor, not a ceiling. Webcam + AirPods + Discord is enough to prove the format and grow a server. Mics, lighting, and 2-cam setups are a live #3+ problem. Loom recording = repurpose source for clips after. Discord server = the asset that compounds whether 5 or 500 show up live.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- LIVE BREAKDOWN -->
+<section class="section">
+  <span class="eyebrow">The live · breakdown</span>
+  <h2 class="h2">Fill this in<br><em>for each live.</em></h2>
+  <p class="body">Five fields define the actual live. Lock all five before announcing. Reuse this template for every future live — same structure, swap the answers.</p>
+
+  <div class="mission-block">
+    <div class="mission-top">
+      <span class="mission-label">Field 01 · Title</span>
+      <div class="mission-text">[Working title goes here]<br><em>Frame around what gets shown, not what Videfy is.</em></div>
+    </div>
+    <div class="mission-bottom three-col">
+      <div class="mb-col">
+        <span class="mb-label">Hook angle</span>
+        <div class="mb-text">What makes someone click. The promise.</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Owner</span>
+        <div class="mb-text">Alex + Doran lock the title</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Examples</span>
+        <div class="mb-text">"Building a brand video without opening Premiere" · "How AI video production actually works"</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mission-block" style="margin-top:14px;">
+    <div class="mission-top">
+      <span class="mission-label">Field 02 · Project</span>
+      <div class="mission-text">[Specific project we'll build live]<br><em>Real client work or staged demo brand. Lock the asset before announcing.</em></div>
+    </div>
+    <div class="mission-bottom three-col">
+      <div class="mb-col">
+        <span class="mb-label">Format</span>
+        <div class="mb-text">Brand video · ad cut · case study · social reel · B2B explainer</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Owner</span>
+        <div class="mb-text">Vaughn picks · Alex confirms ladders to title</div>
+      </div>
+      <div class="mb-col">
+        <span class="mb-label">Pre-built assets ready</span>
+        <div class="mb-text">Brief · brand context · raw footage · reference videos · scripts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:24px;">
+    <span class="tbl-label">Field 03 · 10 questions to seed Q&amp;A</span>
+    <p class="body" style="margin-bottom:6px;">Pre-write 10 questions before the live. If chat is quiet, host reads them. Mix tactical, strategic, and provocative. Routing notes per question.</p>
+
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><div><div class="step-title">[Tactical · how-to question about the build]</div><div class="step-desc">Routes to: Vaughn · Marta if platform-specific</div></div></div>
+      <div class="step"><div class="step-num">2</div><div><div class="step-title">[Tactical · workflow / process question]</div><div class="step-desc">Routes to: Vaughn or Doran</div></div></div>
+      <div class="step"><div class="step-num">3</div><div><div class="step-title">[Strategic · why does this matter for agencies?]</div><div class="step-desc">Routes to: Doran</div></div></div>
+      <div class="step"><div class="step-num">4</div><div><div class="step-title">[Strategic · where does AI hit its limit?]</div><div class="step-desc">Routes to: Doran · Alex</div></div></div>
+      <div class="step"><div class="step-num">5</div><div><div class="step-title">[Platform · how does X feature work?]</div><div class="step-desc">Routes to: Marta if platform live · Vaughn otherwise</div></div></div>
+      <div class="step"><div class="step-num">6</div><div><div class="step-title">[Platform · what's on the roadmap?]</div><div class="step-desc">Routes to: Alex</div></div></div>
+      <div class="step"><div class="step-num">7</div><div><div class="step-title">[Comparative · how is this different from [competitor]?]</div><div class="step-desc">Routes to: Alex · Doran</div></div></div>
+      <div class="step"><div class="step-num">8</div><div><div class="step-title">[Provocative · what are video teams getting wrong today?]</div><div class="step-desc">Routes to: Doran</div></div></div>
+      <div class="step"><div class="step-num">9</div><div><div class="step-title">[Use case · who is this for, who is this NOT for?]</div><div class="step-desc">Routes to: Alex</div></div></div>
+      <div class="step"><div class="step-num">10</div><div><div class="step-title">[Conversion · how do we get started? what's the path?]</div><div class="step-desc">Routes to: Alex · drops the CTA naturally</div></div></div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:24px;">
+    <span class="tbl-label">Field 04 · Project build · walkthrough flow</span>
+    <p class="body" style="margin-bottom:6px;">The 20-30 minute build broken into beats. Vaughn drives the screen share. Each beat = roughly 3-5 minutes.</p>
+
+    <div class="steps">
+      <div class="step"><div class="step-num">A</div><div><div class="step-title">Set up the project in Videfy</div><div class="step-desc">Create new project · paste brief · pull in brand context. Show the workspace at zero state.</div></div></div>
+      <div class="step"><div class="step-num">B</div><div><div class="step-title">Drop in raw assets</div><div class="step-desc">Upload footage · reference videos · scripts. Show how the project holds context.</div></div></div>
+      <div class="step"><div class="step-num">C</div><div><div class="step-title">Use AI inside the flow</div><div class="step-desc">Generate · iterate · refine using whatever AI surface fits this build (Claude MCP, Avatar, Generate, etc.).</div></div></div>
+      <div class="step"><div class="step-num">D</div><div><div class="step-title">Edit at scene level</div><div class="step-desc">Show the lightweight scene editing built into Videfy. Compare to opening Premiere.</div></div></div>
+      <div class="step"><div class="step-num">E</div><div><div class="step-title">Loop in collaborators / client review</div><div class="step-desc">Show how a teammate joins and how a client reviews without a paid seat.</div></div></div>
+      <div class="step"><div class="step-num">F</div><div><div class="step-title">Export + ship</div><div class="step-desc">Final cut. End-to-end timing visible. Compare to typical 6-tool stack.</div></div></div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:24px;">
+    <span class="tbl-label">Field 05 · What the build showcases</span>
+    <p class="body" style="margin-bottom:6px;">Two layers must come through every live: the platform features in action, AND the Videfy methodology behind why it works that way.</p>
+
+    <div class="two-col" style="margin-top:14px;">
+      <div class="card">
+        <div class="card-head lime">
+          <span class="card-icon">▸</span>
+          <div><div class="card-title">Platform features shown</div><div class="card-sub">The "what"</div></div>
+        </div>
+        <div class="card-body">
+          <ul class="card-list">
+            <li class="hi">Project workspace · brief intake · brand context</li>
+            <li class="hi">Asset organization + memory across the project</li>
+            <li class="hi">AI generation surfaces (Claude MCP · Avatar · Generate)</li>
+            <li class="hi">Scene-level editing built in</li>
+            <li class="hi">Client review · no paid seat required</li>
+            <li class="hi">Collaborator invite + permission model</li>
+            <li class="hi">Export + handoff package</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head teal">
+          <span class="card-icon">▸</span>
+          <div><div class="card-title">Videfy methodology</div><div class="card-sub">The "why"</div></div>
+        </div>
+        <div class="card-body">
+          <ul class="card-list">
+            <li class="tl"><strong>Idea → Feedback → Finished</strong> as one continuous flow</li>
+            <li class="tl">Production system absorbs the 6-tool stack into one tab</li>
+            <li class="tl">Memory holds the project arc · no zero-state every time</li>
+            <li class="tl">AI activates inside the project, not as a separate generator</li>
+            <li class="tl">Client review is free · removes the seat tax</li>
+            <li class="tl">Collaboration without ramp time</li>
+            <li class="tl"><strong>Production without the chaos</strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:14px;">
+      <span class="cl-label">Rule</span>
+      <div class="cl-text">Every live must hit at least <strong>3 platform features</strong> and <strong>2 methodology beats</strong>. If it doesn't, the live is a demo, not a story. The story is what converts.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- REPURPOSE -->
+<section class="section">
+  <span class="eyebrow">After the stream</span>
+  <h2 class="h2">Repurpose plan —<br><em>where the asset travels.</em></h2>
+  <p class="body">The 60-minute live becomes 6+ pieces of content over the following week. Live Ops + Alex own this together.</p>
+
+  <div class="four-col">
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">▶</span>
+        <div><div class="card-title">Full replay</div><div class="card-sub">YouTube</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Cleaned audio, chapter markers, end card with CTA. Pinned on YouTube channel.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">✂</span>
+        <div><div class="card-title">3-5 short clips</div><div class="card-sub">Reels · TT · Shorts</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">60-90s each. Hook from a strong moment in the walkthrough. Captioned vertical.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">"</span>
+        <div><div class="card-title">Quote cards</div><div class="card-sub">LinkedIn · X</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Pull 3-5 quotable moments from Q&amp;A. Carousel format on LinkedIn, single-image on X.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off">
+        <span class="card-icon">¶</span>
+        <div><div class="card-title">Transcript</div><div class="card-sub">Blog · newsletter</div></div>
+      </div>
+      <div class="card-body">
+        <div class="card-text">Full transcript becomes a blog post. Top moments become next newsletter issue.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- OPEN QUESTIONS -->
+<section class="section">
+  <span class="eyebrow">Open questions</span>
+  <h2 class="h2">What we still<br><em>need to decide.</em></h2>
+  <p class="body">Before stream day, lock answers on each.</p>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><div class="step-title">Day + time of week</div><div class="step-desc">Tuesday or Wednesday late morning historically best for B2B audience. Avoid Mondays + Fridays.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div><div class="step-title">The project to walk through</div><div class="step-desc">Real client build (proves Videfy in production) or staged demo brand (more controlled). Recommend real client with permission.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div><div class="step-title">Title of the live</div><div class="step-desc">Frame around the visible build, not the platform pitch. Alex + Doran lock this.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div><div class="step-title">Pre-stream announcement channels</div><div class="step-desc">LinkedIn (company), X, IG, beta email list. Discord invite link in every post. Pin in server.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div><div class="step-title">Cadence after live #1</div><div class="step-desc">Bi-weekly is sustainable for a 4-person team. Pick same day + time and stick. Don't promise weekly.</div></div></div>
+  </div>
+</section>
+
+
+<footer class="doc-footer">
+  <div class="ft-l">Prepared by Alex Lamb · Videfy.ai · Garry Fatakhov, Founder</div>
+  <div class="ft-r">First Live Playbook</div>
+</footer>
+
+</div>
+</body>
+</html>
