@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy — HyperFrames Builder Kit</title>
+<meta name="description" content="Companion to the HF deep dive — code skeletons, API curls, daemon scaffolding, error catalog, dev setup.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:980px; margin:0 auto; padding:56px 48px 80px; }
+
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:2; }
+
+.hero { background:var(--ink); border-radius:16px; padding:40px 44px; margin-bottom:14px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:14px; }
+.hero-headline { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(24px,3.5vw,36px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:18px; }
+.hero-headline em { color:var(--lime); font-style:italic; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.65); line-height:1.7; font-weight:300; max-width:640px; }
+.hero-body a { color:var(--lime); text-decoration:none; border-bottom:1px solid rgba(170,255,0,.4); }
+
+.section { margin-bottom:48px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:12px; }
+.h2 { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(20px,2.8vw,28px); line-height:1.15; letter-spacing:-.015em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-style:italic; color:var(--teal); }
+.h3 { font-family:'Instrument Serif',Georgia,serif; font-size:20px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin:28px 0 10px; font-weight:400; }
+.body { font-size:14px; color:#2C3040; line-height:1.75; font-weight:300; max-width:760px; }
+.body strong { font-weight:600; color:var(--ink); }
+.body code { font-family:'DM Mono',monospace; font-size:12.5px; background:var(--off); padding:1px 6px; border-radius:4px; color:var(--ink); }
+.body a { color:#005C54; border-bottom:1px solid rgba(0,196,180,.3); text-decoration:none; }
+
+.toc { background:var(--off); border:1px solid var(--bstr); border-radius:14px; padding:24px 28px; margin-top:20px; }
+.toc-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; display:block; }
+.toc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px 20px; }
+.toc-grid a { font-size:13px; color:var(--ink); text-decoration:none; padding:4px 0; border-bottom:1px dashed transparent; font-weight:400; }
+.toc-grid a:hover { border-bottom-color:var(--teal); color:#005C54; }
+.toc-grid .num { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-right:8px; }
+
+.code-block { background:var(--ink); color:#E8EAF0; border-radius:10px; padding:18px 20px; margin-top:14px; font-family:'DM Mono',monospace; font-size:12px; line-height:1.7; overflow-x:auto; white-space:pre; }
+.code-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:18px 0 6px; display:block; }
+.code-label .file { color:var(--ink); font-weight:500; text-transform:none; letter-spacing:.02em; }
+
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
+.callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout .cl-text strong { color:var(--lime); font-weight:500; }
+
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
+.note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
+.note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.65; font-weight:300; }
+.note-box .nb-text strong { font-weight:600; color:var(--ink); }
+
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl code { font-family:'DM Mono',monospace; font-size:11.5px; background:rgba(10,12,20,0.04); padding:1px 5px; border-radius:3px; }
+
+.steps { display:flex; flex-direction:column; gap:6px; margin-top:20px; }
+.step { display:flex; align-items:flex-start; gap:16px; padding:16px 20px; border:1px solid var(--bmd); border-radius:10px; background:var(--off); }
+.step-num { font-family:'Instrument Serif',Georgia,serif; font-size:22px; color:var(--light); line-height:1; flex-shrink:0; padding-top:2px; min-width:24px; }
+.step-title { font-size:14px; font-weight:600; color:var(--ink); margin-bottom:3px; }
+.step-desc { font-size:13px; color:var(--muted); line-height:1.55; font-weight:300; }
+.step-desc code { font-family:'DM Mono',monospace; font-size:11.5px; background:rgba(10,12,20,0.04); padding:1px 5px; border-radius:3px; color:var(--ink); }
+
+.doc-footer { margin-top:64px; padding-top:20px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-size:12px; color:var(--muted); }
+.ft-r { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+
+@media(max-width:680px) {
+  .page { padding:40px 20px 72px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero { padding:28px 24px; }
+  .toc-grid { grid-template-columns:1fr; }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:10px; }
+  .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">VIDEFY / BUILDER KIT</span>
+  </div>
+  <div class="doc-meta">
+    Companion to deep dive<br/>
+    Updated 2026-05-06
+  </div>
+</div>
+
+<div class="hero">
+  <span class="hero-eyebrow">Implementation companion · Read after the <a href="./hyperframes-deep-dive.html">deep dive</a></span>
+  <h1 class="hero-headline">Code, curls, daemon, Dockerfile.<br/><em>The kit, not the strategy.</em></h1>
+  <p class="hero-body">The <a href="./hyperframes-deep-dive.html">deep dive</a> was the map. This is the toolbox. Real <code>SKILL.md</code> for <code>/videfy-gen</code>. Hono daemon scaffolding. Every Studio API call as a curl. <code>package.json</code> deps. <code>Dockerfile.render</code>. Error catalog. 5-command dev setup. Open it in a second tab while you build.</p>
+</div>
+
+<!-- TOC -->
+<div class="section" style="margin-top:32px;">
+<div class="toc">
+  <span class="toc-label">Contents · 10 sections</span>
+  <div class="toc-grid">
+    <a href="#s1"><span class="num">01</span>Dev setup — 5 commands</a>
+    <a href="#s2"><span class="num">02</span>Skill skeleton: /videfy-gen</a>
+    <a href="#s3"><span class="num">03</span>Videfy daemon (Hono)</a>
+    <a href="#s4"><span class="num">04</span>Studio API curl recipes</a>
+    <a href="#s5"><span class="num">05</span>Composition + variables example</a>
+    <a href="#s6"><span class="num">06</span>package.json + deps</a>
+    <a href="#s7"><span class="num">07</span>Dockerfile.render (cloud)</a>
+    <a href="#s8"><span class="num">08</span>Error catalog</a>
+    <a href="#s9"><span class="num">09</span>Prompt cache strategy</a>
+    <a href="#s10"><span class="num">10</span>Telemetry + billing hooks</a>
+  </div>
+</div>
+</div>
+
+<!-- 1 -->
+<div class="section" id="s1">
+  <span class="eyebrow">01 · Get a working dev env</span>
+  <h2 class="h2">Dev setup — <em>5 commands</em></h2>
+  <p class="body">From zero to working Videfy + HF dev environment.</p>
+
+  <pre class="code-block"># 1. Prereqs (Mac)
+brew install node ffmpeg git-lfs && git lfs install
+
+# 2. Clone HF source (for reading + reference, not editing)
+git clone --depth 1 https://github.com/heygen-com/hyperframes.git ~/dev/hyperframes
+
+# 3. Scaffold a Videfy test project (HF as render backend)
+npx hyperframes init ~/dev/videfy-test --tailwind
+cd ~/dev/videfy-test &amp;&amp; npm install
+
+# 4. Install HF skills globally (slash commands in Claude Code, Cursor, Codex)
+npx skills add heygen-com/hyperframes --yes --global
+
+# 5. Boot Studio (browser editor at localhost:3002)
+npm run dev</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Verify</span>
+    <p class="nb-text">Open <code>http://localhost:3002</code> — you should see the HF Studio with NLE timeline + assets sidebar + render queue. Drop a PNG into <code>~/dev/videfy-test/assets/</code> and it should appear in the Assets tab automatically.</p>
+  </div>
+</div>
+
+<!-- 2 -->
+<div class="section" id="s2">
+  <span class="eyebrow">02 · Real skill file</span>
+  <h2 class="h2">Skill skeleton: <em>/videfy-gen</em></h2>
+  <p class="body">Lives at <code>~/.agents/skills/videfy-gen/SKILL.md</code>. Frontmatter declares trigger criteria. Markdown body becomes system prompt prepended to user requests. Tool calls inherit full agent permissions.</p>
+
+  <span class="code-label"><span class="file">~/.agents/skills/videfy-gen/SKILL.md</span></span>
+  <pre class="code-block">---
+name: videfy-gen
+description: Generate images and short video clips for Videfy compositions. Use when the user asks to generate, create, or stage AI images or AI video clips for inclusion in a HyperFrames composition. Supports NanoBanana 2 (image), Midjourney (image), ChatGPT (image), Veo 3.1 (video), Kling (video), Seedance (video). Always writes outputs to the active HyperFrames project's `assets/` directory so HF Studio picks them up automatically.
+---
+
+# /videfy-gen
+
+You generate AI imagery and short video clips for Videfy compositions.
+Outputs MUST land in the active HF project's `assets/` directory.
+
+## Resolution rules
+
+1. Resolve the active HF project path from the conversation context.
+   - User explicit path? Use it.
+   - User in a `npx hyperframes preview` session? Read its project from `localhost:3002/projects`.
+   - Otherwise ASK: "Which HF project should I write into?"
+
+2. Aspect ratio defaults:
+   - 9:16 portrait for reels / TikTok / Stories
+   - 16:9 landscape for YouTube / explainers / web heroes
+   - 1:1 for IG feed posts
+
+3. Engine selection (default order):
+   - Photorealistic editorial → ChatGPT (`gpt-image-2`) or NB2
+   - Surreal / cinematic → Midjourney
+   - Motion clip → Veo 3.1 (start frame from NB2 image)
+
+## Tool usage
+
+Always call `videfy-daemon` first via HTTP:
+
+```
+POST http://localhost:7777/generate/image
+  { "prompt": "...", "engine": "nb2", "aspect": "9:16",
+    "out": "&lt;hf-project&gt;/assets/&lt;slug&gt;-&lt;n&gt;.png", "n": 4 }
+```
+
+The daemon downloads the image bytes and writes to `out`. HF Studio
+auto-refreshes the Assets tab via file watcher.
+
+## Banned engines
+
+NEVER use Flux. Stick to NB2, NB Pro, Midjourney, ChatGPT, Veo, Kling.
+
+## Realism rules
+
+- Film stock, grain, imperfection language
+- No "beautiful" / "stunning" / "perfect" / "8K" / "hyperrealistic"
+- No forced logos
+- Always humans in frame (no empty still lifes)
+
+## After generation
+
+- Verify file exists on disk
+- Report path back to user
+- Suggest the next step: "Drag this from Assets tab to track 1 at t=0:00"
+- Do NOT auto-edit the composition unless user requests
+
+## When to escalate
+
+If user asks for a full reel: hand off to `/videfy` orchestrator.
+If user wants to wire into composition HTML: hand off to `/hyperframes`.
+</pre>
+
+  <p class="body" style="margin-top:14px;">Mirror this structure for <code>/videfy-script</code>, <code>/videfy-post</code>, <code>/videfy-stock</code>, <code>/videfy-clip</code>, <code>/videfy-shotlist</code>. Each ~50-100 lines, frontmatter + body + tool usage + banned-paths + escalation.</p>
+</div>
+
+<!-- 3 -->
+<div class="section" id="s3">
+  <span class="eyebrow">03 · Daemon code</span>
+  <h2 class="h2">Videfy daemon — <em>Hono server</em></h2>
+  <p class="body">Local-first orchestrator on <code>localhost:7777</code>. Receives gen requests from skills, writes outputs to the active HF project, calls third-party gen APIs (Fal, Kie, OpenAI), returns absolute paths back. Stateless, deterministic, BYOK.</p>
+
+  <span class="code-label"><span class="file">videfy-daemon/src/server.ts</span></span>
+  <pre class="code-block">import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { z } from "zod";
+import { writeFile, mkdir } from "node:fs/promises";
+import { dirname } from "node:path";
+import { generateImage } from "./engines/index.ts";
+import { generateVideo } from "./engines/video.ts";
+import { synthVoice } from "./tts/kokoro.ts";
+import { transcribe } from "./asr/whisper.ts";
+import { searchBroll } from "./broll/pexels.ts";
+import { postBlotato } from "./post/blotato.ts";
+
+const app = new Hono();
+app.use("*", cors({ origin: ["http://localhost:3002"] }));
+
+const ImageReq = z.object({
+  prompt: z.string().min(3),
+  engine: z.enum(["nb2", "nb-pro", "mj", "chatgpt"]),
+  aspect: z.enum(["9:16", "16:9", "1:1"]).default("9:16"),
+  out: z.string(),       // absolute path inside HF project /assets
+  n: z.number().int().min(1).max(8).default(1),
+  refImages: z.array(z.string()).optional(),
+});
+
+app.post("/generate/image", async (c) =&gt; {
+  const body = ImageReq.parse(await c.req.json());
+  await mkdir(dirname(body.out), { recursive: true });
+  const results = await generateImage(body);    // returns Buffer[]
+  const paths: string[] = [];
+  for (const [i, buf] of results.entries()) {
+    const p = body.out.replace(/(\.\w+)$/, `_${i + 1}$1`);
+    await writeFile(p, buf);
+    paths.push(p);
+  }
+  return c.json({ ok: true, paths });
+});
+
+const VideoReq = z.object({
+  prompt: z.string(),
+  engine: z.enum(["veo-3.1", "kling-2.1", "seedance"]),
+  startFrame: z.string().optional(),  // path to NB2 image
+  duration: z.number().min(1).max(10).default(8),
+  out: z.string(),
+});
+app.post("/generate/video", async (c) =&gt; {
+  const body = VideoReq.parse(await c.req.json());
+  await mkdir(dirname(body.out), { recursive: true });
+  const buf = await generateVideo(body);
+  await writeFile(body.out, buf);
+  return c.json({ ok: true, path: body.out });
+});
+
+const TtsReq = z.object({
+  text: z.string(),
+  voice: z.string().default("af_heart"),
+  out: z.string(),
+});
+app.post("/tts", async (c) =&gt; {
+  const body = TtsReq.parse(await c.req.json());
+  await synthVoice(body);
+  return c.json({ ok: true, path: body.out });
+});
+
+const TranscribeReq = z.object({
+  audioPath: z.string(),
+  out: z.string(),  // writes word-level JSON
+});
+app.post("/transcribe", async (c) =&gt; {
+  const body = TranscribeReq.parse(await c.req.json());
+  await transcribe(body);
+  return c.json({ ok: true, path: body.out });
+});
+
+app.post("/broll/search", async (c) =&gt; {
+  const { query, source = "pexels", count = 10 } = await c.req.json();
+  const results = await searchBroll({ query, source, count });
+  return c.json({ ok: true, results });
+});
+
+const PostReq = z.object({
+  videoPath: z.string(),
+  caption: z.string(),
+  accountIds: z.array(z.string()),
+  scheduledTime: z.string(),  // ISO 8601
+});
+app.post("/post/blotato", async (c) =&gt; {
+  const body = PostReq.parse(await c.req.json());
+  const submissionId = await postBlotato(body);
+  return c.json({ ok: true, submissionId });
+});
+
+// Health check
+app.get("/healthz", (c) =&gt; c.json({ ok: true, version: "0.1.0" }));
+
+export default { port: 7777, fetch: app.fetch };</pre>
+
+  <span class="code-label"><span class="file">videfy-daemon/src/engines/index.ts — engine router</span></span>
+  <pre class="code-block">import { generateNB2 } from "./nb2.ts";
+import { generateMJ } from "./mj.ts";
+import { generateChatGPT } from "./chatgpt.ts";
+
+export async function generateImage(req: {
+  prompt: string;
+  engine: "nb2" | "nb-pro" | "mj" | "chatgpt";
+  aspect: "9:16" | "16:9" | "1:1";
+  n: number;
+  refImages?: string[];
+}): Promise&lt;Buffer[]&gt; {
+  switch (req.engine) {
+    case "nb2":
+    case "nb-pro":  return generateNB2(req);
+    case "mj":      return generateMJ(req);
+    case "chatgpt": return generateChatGPT(req);
+  }
+}</pre>
+
+  <div class="callout">
+    <span class="cl-label">Why a daemon vs library</span>
+    <p class="cl-text">Daemon = <strong>language-agnostic</strong>. Skills call HTTP, not Node imports. Future Videfy clients (Python ML pipelines, n8n nodes, hosted web app) hit the same routes. Plus skills run inside Claude Code's process — calling external tools needs a network boundary anyway.</p>
+  </div>
+</div>
+
+<!-- 4 -->
+<div class="section" id="s4">
+  <span class="eyebrow">04 · API recipes</span>
+  <h2 class="h2">Studio API — <em>every call as a curl</em></h2>
+  <p class="body">Assumes Studio running at <code>localhost:3002</code>. Replace <code>:id</code> with your HF project ID (slug from <code>meta.json</code>).</p>
+
+  <span class="code-label">List projects</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects | jq</pre>
+
+  <span class="code-label">Read a file (e.g. composition HTML)</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/files/index.html</pre>
+
+  <span class="code-label">Write a file (overwrite)</span>
+  <pre class="code-block">curl -s -X PUT http://localhost:3002/api/projects/my-video/files/index.html \
+  -H "Content-Type: text/plain" \
+  --data-binary @local-index.html</pre>
+
+  <span class="code-label">Patch a file (partial update — JSON patch / text edit)</span>
+  <pre class="code-block">curl -s -X PATCH http://localhost:3002/api/projects/my-video/files/index.html \
+  -H "Content-Type: application/json" \
+  -d '{ "find": "data-duration=\"5\"", "replace": "data-duration=\"7\"" }'</pre>
+
+  <span class="code-label">Drop an asset (e.g. generated image)</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/files/assets/remi-001.png \
+  --data-binary @/path/to/remi-001.png</pre>
+
+  <span class="code-label">Lint composition</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/lint | jq</pre>
+
+  <span class="code-label">Get frame thumbnail at t=2.5s, 480px wide</span>
+  <pre class="code-block">curl -s "http://localhost:3002/api/projects/my-video/thumbnail/index.html?t=2.5&w=480&format=jpeg" \
+  -o thumb.jpg</pre>
+
+  <span class="code-label">Get audio waveform peaks</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/projects/my-video/waveform/assets/voiceover.wav | jq</pre>
+
+  <span class="code-label">Submit render</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "fps": 30,
+    "width": 1080,
+    "height": 1920,
+    "quality": "high"
+  }' | jq
+# returns { jobId: "abc123", status: "queued" }</pre>
+
+  <span class="code-label">Poll render progress</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/render/abc123/progress | jq
+# returns { status: "rendering", progress: 0.42, eta: 38 }</pre>
+
+  <span class="code-label">Download finished MP4</span>
+  <pre class="code-block">curl -s http://localhost:3002/api/render/abc123/download -o output.mp4</pre>
+
+  <span class="code-label">Cancel render</span>
+  <pre class="code-block">curl -s -X DELETE http://localhost:3002/api/render/abc123</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Routing prefix</span>
+    <p class="nb-text">Studio API mounts under <code>/api</code> by default. Verify with <code>curl http://localhost:3002/api/projects</code> on your install — older versions used root paths. The handler factory is at <a href="https://github.com/heygen-com/hyperframes/blob/main/packages/core/src/studio-api/createStudioApi.ts" target="_blank" rel="noopener"><code>packages/core/src/studio-api/createStudioApi.ts</code></a>.</p>
+  </div>
+</div>
+
+<!-- 5 -->
+<div class="section" id="s5">
+  <span class="eyebrow">05 · Worked example</span>
+  <h2 class="h2">Composition w/ <em>variables</em> — full file</h2>
+  <p class="body">Parameterizable reel template. Videfy fills <code>data-variable-*</code> at render submit. One file = N variants without LLM regen.</p>
+
+  <span class="code-label"><span class="file">my-video/index.html</span></span>
+  <pre class="code-block">&lt;!doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&display=swap" rel="stylesheet"&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"&gt;&lt;/script&gt;
+&lt;style&gt;
+  body { margin:0; background:#0A0C14; }
+  .stage { position:absolute; inset:0; }
+  .title  { position:absolute; left:60px; bottom:240px; color:#fff;
+            font-family:'Instrument Serif',serif; font-size:96px; line-height:1.05; opacity:0; }
+  .cta    { position:absolute; left:60px; bottom:120px; padding:18px 32px;
+            border-radius:12px; font-weight:600; font-size:24px; opacity:0; }
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id="stage" class="stage"
+     data-composition-id="reel-template"
+     data-start="0" data-width="1080" data-height="1920"
+     data-variable-title="string"
+     data-variable-cta="string"
+     data-variable-bgColor="color"
+     data-variable-bgImage="string"&gt;
+
+  &lt;img id="bg" class="clip"
+       data-start="0" data-duration="6" data-track-index="0"
+       src="{{ bgImage }}" style="width:100%; height:100%; object-fit:cover;" /&gt;
+
+  &lt;h1 class="title clip"
+      data-start="0.5" data-duration="5.5" data-track-index="1"&gt;
+    {{ title }}
+  &lt;/h1&gt;
+
+  &lt;button class="cta clip"
+          data-start="2" data-duration="4" data-track-index="1"
+          style="background: {{ bgColor }}; color: #0A0C14;"&gt;
+    {{ cta }}
+  &lt;/button&gt;
+
+&lt;/div&gt;
+
+&lt;script&gt;
+  window.__timelines = window.__timelines || {};
+  const tl = gsap.timeline({ paused: true });
+  tl.to(".title", { opacity: 1, y: -20, duration: 0.6, ease: "power2.out" }, 0.5);
+  tl.to(".cta",   { opacity: 1, y: -10, duration: 0.4, ease: "power2.out" }, 2.0);
+  window.__timelines["reel-template"] = tl;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+  <span class="code-label">Render variant 1</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "variables": {
+      "title": "Buy Now",
+      "cta": "Shop the drop",
+      "bgColor": "#FF0066",
+      "bgImage": "assets/lookbook-001.jpg"
+    }
+  }' | jq</pre>
+
+  <span class="code-label">Render variant 2 (different params, same composition)</span>
+  <pre class="code-block">curl -s -X POST http://localhost:3002/api/projects/my-video/render \
+  -H "Content-Type: application/json" \
+  -d '{
+    "compositionPath": "index.html",
+    "format": "mp4",
+    "variables": {
+      "title": "Open Now",
+      "cta": "Get yours",
+      "bgColor": "#00CC88",
+      "bgImage": "assets/lookbook-002.jpg"
+    }
+  }' | jq</pre>
+</div>
+
+<!-- 6 -->
+<div class="section" id="s6">
+  <span class="eyebrow">06 · Deps</span>
+  <h2 class="h2">package.json — <em>Videfy daemon</em></h2>
+
+  <span class="code-label"><span class="file">videfy-daemon/package.json</span></span>
+  <pre class="code-block">{
+  "name": "@videfy/daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev":     "bun --hot run src/server.ts",
+    "start":   "bun run src/server.ts",
+    "build":   "bun build src/server.ts --target=bun --outfile=dist/server.js",
+    "test":    "bun test",
+    "lint":    "biome check src",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono":               "^4.6.0",
+    "@hono/zod-validator": "^0.4.0",
+    "zod":                "^3.23.0",
+    "openai":             "^4.70.0",
+    "@anthropic-ai/sdk":  "^0.30.0",
+    "kokoro-js":          "^1.0.0",
+    "whisper-node":       "^1.1.0",
+    "node-fetch":         "^3.3.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome":     "^1.9.0",
+    "@types/bun":         "latest",
+    "typescript":         "^5.6.0"
+  }
+}</pre>
+
+  <div class="note-box">
+    <span class="nb-label">Why Bun + Hono</span>
+    <p class="nb-text">Hono = ~50KB Web-standard router. Same code runs on Bun, Node, Cloudflare Workers, Deno — useful when we ship a hosted version. Bun = fast dev loop + native TypeScript + built-in test runner. Drop-in upgrade path to Node if Bun bites.</p>
+  </div>
+</div>
+
+<!-- 7 -->
+<div class="section" id="s7">
+  <span class="eyebrow">07 · Cloud render</span>
+  <h2 class="h2">Dockerfile.render — <em>Modal / Fly.io</em></h2>
+  <p class="body">Headless HF renderer in a container. Submit jobs from Videfy daemon, rendered MP4 piped back. Base on HF's own <code>Dockerfile.test</code> — known-working Chrome + ffmpeg combo.</p>
+
+  <span class="code-label"><span class="file">render-worker/Dockerfile.render</span></span>
+  <pre class="code-block">FROM node:22-bookworm-slim
+
+# System deps for headless Chrome + ffmpeg (HDR-capable build)
+RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+      ffmpeg ca-certificates fonts-liberation libnss3 libatk1.0-0 \
+      libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 \
+      libxdamage1 libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 \
+      libcairo2 libasound2 libxshmfence1 wget gnupg \
+  &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Chrome (Puppeteer's bundled Chromium ships during npm install)
+ENV PUPPETEER_DOWNLOAD_PATH=/opt/chromium
+ENV NODE_ENV=production
+
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+# Render worker entrypoint — receives jobs via HTTP POST, runs HF render,
+# returns MP4 path. Internally uses @hyperframes/producer.
+EXPOSE 8080
+CMD ["node", "dist/render-worker.js"]</pre>
+
+  <span class="code-label">Modal deploy snippet</span>
+  <pre class="code-block">import modal
+
+app = modal.App("videfy-render")
+image = (modal.Image.from_dockerfile("Dockerfile.render")
+         .pip_install("modal")
+         .add_local_dir("./", remote_path="/app"))
+
+@app.function(image=image, gpu=None, cpu=4, memory=8192, timeout=600)
+def render(job: dict) -&gt; bytes:
+    # Job: { compositionPath, variables, fps, width, height, quality }
+    import subprocess, json
+    out = "/tmp/output.mp4"
+    subprocess.run(
+        ["node", "dist/render-worker.js", "--job", json.dumps(job), "--out", out],
+        check=True,
+    )
+    with open(out, "rb") as f:
+        return f.read()</pre>
+
+  <p class="body" style="margin-top:14px;"><strong>Cost target:</strong> &lt; $0.10 per minute of 1080p output. Modal CPU-only @ 4 cores ≈ $0.000131/sec → ~$0.008/min compute + storage. Margin clears w/ $99/mo Studio tier rendering up to ~1000 minutes/month.</p>
+</div>
+
+<!-- 8 -->
+<div class="section" id="s8">
+  <span class="eyebrow">08 · What breaks + how to recover</span>
+  <h2 class="h2">Error catalog</h2>
+  <table class="tbl">
+    <tr><th>Symptom</th><th>Cause</th><th>Fix</th></tr>
+    <tr><td>HF Studio 404 on <code>/api/projects/...</code></td><td>API mounted at root in older HF</td><td>Drop <code>/api</code> prefix; check <code>createStudioApi.ts</code> to confirm</td></tr>
+    <tr><td><code>lint</code> errors: "wall-clock animation"</td><td>Found <code>Date.now()</code> / <code>requestAnimationFrame</code> in composition</td><td>Replace w/ GSAP timeline reading <code>seek(t)</code></td></tr>
+    <tr><td><code>lint</code>: "missing data-track-index"</td><td>Timed element w/o track</td><td>Add <code>data-track-index="0"</code> (or higher)</td></tr>
+    <tr><td><code>lint</code>: "missing class=clip"</td><td>Element has timing but no <code>clip</code> class</td><td>Add <code>class="clip"</code> — framework uses it for visibility</td></tr>
+    <tr><td>Render hangs at 0%</td><td>Chrome can't load asset (CORS, missing file)</td><td>Check <code>preview/&lt;path&gt;</code> serves the file. Confirm asset exists in project dir</td></tr>
+    <tr><td>Render finishes, MP4 silent</td><td>Audio track missing or video had <code>muted</code></td><td>Add <code>&lt;audio&gt;</code> element w/ <code>data-track-index</code> separate from video</td></tr>
+    <tr><td>Render finishes, audio out of sync</td><td>Mismatched <code>data-start</code> between video + audio</td><td>Use shared <code>data-start</code>; verify <code>data-duration</code> matches source</td></tr>
+    <tr><td>Render dies w/ "out of memory"</td><td>Long composition + parallel Chrome workers exceed RAM</td><td>Lower <code>--workers</code> or upgrade box</td></tr>
+    <tr><td>Studio assets tab empty</td><td>File watcher missed files (rare)</td><td>Hard refresh browser; or <code>POST /projects/:id/files/assets/&lt;name&gt;</code> manually</td></tr>
+    <tr><td>Daemon <code>/generate/image</code> 502</td><td>Upstream gen API (Fal/Kie/OpenAI) failed</td><td>Daemon should retry once w/ jitter, then surface upstream error to caller</td></tr>
+    <tr><td>Determinism mismatch — same input, different MP4 hash</td><td>Font missing locally OR system fonts overrode</td><td>Add <code>.woff2</code> to project <code>fonts/</code>; HF's <code>deterministicFonts.ts</code> bakes in</td></tr>
+    <tr><td>Composition variables not interpolating</td><td>Missing <code>data-variable-&lt;name&gt;</code> declaration on root</td><td>Declare every variable on root node before <code>{{ name }}</code> use</td></tr>
+    <tr><td>Render queue stuck</td><td>Stale jobs in queue</td><td><code>DELETE /render/:jobId</code> for each; or restart Studio</td></tr>
+    <tr><td>Lint passes, render fails silently</td><td>GSAP timeline not registered on <code>window.__timelines</code></td><td>Confirm <code>window.__timelines["composition-id"] = tl</code> + <code>paused: true</code></td></tr>
+  </table>
+</div>
+
+<!-- 9 -->
+<div class="section" id="s9">
+  <span class="eyebrow">09 · Token economics</span>
+  <h2 class="h2">Prompt cache strategy</h2>
+  <p class="body">Anthropic's prompt cache = <strong>90% discount</strong> on repeated prefix tokens, 5-minute TTL on standard cache, 1-hour TTL on extended cache. Skills are big system prompts — caching them is the single biggest cost lever.</p>
+
+  <h3 class="h3">Rules</h3>
+  <ol class="body" style="padding-left:22px;">
+    <li><strong>Stable prefix.</strong> Skill bodies don't change between calls. Make them the first system block, mark <code>cache_control: { type: "ephemeral" }</code> on the last item of the cacheable section.</li>
+    <li><strong>Variables go after the cache cut.</strong> User prompt + composition state = post-cache. The cache key is the prefix hash.</li>
+    <li><strong>Keep skills under 2K tokens each.</strong> Bigger = pricier cold start. Move long examples into <code>references/</code> and load on demand via tool call, not prefix.</li>
+    <li><strong>Use extended cache for the orchestrator.</strong> <code>/videfy</code> runs across long sessions — 1-hour TTL is worth the slight surcharge.</li>
+    <li><strong>Watch the metric.</strong> Token usage event includes <code>cache_creation_input_tokens</code> and <code>cache_read_input_tokens</code>. Read = 90% off. Creation = full price (one-time). Aim for cache_read &gt; 95% of repeat calls within TTL.</li>
+  </ol>
+
+  <h3 class="h3">Anthropic SDK snippet</h3>
+  <pre class="code-block">import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic();
+const skillPrompt = await readFile(
+  "~/.agents/skills/videfy/SKILL.md", "utf8");
+
+const resp = await client.messages.create({
+  model: "claude-sonnet-4-6",
+  max_tokens: 1024,
+  system: [
+    {
+      type: "text",
+      text: skillPrompt,
+      cache_control: { type: "ephemeral" }   // 5-min TTL
+    }
+  ],
+  messages: [
+    { role: "user", content: userMessage }
+  ]
+});</pre>
+
+  <div class="callout">
+    <span class="cl-label">Free-tier math</span>
+    <p class="cl-text">Skill prompt ~1500 tokens. Without cache: 1500 × $3/MTok input = $0.0045 per call. With cache after warm-up: 1500 × $0.30/MTok = $0.00045 per call. <strong>10× saving.</strong> 100 calls/day per user × 1000 users × 30 days = $1,350/mo without cache, $135 with. Easy decision.</p>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="section" id="s10">
+  <span class="eyebrow">10 · Make money</span>
+  <h2 class="h2">Telemetry + billing hooks</h2>
+  <p class="body">Cloud render = the main billable event. Track everything else for product analytics.</p>
+
+  <h3 class="h3">Events to fire</h3>
+  <table class="tbl">
+    <tr><th>Event</th><th>Properties</th><th>Where</th></tr>
+    <tr><td><code>composition.created</code></td><td>projectId, templateId, mode (chat | template | manual)</td><td>Daemon <code>/projects</code> POST</td></tr>
+    <tr><td><code>asset.generated</code></td><td>projectId, engine, type (image | video), durationSec, costUsd</td><td>Daemon <code>/generate/*</code> response</td></tr>
+    <tr><td><code>render.submitted</code></td><td>projectId, fps, width, height, durationSec, expectedCostUsd</td><td>Daemon <code>/post/blotato</code></td></tr>
+    <tr><td><code>render.completed</code></td><td>projectId, jobId, actualDurationSec, actualCostUsd, fileSizeMB</td><td>Render worker on success</td></tr>
+    <tr><td><code>render.failed</code></td><td>projectId, jobId, errorCode, errorMessage</td><td>Render worker on error</td></tr>
+    <tr><td><code>post.scheduled</code></td><td>projectId, platform, accountId, scheduledTime</td><td>Daemon <code>/post/blotato</code></td></tr>
+    <tr><td><code>skill.invoked</code></td><td>skillName, userId, tokensUsed, cacheHit</td><td>Anthropic SDK wrapper</td></tr>
+  </table>
+
+  <h3 class="h3">Stripe metering</h3>
+  <pre class="code-block">import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+
+// On render.completed
+await stripe.subscriptionItems.createUsageRecord(
+  subscriptionItemId,
+  {
+    quantity: Math.ceil(actualDurationSec / 60),  // round up to minute
+    timestamp: Math.floor(Date.now() / 1000),
+    action: "increment",
+  }
+);</pre>
+
+  <h3 class="h3">Pricing tiers (proposed)</h3>
+  <table class="tbl">
+    <tr><th>Tier</th><th>Price</th><th>Includes</th></tr>
+    <tr><td><strong>Creator (BYOK)</strong></td><td>$29/mo</td><td>Skills + daemon + local render. User brings own keys (Fal, Kie, OpenAI, Anthropic). Unlimited.</td></tr>
+    <tr><td><strong>Studio</strong></td><td>$99/mo</td><td>Above + 500 min/mo cloud render + managed gen credits ($30 of NB2/Veo) + Blotato posting</td></tr>
+    <tr><td><strong>Agency</strong></td><td>$399/mo</td><td>Above + 10 brand workspaces + 2,500 min/mo render + priority queue + 3 user seats</td></tr>
+    <tr><td><strong>Enterprise</strong></td><td>Talk</td><td>SLA, custom volume, on-prem render workers, white-label</td></tr>
+  </table>
+
+  <div class="callout">
+    <span class="cl-label">Margin model</span>
+    <p class="cl-text">Studio tier @ $99 — assume average user renders 200 min/mo. Modal cost: 200 × $0.008 = <strong>$1.60</strong>. Anthropic skill calls @ cached: ~$0.50/user/mo. Stripe + infra: ~$3. <strong>Gross margin per Studio user ≈ $93/mo.</strong> Healthy.</p>
+  </div>
+</div>
+
+<div class="doc-footer">
+  <div class="ft-l">Videfy / HyperFrames Builder Kit · Companion to <a href="./hyperframes-deep-dive.html" style="color:#005C54;">deep dive</a></div>
+  <div class="ft-r">v1 · 2026-05-06</div>
+</div>
+
+</div>
+</body>
+</html>
