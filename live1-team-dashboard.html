@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy Live #1 · Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --bg:#0A0C14; --panel:#13161F; --panel2:#1A1E2A;
+  --border:rgba(255,255,255,.08); --bmd:rgba(255,255,255,.14);
+  --txt:#E8EAF0; --dim:#9CA3AF;
+  --red:#EF4444; --amber:#F59E0B;
+}
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--txt); font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif; font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; min-height:100vh; }
+
+/* Sticky header */
+.header { position:sticky; top:0; z-index:100; background:rgba(10,12,20,.92); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:14px 24px; }
+.header-row { display:flex; align-items:center; gap:24px; max-width:1400px; margin:0 auto; flex-wrap:wrap; }
+.brand { display:flex; align-items:center; gap:10px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:13px; font-weight:500; letter-spacing:.04em; }
+.brand-logo { width:30px; height:30px; background:var(--lime); border-radius:6px; display:grid; place-items:center; }
+.live-badge { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; background:rgba(239,68,68,.15); border:1px solid rgba(239,68,68,.4); border-radius:6px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#FCA5A5; }
+.live-badge.is-live { background:rgba(239,68,68,.3); color:#fff; animation:pulse 1.5s infinite; }
+.live-badge.pre  { background:rgba(245,158,11,.15); border-color:rgba(245,158,11,.4); color:#FCD34D; }
+.live-badge.post { background:rgba(170,255,0,.15); border-color:rgba(170,255,0,.4); color:var(--lime); }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.55; } }
+.dot { width:7px; height:7px; border-radius:50%; background:currentColor; }
+.clock { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:18px; font-weight:500; color:#fff; }
+.clock .sec { color:var(--muted); font-size:13px; }
+.countdown { font-family:'Inter',-apple-system,sans-serif; font-size:22px; color:var(--lime); }
+.countdown .lbl { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); display:block; line-height:1; margin-bottom:2px; }
+.now-block { flex:1; min-width:0; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+.now-block strong { color:var(--lime); font-weight:500; }
+.now-block .nxt { color:var(--dim); margin-left:14px; }
+
+/* Layout */
+.page { max-width:1400px; margin:0 auto; padding:24px; display:grid; grid-template-columns:1fr 380px; gap:20px; }
+@media (max-width:1024px) { .page { grid-template-columns:1fr; } }
+
+/* Cards */
+.card { background:var(--panel); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:16px; }
+.card-head { padding:14px 20px; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; gap:12px; background:var(--panel2); }
+.card-title { font-family:'Inter',-apple-system,sans-serif; font-size:19px; font-weight:600; color:#fff; letter-spacing:-.01em; }
+.card-sub { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+.card-body { padding:18px 20px; }
+
+/* Block (run-of-show) */
+.block { padding:14px 18px; border-radius:10px; border:1px solid var(--border); margin-bottom:8px; transition:all .25s; background:var(--panel2); }
+.block.is-current { border-color:var(--lime); background:linear-gradient(135deg, rgba(170,255,0,.08), rgba(0,196,180,.04)); box-shadow:0 0 0 1px var(--lime), 0 8px 24px rgba(170,255,0,.15); }
+.block.is-past { opacity:.42; }
+.block.is-soon { border-color:rgba(245,158,11,.4); }
+.block-head { display:flex; justify-content:space-between; align-items:flex-start; gap:14px; cursor:pointer; }
+.block-time { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px; color:var(--lime); letter-spacing:.12em; font-weight:500; }
+.block.is-past .block-time { color:var(--muted); }
+.block-title { font-family:'Inter',-apple-system,sans-serif; font-size:18px; font-weight:600; color:#fff; margin-top:3px; }
+.block-owner { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; color:var(--dim); }
+.block-body { margin-top:10px; padding-top:10px; border-top:1px dashed var(--border); display:none; }
+.block.is-open .block-body { display:block; }
+.block.is-current .block-body { display:block; }
+.block-script { background:rgba(170,255,0,.06); border-left:3px solid var(--lime); padding:12px 14px; border-radius:0 6px 6px 0; font-family:'Inter',-apple-system,sans-serif; font-size:15.5px; line-height:1.55; color:#E8EAF0; font-style:normal; margin:8px 0; }
+.block-list { list-style:none; display:flex; flex-direction:column; gap:5px; margin-top:8px; }
+.block-list li { font-size:14.5px; color:var(--txt); padding-left:16px; position:relative; line-height:1.5; }
+.block-list li::before { content:'→'; position:absolute; left:0; color:var(--teal); font-weight:600; }
+.block-list li strong { color:var(--lime); font-weight:500; }
+.block-label { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin:10px 0 4px; }
+
+/* Collapsible sections */
+details.collapse { border:1px solid var(--border); border-radius:8px; margin-bottom:6px; background:var(--panel2); overflow:hidden; transition:border-color .2s; }
+details.collapse[open] { border-color:var(--lime); background:rgba(170,255,0,.04); }
+details.collapse > summary { padding:11px 14px; cursor:pointer; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px; -webkit-user-select:none; user-select:none; }
+details.collapse > summary::-webkit-details-marker { display:none; }
+details.collapse > summary::marker { content:''; }
+details.collapse > summary:hover { background:rgba(170,255,0,.05); }
+.collapse-label { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--lime); font-weight:500; }
+details.collapse:not([open]) .collapse-label { color:var(--dim); }
+.collapse-chevron { font-family:'JetBrains Mono',ui-monospace,monospace; color:var(--muted); font-size:12px; transition:transform .25s; }
+details.collapse[open] .collapse-chevron { transform:rotate(90deg); color:var(--lime); }
+details.collapse > .collapse-body { padding:0 14px 12px; }
+details.collapse > .collapse-body > .block-list { margin-top:2px; }
+
+/* Talking points (sidebar) */
+.tp { background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:8px; cursor:pointer; transition:all .2s; }
+.tp:hover { border-color:var(--lime); }
+.tp.is-open { border-color:var(--lime); background:rgba(170,255,0,.05); }
+.tp-tag { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--teal); }
+.tp-hook { font-size:14.5px; color:#fff; margin-top:4px; line-height:1.45; font-weight:500; }
+.tp-full { margin-top:8px; padding-top:8px; border-top:1px dashed var(--border); font-family:'Inter',-apple-system,sans-serif; font-style:normal; font-size:14.5px; line-height:1.6; color:var(--txt); display:none; }
+.tp.is-open .tp-full { display:block; }
+.tp-when { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:9.5px; color:var(--muted); margin-top:6px; }
+.bucket-h { font-family:'Inter',-apple-system,sans-serif; font-size:15px; color:var(--lime); margin:14px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.bucket-h:first-child { margin-top:0; }
+
+/* Intros */
+.intro-line { background:var(--panel2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin-bottom:6px; }
+.intro-name { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--lime); }
+.intro-text { font-size:14.5px; color:var(--txt); margin-top:4px; line-height:1.5; font-style:normal; }
+.intro-pending { color:var(--amber); font-style:normal; opacity:.7; }
+
+/* CTA */
+.cta-box { background:linear-gradient(135deg, rgba(170,255,0,.08), rgba(0,196,180,.05)); border:1px solid var(--lime); border-radius:12px; padding:18px; }
+.cta-tag { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--lime); }
+.cta-text { font-family:'Inter',-apple-system,sans-serif; font-size:17px; font-weight:500; line-height:1.5; color:#fff; margin-top:8px; }
+
+/* Quick refs */
+.refs { display:flex; flex-direction:column; gap:6px; }
+.ref { font-size:14px; color:var(--txt); padding-left:14px; position:relative; line-height:1.5; }
+.ref::before { content:'?'; position:absolute; left:0; color:var(--teal); font-weight:600; }
+
+/* Backup */
+.backup { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.backup-card { background:rgba(239,68,68,.06); border:1px solid rgba(239,68,68,.25); border-radius:10px; padding:12px; }
+.backup-card .b-h { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#FCA5A5; }
+.backup-card .b-t { font-size:12px; color:var(--txt); margin-top:6px; line-height:1.45; }
+
+/* Hotkey hint */
+.hotkey { display:inline-block; padding:2px 6px; background:var(--panel2); border:1px solid var(--border); border-radius:4px; font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; color:var(--dim); margin-left:4px; }
+
+footer { padding:30px 24px; text-align:center; color:var(--muted); font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+
+@media (max-width:680px) {
+  .header-row { gap:12px; }
+  .clock { font-size:14px; }
+  .countdown { font-size:18px; }
+  .now-block { width:100%; }
+  .backup { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-row">
+    <div class="brand">
+      <div class="brand-logo">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#0A0C14" opacity="0.9"/>
+          <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#AAFF00"/>
+        </svg>
+      </div>
+      Videfy Live #1
+    </div>
+    <div id="live-badge" class="live-badge pre"><span class="dot"></span><span id="badge-text">Setup</span></div>
+    <div class="clock" id="clock">--:--<span class="sec">:--</span></div>
+    <div class="countdown"><span class="lbl">Until live</span><span id="countdown">--:--:--</span></div>
+    <div class="now-block">
+      <strong id="now-segment">Setup</strong>
+      <span class="nxt">Next: <span id="next-segment">--</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+
+  <main>
+    <!-- ANATOMY · BIG IDEAS -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Anatomy of a live · reusable</div>
+        <div class="card-sub">Same structure every time · swap content</div>
+      </div>
+      <div class="card-body">
+        <div class="block-script" style="margin-bottom:14px;"><strong>The pitch:</strong> Premiere is great. Resolve is great. Editors aren't broken. The problem is tool sprawl. Solo creators in 2026 run 8-12 separate tools and sites to ship one video. Videfy consolidates the scatter. The editor stays. Everything else moves into one platform.<br><br><strong>The structure:</strong> Every Videfy live follows the same 6-block shape. Script + CTA swap per live. Structure doesn't.</div>
+
+        <details class="collapse" open>
+          <summary><span class="collapse-label">The 6 universal blocks</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Open + intros + framing</strong> · 15 min · land one big idea before handoff</li>
+              <li><strong>Walkthrough</strong> · 20 min · presenter drives, host colors with talking points</li>
+              <li><strong>Second pass OR extended Q&A</strong> · 13 min · decision point based on chat energy</li>
+              <li><strong>Q&A</strong> · 8-10 min · host moderates, team answers, never silent</li>
+              <li><strong>CTA</strong> · 3 min · one ask, deadline anchor, link in chat AS you say it</li>
+              <li><strong>Close</strong> · 2 min · replay note + next live date + thank yous</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">The walkthrough beat pattern</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Set the scene</strong> · what you\'re about to show and why</li>
+              <li><strong>Core walk</strong> · main thing on screen, narrated step by step</li>
+              <li><strong>Reaction beat</strong> · slow down, let the strongest moment land</li>
+              <li><strong>Push the edge</strong> · harder case, "what about when..."</li>
+              <li><strong>Land it</strong> · key takeaway, hand back to host</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">The 5 talking-point buckets (universal)</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Build philosophy</strong> · why the product is built this way</li>
+              <li><strong>Team values</strong> · what you won\'t ship · what you say no to</li>
+              <li><strong>Personal anecdotes</strong> · host stories tied to the topic</li>
+              <li><strong>Customer / beta stories</strong> · real users, real wins</li>
+              <li><strong>Engineering trade-offs</strong> · what\'s in, what\'s out, why</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Operating rules · every live</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>One CTA only</strong> · multi-CTA stacks kill conversion</li>
+              <li><strong>Q&A is protected</strong> · 8 min minimum · cut content not Q&A</li>
+              <li><strong>Live, never recorded</strong> · real-time Q&A is the trust signal</li>
+              <li><strong>Loom backup always</strong> · recording redundancy is non-negotiable</li>
+              <li><strong>5 talking-point drops max</strong> · color, not narration</li>
+              <li><strong>No new ideas after dress rehearsal</strong> · only cuts</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">What changes each live</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Topic</strong> · the specific thing being walked through</li>
+              <li><strong>CTA</strong> · the single ask at close</li>
+              <li><strong>Bucket content</strong> · the 5 ready talking points per show</li>
+              <li><strong>Customer story</strong> · which beta user gets named</li>
+              <li><strong>Next-live date</strong> · in the close</li>
+            </ul>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- ZOOM SETUP -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Zoom setup · do this first</div>
+        <div class="card-sub">Owner: Vaughn (or Alex)</div>
+      </div>
+      <div class="card-body">
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 1 · Buy Zoom Meeting Pro · $15.99/mo</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li>Go to <strong>zoom.us/pricing</strong></li>
+              <li>Pick <strong>Pro plan</strong> (NOT Webinar Pro)</li>
+              <li>Pay · activate · log in</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 2 · Schedule the meeting</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li>Click <strong>Schedule a Meeting</strong></li>
+              <li>Topic: <strong>Videfy Live #1 · First Walkthrough</strong></li>
+              <li>When: <strong>Wed May 13, 2026 · 2:00 PM EST · 60 min</strong></li>
+              <li>Time Zone: <strong>(GMT-4) Eastern Time</strong></li>
+              <li>Registration: <strong>Required</strong> (captures emails)</li>
+              <li>Meeting ID: <strong>Generate Automatically</strong></li>
+              <li>Passcode: <strong>ON</strong> (auto-generated)</li>
+              <li>Waiting Room: <strong>ON</strong></li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 3 · Meeting options</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Mute participants on entry: ON</strong></li>
+              <li><strong>Auto-record meeting: ON · cloud</strong></li>
+              <li><strong>Chat: ON · everyone</strong> (audience chats publicly)</li>
+              <li><strong>File sharing in chat: OFF</strong> (security)</li>
+              <li><strong>Allow renaming: OFF</strong></li>
+              <li><strong>Auto-transcribe / captions: ON</strong> (free on Pro)</li>
+              <li><strong>Allow removed participants to rejoin: OFF</strong></li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 4 · Alternative hosts</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li>Add <strong>Alex's email</strong> as Alternative Host</li>
+              <li>Add <strong>Marta's email</strong> too (3-way redundancy)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 5 · Get the links</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li>Click <strong>Save</strong></li>
+              <li>Copy the <strong>Invite Link</strong> (zoom.us/j/...)</li>
+              <li>Copy <strong>Meeting ID + Passcode</strong> as backup</li>
+              <li>Click <strong>Copy Invitation</strong> for the full block (link + dial-in)</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Step 6 · Send the invite</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li><strong>Slack team:</strong> paste link in the live channel</li>
+              <li><strong>Beta email Tue 9 AM:</strong> paste into <strong>Live1_Beta_Email.md</strong> → Gmail BCC ~40 beta users</li>
+              <li><strong>LinkedIn promo:</strong> add link to "tomorrow 2 PM EST" post</li>
+              <li><strong>Calendar invite (.ics):</strong> send to Vaughn + Marta with link embedded</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="collapse" open>
+          <summary><span class="collapse-label">Step 7 · Test Tue afternoon</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <ul class="block-list">
+              <li>30-min dry run with Vaughn · screen share + audio + Loom backup</li>
+              <li>Confirm recording auto-starts</li>
+              <li>Confirm chat + captions + waiting room all working</li>
+            </ul>
+          </div>
+        </details>
+
+        <div class="block-script" style="margin-top:14px;"><strong>Why Vaughn hosts:</strong> he runs the screen share. Cloud recording from host side = cleanest demo footage. Alex runs Loom on his machine as redundancy.</div>
+      </div>
+    </div>
+
+    <!-- RUN OF SHOW -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Run of show</div>
+        <div class="card-sub">Wed May 13 · 2:00 PM EST · 60 min</div>
+      </div>
+      <div class="card-body" id="ros-container">
+        <!-- blocks injected by JS -->
+      </div>
+    </div>
+
+    <!-- INTROS -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Team intros · 2:00</div>
+        <div class="card-sub">~5 min</div>
+      </div>
+      <div class="card-body">
+        <div class="intro-line">
+          <div class="intro-name">Alex</div>
+          <div class="intro-text">"Alex here, I'm a filmmaker. 17 years editing and animation, worked on everything from commercials to music videos. Last 3 years I've been deep in AI tooling, building workflows that bridge what editors actually do with what AI can finally do well. Videfy is where that ends up."</div>
+        </div>
+        <div class="intro-line">
+          <div class="intro-name">Vaughn</div>
+          <div class="intro-text intro-pending">Pending. Drop yours in Slack.</div>
+        </div>
+        <div class="intro-line">
+          <div class="intro-name">Marta</div>
+          <div class="intro-text intro-pending">Pending. Drop yours in Slack.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">CTA · 2:55</div>
+        <div class="card-sub">Single ask</div>
+      </div>
+      <div class="card-body">
+        <div class="cta-box">
+          <div class="cta-tag">Read this line at 2:55</div>
+          <div class="cta-text">"If today made sense, we're opening 25 spots for the next beta cohort. Closes Friday 5 PM. 30-second form, no card. Link drops in chat now."</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONVERSATION PROMPTS -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Conversation prompts</div>
+        <div class="card-sub">If chat silent · or pivot moments during walkthrough</div>
+      </div>
+      <div class="card-body">
+
+        <details class="collapse" open>
+          <summary><span class="collapse-label">Pivot triggers · use during walkthrough</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">When Vaughn pauses to load → "While that spins, here's something we get asked a lot..."</div>
+              <div class="ref">When a feature lands well → "This is a good moment to tell you why this exists at all..."</div>
+              <div class="ref">When something glitches → "And THIS is why we say every demo is a real demo..."</div>
+              <div class="ref">When chat asks a tangent → "Saving that for Q&A · let me flag one thing first..."</div>
+              <div class="ref">When energy dips → "Pause Vaughn for 30 sec · I want to share something specific..."</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Personal / Alex stories</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">"How did I end up in AI tooling after 17 years of editing?" · origin story · 60 sec</div>
+              <div class="ref">"What's the worst project mess I ever inherited?" · broadcast war story · 60-90 sec</div>
+              <div class="ref">"What was the first AI tool that didn't make me roll my eyes?" · context for Videfy · 45 sec</div>
+              <div class="ref">"What did I think AI would do for editors in 2022 vs what it actually does in 2026?" · perspective shift · 60 sec</div>
+              <div class="ref">"What's the one feature I begged Vaughn to build?" · humanize the team · 30 sec</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Build philosophy</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">"Why is tool sprawl a bigger problem for solo creators than the actual editing?"</div>
+              <div class="ref">"How many tools is a typical solo video creator running in 2026?" (answer: 8-12)</div>
+              <div class="ref">"Why doesn't Videfy try to replace editors like Premiere or Resolve?"</div>
+              <div class="ref">"Where's the line between AI helping vs AI overstepping?"</div>
+              <div class="ref">"Why don't we hide what the AI is doing behind a magic button?"</div>
+              <div class="ref">"What's the workflow that broke when AI tools entered video production?"</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Team values</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">"What's a feature we shipped that we ended up killing?"</div>
+              <div class="ref">"How does a 4-person team decide what to build next?"</div>
+              <div class="ref">"What do we do when beta users disagree with each other?"</div>
+              <div class="ref">"Why is speed a feature and not a side effect?"</div>
+              <div class="ref">"What's the last thing we said no to that was hard to say no to?"</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Customer / beta stories</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">"Tell us about a beta user who broke the product in a useful way."</div>
+              <div class="ref">"What's the most surprising thing beta users actually used Videfy for?"</div>
+              <div class="ref">"Which kind of editor gets the most out of this right now · solo, agency, doc team?"</div>
+              <div class="ref">"What did beta users tell us we were wrong about?"</div>
+              <div class="ref">"Who's NOT a fit for Videfy right now?" · honesty signal</div>
+            </div>
+          </div>
+        </details>
+
+        <details class="collapse">
+          <summary><span class="collapse-label">Engineering trade-offs</span><span class="collapse-chevron">›</span></summary>
+          <div class="collapse-body">
+            <div class="refs">
+              <div class="ref">"Why structured feedback over free-form notes?"</div>
+              <div class="ref">"What's NOT going in Videfy and why?"</div>
+              <div class="ref">"What does Videfy do that no other video tool does?"</div>
+              <div class="ref">"Why local-first storage instead of cloud-first like Frame.io?"</div>
+              <div class="ref">"Why no collaborative cursors when every modern tool has them?"</div>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- BACKUP -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Backup plays</div>
+        <div class="card-sub">If breaks</div>
+      </div>
+      <div class="card-body">
+        <div class="backup">
+          <div class="backup-card">
+            <div class="b-h">Demo crashes</div>
+            <div class="b-t">Vaughn narrates the fix. Alex jumps in 60s with context. Backup Loom on Vaughn's desktop if recovery takes &gt;3 min.</div>
+          </div>
+          <div class="backup-card">
+            <div class="b-h">Zoom drops Alex</div>
+            <div class="b-t">Vaughn keeps going (set as alternate host). Alex rejoins via phone hotspot.</div>
+          </div>
+          <div class="backup-card">
+            <div class="b-h">Audio dies</div>
+            <div class="b-t">Dial phone into Zoom audio, mute computer audio. Phone ready as backup mic.</div>
+          </div>
+          <div class="backup-card">
+            <div class="b-h">Chat goes silent</div>
+            <div class="b-t">Alex prompts: "biggest video production headache right now? drop it in chat." Drop talking point #11, #14, or #17 to re-engage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SIDEBAR · TALKING POINTS -->
+  <aside>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">Talking points</div>
+        <div class="card-sub">30 ready · click to expand</div>
+      </div>
+      <div class="card-body" id="tp-container">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  Live #1 dashboard · refresh anytime · keep open during show
+</footer>
+
+<script>
+// =========================================================================
+// SCHEDULE — Wed May 13, 2026, 2:00 PM EST = 14:00 America/New_York
+// Build segments anchored to today's instance OR Wed May 13 specifically.
+// =========================================================================
+
+const LIVE_DATE = new Date('2026-05-13T14:00:00-04:00'); // 2 PM EST = UTC-4 (EDT)
+const SEGMENTS = [
+  { t: 0,   end: 15,  title: 'Open + intros + framing', owner: 'Host + team', current: true,
+    body: {
+      script: '"Welcome — host name from company. Today: presenter walks us through [topic]. Then your questions. One ask at close. Out by [end time]."',
+      points: [
+        '<strong>2:00</strong> Welcome · recording note · housekeeping (1 min)',
+        '<strong>2:01</strong> Team intros · short and specific, expertise-forward (5 min)',
+        '<strong>2:06</strong> Framing · why this matters · who this is for · today\'s topic (5 min)',
+        '<strong>2:11</strong> Handoff to presenter · one sentence transition',
+      ],
+      cue: 'Land one big idea before handoff. Pick the strongest framing talking point and drop it as you pass the baton.'
+    }},
+  { t: 15,  end: 35,  title: 'Walkthrough', owner: 'Presenter drives · host colors',
+    body: {
+      script: 'Presenter opens: "What you\'re looking at is [the real thing we built]. Let me walk you through it."',
+      points: [
+        '<strong>2:15</strong> Set the scene · what you\'re about to show and why',
+        '<strong>2:20</strong> Core walk · the main thing on screen, narrated step by step',
+        '<strong>2:25</strong> Reaction beat · slow down, let the strongest moment land',
+        '<strong>2:28</strong> Push the edge · harder case, "what about when..."',
+        '<strong>2:32</strong> Land it · key takeaway, hand back to host',
+      ],
+      cue: '5 talking-point drops max across 20 min. 1 per bucket. 20-30 sec each then back to presenter. Color, not narration.'
+    }},
+  { t: 35,  end: 48,  title: 'Second pass OR extended Q&A', owner: 'Presenter or pivot to host',
+    body: {
+      script: 'Decision check: chat lively → cut second pass, run extended Q&A. Chat quiet → run second pass to fill.',
+      points: [
+        '<strong>2:33</strong> Read the room · check chat energy + queued questions',
+        '<strong>2:35</strong> Either second walkthrough OR pivot to Q&A',
+        '<strong>2:45</strong> Start Q&A wind-up regardless of which path',
+      ],
+      cue: 'If 3+ unanswered questions queued, kill the second pass. Audience energy > content quota.'
+    }},
+  { t: 48,  end: 55,  title: 'Q&A', owner: 'Host moderates · team answers',
+    body: {
+      script: '"That\'s the walkthrough. Your turn. Drop questions in chat, I\'ll batch them."',
+      points: [
+        'Read question aloud · attribute by first name only',
+        'Route by expertise · build/feature questions to presenter · domain/workflow to domain expert',
+        '30-60 sec per answer · cut yourself off · "we could spend an hour on this, moving on"',
+        'If silent: drop a seed question OR a personal anecdote talking point',
+        '2-min warning before CTA',
+      ],
+      cue: 'Never let Q&A go dark. Default prompt: "what\'s the biggest [audience pain] you\'re hitting right now? drop in chat."'
+    }},
+  { t: 55,  end: 58,  title: 'CTA · the one ask', owner: 'Host solo',
+    body: {
+      script: '"If today made sense, [single ask]. [Deadline anchor]. [Friction-low instruction]. Link drops in chat now."',
+      points: [
+        'Drop the link in chat AS you say the ask',
+        'Anchor a deadline · scarcity beats vagueness',
+        'One ask only · no multi-CTA stacking',
+        'Don\'t apologize · don\'t soften · this is the trade',
+      ],
+      cue: 'Pre-write the CTA. Read it verbatim. Don\'t freestyle.'
+    }},
+  { t: 58,  end: 60,  title: 'Close', owner: 'Host solo',
+    body: {
+      script: '"Replay [when]. Next live [date + time]. Team — thank you. Everyone who showed up — thank you. Out."',
+      points: [
+        'Announce replay timing',
+        'Announce next live date · builds the franchise',
+        'Thank the team by name · then the audience',
+        'Cut at the top of the hour · respect their time',
+      ],
+      cue: 'End broadcast, save recording locally + cloud, drop links in team channel within 10 min.'
+    }},
+];
+
+const TALKING_POINTS = [
+  { bucket: 'Build Philosophy', hook: '"Not AI that replaces your editor."', full: '"One thing to set up. Videfy isn\'t replacing Premiere. Isn\'t replacing Resolve. Isn\'t replacing your editor of choice. We don\'t auto-cut footage, don\'t generate B-roll, don\'t replace dialogue. Use whatever editor you love. Videfy handles the chaos AROUND it. Project assets, feedback, versions, handoff, AI tools, all the scattered stuff. One place."', when:'First 3 min · sets trust · positions vs editor-replacement AI' },
+  { bucket: 'Build Philosophy', hook: '"Premiere is great. The 14 tabs around it aren\'t."', full: '"Quick framing. Premiere is great. Resolve is great. The editor isn\'t the problem. The problem is everything around the editor. Your AI tools live in 3 browser tabs. Your feedback comes in across 4 apps. Your assets are scattered across Dropbox, Drive, and some hard drive. Your social tools, your client portal, your music library, all separate logins. Solo creators in 2026 are running 10 tools just to ship one video. That sprawl is what we built Videfy to solve. Not the cut."', when:'Early · sets the enemy as tool sprawl, not editing' },
+  { bucket: 'Build Philosophy', hook: '"Footage → feedback → finished, no back-and-forth."', full: '"One frame for the whole demo. Everything Videfy does maps to one of three moments in your edit. Footage coming IN clean. Feedback getting STRUCTURED. Getting to FINISHED without revision churn. Three moments. If a feature doesn\'t serve one of those, it doesn\'t ship."', when:'Right before Vaughn runs first action' },
+  { bucket: 'Build Philosophy', hook: '"One platform, not five tabs stacked together."', full: '"Most video production workflows are five tools held together with browser tabs and Slack messages. Editing here, feedback there, files somewhere else, handoff over email. Videfy is the place all of that lives. One platform, one place, end to end. That\'s the whole point."', when:'When platform overview shown' },
+  { bucket: 'Build Philosophy', hook: '"Trust over magic."', full: '"Watch the input and the output here. You can see exactly what the AI is doing. We don\'t hide it behind a magic button. Trust over magic is one of our core rules. Black-box AI in a creative pipeline is how trust dies."', when:'Any AI-assisted action' },
+  { bucket: 'Build Philosophy', hook: '"Videfy is where the project lives."', full: '"Every video project has a center of gravity. Usually it\'s the timeline of whatever editor you\'re using. We moved the center of gravity. In Videfy, the project itself is the center. Edits, feedback, versions, handoff — they all orbit the project, not the cutting tool."', when:'Mid-walk when project view shown' },
+
+  { bucket: 'Team Values', hook: '"Don\'t ship what we wouldn\'t use ourselves."', full: '"That feature exists because we actually use it. Every single thing in here is something Vaughn, Marta, or I would reach for on a Tuesday afternoon under deadline. If we wouldn\'t open it on our own projects, we don\'t ship it."', when:'After a feature lands well' },
+  { bucket: 'Team Values', hook: '"Speed is a feature."', full: '"Notice how fast that just happened. Every action in Videfy is sub-two-seconds. We treat latency like a bug. Editor brain hates waiting. Once you\'re flying, the worst thing a tool can do is stop you for a beat."', when:'Fast action that\'d normally be slow' },
+  { bucket: 'Team Values', hook: '"60% beta feedback shaped this."', full: '"That whole panel wasn\'t in the v1 spec. Beta users told us the original was wrong. About 60% of what you\'re seeing came out of beta. The product isn\'t half us, half users. It\'s half us, half users."', when:'Late walk · bridge to Q&A' },
+  { bucket: 'Team Values', hook: '"Small team on purpose."', full: '"Four of us building this. We could have raised, hired 20 engineers, shipped 10x the features. We chose not to. Small team means fast decisions, no committee drag, no features for features\' sake."', when:'Sets up real-humans Q&A angle' },
+  { bucket: 'Team Values', hook: '"We say no more than yes."', full: '"Honest answer, no, it doesn\'t do that. For every feature in Videfy, there are five we said no to. Saying no is what makes the tool feel light."', when:'When someone asks "does it do X" and answer is no' },
+  { bucket: 'Team Values', hook: '"Every demo is a real demo."', full: '"Every demo we do is a real demo. What\'s on Vaughn\'s screen right now is what\'s on his laptop. No staged data, no scripted clicks. If something breaks during this, you\'re going to see it break. We\'d rather be useful than polished."', when:'Very early · or when demo breaks' },
+
+  { bucket: 'Personal · Alex', hook: '"47-min doc, 4 hrs consolidating feedback."', full: '"Last year I was cutting a 47-minute documentary. Client gave me feedback across Slack, two emails, a voice memo, and three Frame.io timestamps. Four hours just to consolidate what they wanted, before I\'d done a single edit. THAT is the problem this solves. If I\'d had Videfy then, I would have closed it in one night instead of three."', when:'Feedback consolidation feature' },
+  { bucket: 'Personal · Alex', hook: '"Broadcast post 2010 · 4-person edit room."', full: '"I came up in broadcast post in 2010. Avid bays, tape decks, dailies. The room I worked in had a producer, an editor, an assistant, a finishing artist. Four people in a row to move raw footage to delivered cut. Videfy is what happens when you compress that room into a tool, without losing what made it work, which was structure."', when:'Handoff or finishing workflow' },
+  { bucket: 'Personal · Alex', hook: '"Lost a week to a corrupt project file."', full: '"I lost a week of work once to a corrupt project file. Editor wouldn\'t open it. Proxy chain broke. Nothing recoverable. Worst night of my career. That\'s why Videfy keeps a clean audit trail of every project state quietly in the background. You can\'t lose work the way I lost work."', when:'Project state or versioning shown' },
+  { bucket: 'Personal · Alex', hook: '"3 years AI · toy or threat."', full: '"Last three years I\'ve been building production workflows with AI. Tried everything. Most of it is either a toy or a threat. Toys are fun for a weekend then you stop opening them. Threats want to do your job. Videfy is the first thing where AI handles the parts editors hate and stays out of the parts editors love."', when:'Early · first 5 min · authority' },
+  { bucket: 'Personal · Alex', hook: '"First AI tool I kept open."', full: '"Real test for me on any tool is whether I keep it open. I\'ve installed and uninstalled at least 30 AI tools over the last two years. Most got 10 minutes. Videfy is the first one that\'s been on my dock for six months straight. I\'m not saying that as marketing. I\'m saying it as someone who deletes apps for sport."', when:'Late walk · raise stakes' },
+  { bucket: 'Personal · Alex', hook: '"Stopped trying to make AI cut."', full: '"I\'ll tell you when this clicked. I spent two years trying to get AI to make creative decisions. It can\'t. Or if it can, you don\'t want it to. The unlock was flipping the question. Not what can AI do for the cut, but what can AI take off the cut. Once we asked it that way, the product almost designed itself."', when:'During chaos-removal moment' },
+
+  { bucket: 'Customer · Beta', hook: '"Wedding shop · 2 days faster."', full: '"One of our beta users runs a wedding video shop. Six couples a month. Used to spend every Monday sorting through what each couple liked from the rough cut. Now their feedback comes in structured through Videfy and they\'re shipping finals two days faster on delivery. Same team, same hours, two days back."', when:'Feedback structuring feature' },
+  { bucket: 'Customer · Beta', hook: '"Brooklyn doc team."', full: '"Small doc team in Brooklyn. Three editors, one producer. Using Videfy across three concurrent projects for two months. What they told us surprised us. The thing that changed everything wasn\'t the AI side. It was just having one place where every revision across every project lives. Sometimes the big unlock is the boring thing."', when:'Multi-project or team view' },
+  { bucket: 'Customer · Beta', hook: '"Beta user pulled a feature."', full: '"Two months ago a beta user told us, and I quote, this feature is doing my job for me, I don\'t want that. We pulled it. Rebuilt the whole thing. The version you\'re looking at came out of that one conversation."', when:'Mid-walk · trustworthiness signal' },
+  { bucket: 'Customer · Beta', hook: '"12-person agency · 9-page feedback doc."', full: '"Last cycle a 12-person agency ran Videfy across six projects for four weeks. Came back with a nine-page feedback doc. Single-spaced. We took every line seriously. Half of what you\'re seeing today is from that doc."', when:'Late walk · before Q&A' },
+  { bucket: 'Customer · Beta', hook: '"Berlin freelancer · 4 months no missed deadlines."', full: '"Freelancer in Berlin running three concurrent client projects on a single timeline view. She told us she hasn\'t missed a deadline in four months. Used to miss one every two weeks. We didn\'t build a feature for that. She figured out how to use what we built."', when:'Timeline or project overview shown' },
+  { bucket: 'Customer · Beta', hook: '"11 PM agency editor feedback."', full: '"Feedback we actually listen to is the late-night feedback. Not polite Slack during the day. When an agency editor is stuck and fires off a frustrated DM. That\'s the real signal. We watch those moments closer than anything we get during business hours."', when:'Anywhere · humanizes the team' },
+
+  { bucket: 'Engineering', hook: '"One workflow first, not everything."', full: '"Honest answer. We built for one type of video project really well before stretching. The wedge is intentional. We\'re not trying to be the one tool for every kind of work on day one. That\'s how products get bloated and die. Better to win one workflow completely than half-win five."', when:'If asked about scope or other use cases' },
+  { bucket: 'Engineering', hook: '"No generative anything."', full: '"Notice what we don\'t do. No generative B-roll. No generative voice. No generative anything in Videfy. Two reasons. One, it\'s not what working editors need. Two, it muddies trust. If your tool is generating content, you can\'t trust the output. We don\'t generate. We organize."', when:'When audience might expect AI to \'do\'' },
+  { bucket: 'Engineering', hook: '"Local first, cloud opt-in."', full: '"Quick technical thing that matters. Your media doesn\'t leave your machine unless you explicitly send it. Local-first. Cloud sync is opt-in, by file. We made that decision early because editors hate uploads and especially hate quota anxiety."', when:'When media files / uploads shown' },
+  { bucket: 'Engineering', hook: '"Structured feedback only."', full: '"Most contested design choice we made. Feedback in Videfy is structured. Type tags, timestamps, scope, ranked priority. Free-form notes were in v0.1. We killed them. Editors don\'t need more prose to read, they need clarity. So we constrained the format. Constraints are a feature."', when:'Feedback interface shown' },
+  { bucket: 'Engineering', hook: '"Feedback in the timeline, not next to it."', full: '"Watch where the feedback lives. On the timeline, not next to it. Sidebar feedback gets ignored. Timeline feedback becomes the next action. That single decision changed how the whole tool worked. Once feedback became part of the cut, the revision loop got faster."', when:'When feedback-in-timeline shown' },
+  { bucket: 'Engineering', hook: '"No collaborative cursors."', full: '"We thought hard about it. Watched Figma. Watched Frame.io. Decided no. No collaborative cursors. Editing is solo work most of the time. Cursors are theater. They look impressive in a demo, they don\'t actually help under deadline. We built async-first instead."', when:'If asked about real-time collab' },
+];
+
+// =========================================================================
+// RENDER
+// =========================================================================
+
+function renderROS() {
+  const c = document.getElementById('ros-container');
+  c.innerHTML = SEGMENTS.map((s, i) => {
+    const label = i === SEGMENTS.length - 1 ? `${pad(s.t+(s.end-s.t))}–end` : '';
+    const time = `2:${pad(s.t)}–2:${pad(s.end)}`;
+    return `
+      <div class="block" data-idx="${i}" data-start="${s.t}" data-end="${s.end}">
+        <div class="block-head" onclick="toggleBlock(${i})">
+          <div>
+            <div class="block-time">${time}</div>
+            <div class="block-title">${s.title}</div>
+          </div>
+          <div class="block-owner">${s.owner}</div>
+        </div>
+        <div class="block-body">
+          <div class="block-script">${s.body.script}</div>
+          <div class="block-label">Beats</div>
+          <ul class="block-list">${s.body.points.map(p => `<li>${p}</li>`).join('')}</ul>
+          <div class="block-label">Cue</div>
+          <div style="font-size:14px; color:var(--dim);">${s.body.cue}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function pad(n) { return String(n).padStart(2, '0'); }
+
+function renderTalkingPoints() {
+  const c = document.getElementById('tp-container');
+  const byBucket = {};
+  TALKING_POINTS.forEach((tp, i) => {
+    if (!byBucket[tp.bucket]) byBucket[tp.bucket] = [];
+    byBucket[tp.bucket].push({ ...tp, num: i + 1 });
+  });
+  c.innerHTML = Object.entries(byBucket).map(([bucket, items]) => `
+    <div class="bucket-h">${bucket}</div>
+    ${items.map(tp => `
+      <div class="tp" onclick="this.classList.toggle('is-open')">
+        <div class="tp-tag">#${tp.num}</div>
+        <div class="tp-hook">${tp.hook}</div>
+        <div class="tp-full">${tp.full}</div>
+        <div class="tp-when">When: ${tp.when}</div>
+      </div>
+    `).join('')}
+  `).join('');
+}
+
+function toggleBlock(i) {
+  document.querySelector(`.block[data-idx="${i}"]`).classList.toggle('is-open');
+}
+
+// =========================================================================
+// CLOCK + AUTO-HIGHLIGHT
+// =========================================================================
+
+function tick() {
+  const now = new Date();
+  const liveStart = LIVE_DATE.getTime();
+  const liveEnd = liveStart + 60 * 60 * 1000;
+  const diffMs = liveStart - now.getTime();
+  const elapsedMs = now.getTime() - liveStart;
+
+  // Clock
+  const optsTime = { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'America/New_York' };
+  const parts = new Intl.DateTimeFormat('en-US', optsTime).formatToParts(now);
+  const hh = parts.find(p => p.type==='hour').value;
+  const mm = parts.find(p => p.type==='minute').value;
+  const ss = parts.find(p => p.type==='second').value;
+  const dp = parts.find(p => p.type==='dayPeriod').value;
+  document.getElementById('clock').innerHTML = `${hh}:${mm} <span class="sec">:${ss} ${dp} EST</span>`;
+
+  // Countdown
+  const cd = document.getElementById('countdown');
+  if (diffMs > 0) {
+    const totalSec = Math.floor(diffMs / 1000);
+    const d = Math.floor(totalSec / 86400);
+    const h = Math.floor((totalSec % 86400) / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    cd.textContent = d > 0 ? `${d}d ${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+  } else if (elapsedMs < 60 * 60 * 1000) {
+    cd.textContent = 'LIVE NOW';
+    cd.style.color = '#EF4444';
+  } else {
+    cd.textContent = 'Wrapped';
+    cd.style.color = 'var(--lime)';
+  }
+
+  // Phase + current segment
+  const badge = document.getElementById('live-badge');
+  const badgeTxt = document.getElementById('badge-text');
+  const nowSeg = document.getElementById('now-segment');
+  const nxtSeg = document.getElementById('next-segment');
+
+  if (diffMs > 0) {
+    badge.className = 'live-badge pre';
+    badgeTxt.textContent = 'Setup';
+    nowSeg.textContent = 'Setup phase';
+    nxtSeg.textContent = '2:00 · Open + intros';
+  } else if (elapsedMs >= 60 * 60 * 1000) {
+    badge.className = 'live-badge post';
+    badgeTxt.textContent = 'Wrapped';
+    nowSeg.textContent = 'Post-broadcast';
+    nxtSeg.textContent = '4:30 PM team debrief';
+  } else {
+    badge.className = 'live-badge is-live';
+    badgeTxt.textContent = 'LIVE';
+    const elapsedMin = elapsedMs / 60000;
+    let curr = SEGMENTS.findIndex(s => elapsedMin >= s.t && elapsedMin < s.end);
+    if (curr < 0) curr = SEGMENTS.length - 1;
+    nowSeg.textContent = `${SEGMENTS[curr].title}`;
+    const nxt = SEGMENTS[curr + 1];
+    nxtSeg.textContent = nxt ? `2:${pad(nxt.t)} · ${nxt.title}` : 'Close';
+    // Highlight blocks
+    document.querySelectorAll('.block').forEach((b, i) => {
+      b.classList.remove('is-current','is-past','is-soon');
+      if (i < curr) b.classList.add('is-past');
+      else if (i === curr) b.classList.add('is-current');
+      else if (i === curr + 1) b.classList.add('is-soon');
+    });
+  }
+}
+
+// Init
+renderROS();
+renderTalkingPoints();
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
