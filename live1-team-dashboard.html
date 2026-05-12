@@ -260,7 +260,7 @@ footer { padding:30px 24px; text-align:center; color:var(--muted); font-family:'
             <ul class="block-list">
               <li>Click <strong>Schedule a Meeting</strong></li>
               <li>Topic: <strong>Videfy Live #1 · First Walkthrough</strong></li>
-              <li>When: <strong>Wed May 13, 2026 · 3:00 PM EST · 60 min</strong></li>
+              <li>When: <strong>Wed May 13, 2026 · 2:00 PM EST · 60 min</strong></li>
               <li>Time Zone: <strong>(GMT-4) Eastern Time</strong></li>
               <li>Registration: <strong>Required</strong> (captures emails)</li>
               <li>Meeting ID: <strong>Generate Automatically</strong></li>
@@ -313,7 +313,7 @@ footer { padding:30px 24px; text-align:center; color:var(--muted); font-family:'
             <ul class="block-list">
               <li><strong>Slack team:</strong> paste link in the live channel</li>
               <li><strong>Beta email Tue 9 AM:</strong> paste into <strong>Live1_Beta_Email.md</strong> → Gmail BCC ~40 beta users</li>
-              <li><strong>LinkedIn promo:</strong> add link to "tomorrow 3 PM EST" post</li>
+              <li><strong>LinkedIn promo:</strong> add link to "tomorrow 2 PM EST" post</li>
               <li><strong>Calendar invite (.ics):</strong> send to Vaughn + Marta with link embedded</li>
             </ul>
           </div>
@@ -338,7 +338,7 @@ footer { padding:30px 24px; text-align:center; color:var(--muted); font-family:'
     <div class="card">
       <div class="card-head">
         <div class="card-title">Run of show</div>
-        <div class="card-sub">Wed May 13 · 3:00 PM EST · 60 min</div>
+        <div class="card-sub">Wed May 13 · 2:00 PM EST · 60 min</div>
       </div>
       <div class="card-body" id="ros-container">
         <!-- blocks injected by JS -->
@@ -521,11 +521,11 @@ footer { padding:30px 24px; text-align:center; color:var(--muted); font-family:'
 
 <script>
 // =========================================================================
-// SCHEDULE — Wed May 13, 2026, 3:00 PM EST = 14:00 America/New_York
+// SCHEDULE — Wed May 13, 2026, 2:00 PM EST = 14:00 America/New_York
 // Build segments anchored to today's instance OR Wed May 13 specifically.
 // =========================================================================
 
-const LIVE_DATE = new Date('2026-05-13T15:00:00-04:00'); // 3 PM EST = UTC-4 (EDT)
+const LIVE_DATE = new Date('2026-05-13T14:00:00-04:00'); // 2 PM EST = UTC-4 (EDT)
 const SEGMENTS = [
   { t: 0,   end: 15,  title: 'Open + intros + framing', owner: 'Host + team', current: true,
     body: {
@@ -641,7 +641,7 @@ function renderROS() {
   const c = document.getElementById('ros-container');
   c.innerHTML = SEGMENTS.map((s, i) => {
     const label = i === SEGMENTS.length - 1 ? `${pad(s.t+(s.end-s.t))}–end` : '';
-    const fmtTime = (m) => `${3 + Math.floor(m/60)}:${pad(m%60)}`;
+    const fmtTime = (m) => `${2 + Math.floor(m/60)}:${pad(m%60)}`;
     const time = `${fmtTime(s.t)}–${fmtTime(s.end)}`;
     return `
       <div class="block" data-idx="${i}" data-start="${s.t}" data-end="${s.end}">
@@ -736,7 +736,7 @@ function tick() {
     badge.className = 'live-badge pre';
     badgeTxt.textContent = 'Setup';
     nowSeg.textContent = 'Setup phase';
-    nxtSeg.textContent = '3:00 · Open + intros';
+    nxtSeg.textContent = '2:00 · Open + intros';
   } else if (elapsedMs >= 60 * 60 * 1000) {
     badge.className = 'live-badge post';
     badgeTxt.textContent = 'Wrapped';
@@ -750,7 +750,7 @@ function tick() {
     if (curr < 0) curr = SEGMENTS.length - 1;
     nowSeg.textContent = `${SEGMENTS[curr].title}`;
     const nxt = SEGMENTS[curr + 1];
-    nxtSeg.textContent = nxt ? `${3 + Math.floor(nxt.t/60)}:${pad(nxt.t%60)} · ${nxt.title}` : 'Close';
+    nxtSeg.textContent = nxt ? `${2 + Math.floor(nxt.t/60)}:${pad(nxt.t%60)} · ${nxt.title}` : 'Close';
     // Highlight blocks
     document.querySelectorAll('.block').forEach((b, i) => {
       b.classList.remove('is-current','is-past','is-soon');
