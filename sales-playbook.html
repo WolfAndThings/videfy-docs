@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy · Sales Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500;1,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:920px; margin:0 auto; padding:56px 48px 80px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:2; }
+.hero { background:var(--ink); border-radius:16px; padding:40px 44px; margin-bottom:14px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:14px; }
+.hero-headline { font-family:'DM Sans',sans-serif; font-weight:700; font-size:clamp(24px,3.5vw,38px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:18px; }
+.hero-headline em { color:var(--lime); font-style:normal; font-weight:700; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.7); line-height:1.7; font-weight:300; max-width:640px; }
+.toc { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:36px 0 56px; padding:20px 22px; border:1px solid var(--bstr); border-radius:14px; background:var(--off); }
+.toc a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.06em; color:var(--ink); text-decoration:none; padding:6px 8px; border-radius:6px; }
+.toc a:hover { background:rgba(170,255,0,.15); }
+.toc-num { color:var(--muted); margin-right:6px; }
+.section { margin-bottom:56px; scroll-margin-top:20px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:12px; }
+.h2 { font-family:'DM Sans',sans-serif; font-weight:700; font-size:clamp(22px,2.8vw,30px); line-height:1.15; letter-spacing:-.015em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-style:normal; font-weight:500; color:var(--muted); }
+.h3 { font-family:'DM Sans',sans-serif; font-weight:600; font-size:18px; line-height:1.3; color:var(--ink); margin:24px 0 10px; letter-spacing:-.005em; }
+.body { font-size:14px; color:#2C3040; line-height:1.75; font-weight:300; max-width:700px; }
+.body strong { font-weight:600; color:var(--ink); }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-compact { font-size:11.5px; }
+.tbl-compact td, .tbl-compact th { padding:10px 12px; }
+.lane { border:1px solid var(--bstr); border-radius:16px; overflow:hidden; margin-bottom:18px; }
+.lane-top { padding:22px 26px; border-bottom:1px solid var(--bmd); }
+.lane-top.direct { background:rgba(170,255,0,.07); }
+.lane-top.edu { background:rgba(0,196,180,.07); }
+.lane-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
+.lane-name { font-family:'DM Sans',sans-serif; font-weight:700; font-size:20px; line-height:1.25; color:var(--ink); margin-bottom:6px; }
+.lane-sub { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+.lane-body { padding:18px 26px; }
+.mtg-row { display:grid; grid-template-columns:90px 1fr; gap:18px; padding:14px 0; border-top:1px dashed var(--border); align-items:start; }
+.mtg-row:first-child { border-top:none; }
+.mtg-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:.06em; padding-top:2px; }
+.mtg-num strong { display:block; font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700; color:var(--ink); letter-spacing:-.005em; margin-bottom:2px; }
+.mtg-body { font-size:13px; color:#2C3040; line-height:1.6; }
+.mtg-body strong { font-weight:600; color:var(--ink); }
+.mtg-next { display:inline-block; margin-top:6px; padding:3px 8px; background:rgba(170,255,0,.12); border:1px solid rgba(170,255,0,.35); border-radius:6px; font-family:'DM Mono',monospace; font-size:10px; color:#2D6000; }
+.phase { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; margin-bottom:14px; }
+.phase-head { padding:14px 22px; background:var(--ink); color:var(--white); display:flex; justify-content:space-between; align-items:center; }
+.phase-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; color:rgba(255,255,255,.5); }
+.phase-name { font-family:'DM Sans',sans-serif; font-weight:600; font-size:16px; margin-top:2px; }
+.phase-date { font-family:'DM Mono',monospace; font-size:11px; color:var(--lime); }
+.phase-body { padding:14px 22px; font-size:13px; line-height:1.65; color:#2C3040; font-weight:300; }
+.phase-body strong { font-weight:600; color:var(--ink); }
+.phase-body ul { list-style:none; padding:0; margin:6px 0 0; }
+.phase-body li { padding-left:16px; position:relative; margin-bottom:4px; }
+.phase-body li::before { content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--lime); }
+.gap-box { background:rgba(239,68,68,.05); border:1px solid rgba(239,68,68,.3); border-radius:12px; padding:18px 22px; margin-top:12px; }
+.gap-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#B91C1C; display:block; margin-bottom:8px; }
+.gap-text { font-size:13px; line-height:1.65; color:#2C3040; }
+.gap-text strong { color:#B91C1C; font-weight:600; }
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
+.callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout .cl-text strong { color:var(--lime); font-weight:500; }
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
+.note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
+.note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.7; font-weight:300; }
+.note-box .nb-text strong { font-weight:600; color:var(--ink); }
+.doc-footer { margin-top:64px; padding-top:20px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-size:12px; color:var(--muted); }
+.ft-r { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+@media(max-width:680px) {
+  .page { padding:40px 20px 72px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero { padding:28px 24px; }
+  .toc { grid-template-columns:1fr 1fr; }
+  .two-col { grid-template-columns:1fr; }
+  .mtg-row { grid-template-columns:1fr; gap:6px; }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:10px; }
+  .phase-head { flex-direction:column; align-items:flex-start; gap:6px; }
+  .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">Sales Playbook · v1<br>Alex Lamb · June 2026</div>
+</header>
+
+<div class="hero">
+  <span class="hero-eyebrow">Sales playbook · direct + partnership</span>
+  <div class="hero-headline">
+    Two lanes.<br>
+    <em>One pipeline.</em>
+  </div>
+  <div class="hero-body">
+    Direct sales (POC / proof of value) for ICPs we sell to. Educator partnership program for ICPs who teach our buyers. Backed by 1,591 Reddit posts of validated pain. 5-week ramp from prep to first close. Open gaps flagged in red so we ship before guessing.
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#lanes"><span class="toc-num">00</span>Two lanes</a>
+  <a href="#icp-link"><span class="toc-num">01</span>ICP message map</a>
+  <a href="#direct"><span class="toc-num">02</span>Direct sales lane</a>
+  <a href="#educator"><span class="toc-num">03</span>Educator partnership</a>
+  <a href="#timeline"><span class="toc-num">04</span>Timeline + phases</a>
+  <a href="#materials"><span class="toc-num">05</span>Sales materials</a>
+  <a href="#warm"><span class="toc-num">06</span>Warm network</a>
+  <a href="#funnel"><span class="toc-num">07</span>Funnel + SDR</a>
+  <a href="#gaps"><span class="toc-num">08</span>Open gaps</a>
+  <a href="#rules"><span class="toc-num">09</span>Sales rules</a>
+</nav>
+
+<!-- 00 LANES -->
+<section class="section" id="lanes">
+  <span class="eyebrow">00 · Two lanes</span>
+  <h2 class="h2">Direct sales.<br><em>Educator partnership.</em></h2>
+
+  <div class="two-col">
+    <div class="lane">
+      <div class="lane-top direct">
+        <span class="lane-tag">Lane 1 · Direct sales (POC)</span>
+        <div class="lane-name">Direct sales · proof of value</div>
+        <div class="lane-sub">Booked meetings with named buyers. Hands-on POC, not self-serve.</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">
+          <strong>Frame:</strong> define their problem first, then show value. Massage pain points. Hands-on rollout.<br><br>
+          <strong>Wedge features:</strong> Storyboard · Subtitles · Premiere export · Multi-variant.<br><br>
+          <strong>Offer:</strong> phased rollout tied to quality. Discount, but only after working with direct named people first.<br><br>
+          <strong>Outcome:</strong> closed deal + reference logo for outbound.
+        </div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-top edu">
+        <span class="lane-tag">Lane 2 · Educator partnership</span>
+        <div class="lane-name">Educator partnership program</div>
+        <div class="lane-sub">People + companies who train creators / marketers on video.</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">
+          <strong>Frame:</strong> partnership + relationship, not sale. Story + benefits. Garry's call: <strong>partnership program, not affiliate.</strong><br><br>
+          <strong>Ladder:</strong> try → teach with it → 3-month discount → lifecycle partnership.<br><br>
+          <strong>Target:</strong> companies training groups of ~5 candidates. Channels + educators.<br><br>
+          <strong>Outcome:</strong> recurring student pipeline + co-marketing distribution.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 01 ICP MESSAGE MAP -->
+<section class="section" id="icp-link">
+  <span class="eyebrow">01 · ICP message map (linked)</span>
+  <h2 class="h2">Who to target.<br><em>Linked to message map.</em></h2>
+  <p class="body">Six ICPs, Reddit-validated, full message map + cold subjects + bodies live in the <strong>Outreach Message Map</strong> doc. Below = the rank for the sales pipeline only.</p>
+
+  <table class="tbl">
+    <thead><tr><th>#</th><th>ICP</th><th>Lane</th><th>Reply temp</th></tr></thead>
+    <tbody>
+      <tr><td><strong>01</strong></td><td>DTC / ecom performance marketer</td><td>Direct</td><td>Hottest</td></tr>
+      <tr><td><strong>02</strong></td><td>Small agency owner (5–15 ppl)</td><td>Direct</td><td>Hot</td></tr>
+      <tr><td><strong>03</strong></td><td>SaaS solo marketer (Series A)</td><td>Direct</td><td>Warm-Hot</td></tr>
+      <tr><td><strong>04</strong></td><td>Claude / AI power user</td><td>Direct (X / Discord)</td><td>Warm</td></tr>
+      <tr><td><strong>05</strong></td><td>In-house content team (SMB)</td><td>Direct</td><td>Warm</td></tr>
+      <tr><td><strong>06</strong></td><td>SMB founder (non-marketing-led)</td><td>Content-led only</td><td>Cold</td></tr>
+      <tr><td><strong>07</strong></td><td>Educator / trainer / school</td><td>Educator partnership</td><td>Warm (relationship)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">Reference</span>
+    <div class="nb-text">Full Reddit-verbatim hooks, cold subjects, 3-line bodies, and CTAs in <strong>outreach-message-map.html</strong>. Read that for cold copy; this doc for booked-meeting flow.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 02 DIRECT SALES -->
+<section class="section" id="direct">
+  <span class="eyebrow">02 · Direct sales lane</span>
+  <h2 class="h2">Four meetings.<br><em>Discovery → Demo → POC → Close.</em></h2>
+
+  <div class="lane">
+    <div class="lane-top direct">
+      <span class="lane-tag">Lane 1 · Direct sales (POC)</span>
+      <div class="lane-name">Sales meeting flow</div>
+    </div>
+    <div class="lane-body">
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 1</strong>Discovery</div>
+        <div class="mtg-body">
+          Define their problems. Massage pain points. No pitch, no demo, no price. Map them to the ICP message map + pain-row Videfy answers.
+          <span class="mtg-next">Next: book demo, send 1-pager</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 2</strong>Demo</div>
+        <div class="mtg-body">
+          Show wedge features tied to their pain. <strong>Storyboard</strong> (for cold-start / structure pain), <strong>Multi-variant</strong> (for ad teams), <strong>Subtitles</strong> (for reformat tax), <strong>Premiere export</strong> (for editor handoff). Skip features that don't ladder to a pain they named in Mtg 1.
+          <span class="mtg-next">Next: scope POC + invite to honeypot</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 3</strong>POC</div>
+        <div class="mtg-body">
+          Hands-on with direct named people. Phased, quality-gated. Define success criteria in writing. Track time-to-first-storyboard, first export, first variant batch. Co-build one real project, not a sandbox.
+          <span class="mtg-next">Next: review, lock offer terms</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 4</strong>Close</div>
+        <div class="mtg-body">
+          Offer + discount. Discount tied to "direct named" status (early access, not public). Confirm tier, seats, contract terms, billing.
+          <span class="mtg-next">Next: contract signed, kickoff date set</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gap-box">
+    <span class="gap-label">Open gap · blocks Mtg 4</span>
+    <div class="gap-text"><strong>The offer is not locked.</strong> Need package + price + discount terms before any Mtg 4 fires. Without it, POCs stall. Resolve before Phase 2 launches.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 03 EDUCATOR -->
+<section class="section" id="educator">
+  <span class="eyebrow">03 · Educator partnership lane</span>
+  <h2 class="h2">Four touches.<br><em>Relationship, not sale.</em></h2>
+
+  <div class="lane">
+    <div class="lane-top edu">
+      <span class="lane-tag">Lane 2 · Educator partnership</span>
+      <div class="lane-name">Educator partnership flow</div>
+      <div class="lane-sub">Pre-req: talk to Ophir first.</div>
+    </div>
+    <div class="lane-body">
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 1</strong>Intro</div>
+        <div class="mtg-body">
+          "We know you teach video. We'd love to meet." Story + benefits. No platform pitch yet. Frame as partnership exploration, never affiliate.
+          <span class="mtg-next">Next: send trial credentials + partnership 1-pager</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 2</strong>Trial</div>
+        <div class="mtg-body">
+          They try the platform personally. Walk through Storyboard, Multi-variant, Avatar, Claude MCP. Get their honest take on what they'd actually teach with.
+          <span class="mtg-next">Next: design student cohort run</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 3</strong>Teach</div>
+        <div class="mtg-body">
+          They use Videfy with a group (~5 students). We give onboarding support + custom credits. Track student outputs as social proof. Co-publish if possible.
+          <span class="mtg-next">Next: 3-month discount + partnership terms</span>
+        </div>
+      </div>
+      <div class="mtg-row">
+        <div class="mtg-num"><strong>Mtg 4</strong>Partnership</div>
+        <div class="mtg-body">
+          Lock <strong>partnership program</strong> terms. 3-month discount lead-in → ongoing lifecycle benefit. Co-marketing, story sharing, channel access. <strong>Not</strong> an affiliate cut.
+          <span class="mtg-next">Next: signed partnership agreement, joint announcement</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">Naming rule (locked)</span>
+    <div class="nb-text">Always say <strong>"partnership program."</strong> Never say "affiliate." Drop "20%/10% affiliate" language entirely. Garry's call. Partnership = relationship + co-marketing + benefits, not transactional cut.</div>
+  </div>
+
+  <div class="gap-box">
+    <span class="gap-label">Open gap · blocks Mtg 4</span>
+    <div class="gap-text"><strong>Partnership terms not defined.</strong> 3-month discount value + lifecycle benefit + co-marketing scope all blank. Lock before Phase 3 launches.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 04 TIMELINE -->
+<section class="section" id="timeline">
+  <span class="eyebrow">04 · Timeline + phases</span>
+  <h2 class="h2">Five-week ramp.<br><em>Starting June 1.</em></h2>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div><span class="phase-label">Phase 0 · Prep</span><div class="phase-name">Lock offer, funnel, materials</div></div>
+      <div class="phase-date">Jun 1 – Jun 5</div>
+    </div>
+    <div class="phase-body">
+      Internal only. No customers yet.
+      <ul>
+        <li><strong>Mon Jun 1:</strong> Lock direct-sales offer (package + price + discount terms). Biggest blocker.</li>
+        <li><strong>Tue Jun 2:</strong> Define funnel steps w/ Leo (SDR 1-2-3).</li>
+        <li><strong>Wed Jun 3:</strong> Build 1-pager + sales deck. Pull Chad's old materials + X-simplifier closing questions.</li>
+        <li><strong>Thu Jun 4:</strong> Build partnership deck (educator lane). Lock partnership terms.</li>
+        <li><strong>Fri Jun 5:</strong> Network mine. List warm intros. Ask Garry + team for names.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div><span class="phase-label">Phase 1 · Warm intros</span><div class="phase-name">Lowest friction first</div></div>
+      <div class="phase-date">Jun 8 – Jun 12</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li>Garry intros → book 3 to 5 calls.</li>
+        <li>Team intros → book remaining slots.</li>
+        <li>Every call = discovery only. Define problem, no pitch.</li>
+        <li>Goal: 5 to 10 booked discoveries by end of week.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div><span class="phase-label">Phase 2 · Direct sales / POC</span><div class="phase-name">Mtg 1 → Mtg 4 cycle</div></div>
+      <div class="phase-date">Jun 8 – Jun 26</div>
+    </div>
+    <div class="phase-body">
+      Parallel to Phase 1. Move warm intros through Discovery → Demo → POC → Close.
+      <ul>
+        <li><strong>Week 2:</strong> Discoveries from Phase 1 intros.</li>
+        <li><strong>Week 3:</strong> Demos + POC scopes.</li>
+        <li><strong>Week 4:</strong> POCs running + first closes attempted.</li>
+        <li>Goal: 2 to 3 paid POCs by Jun 26.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="phase">
+    <div class="phase-head">
+      <div><span class="phase-label">Phase 3 · Educator partnership</span><div class="phase-name">Parallel to direct sales</div></div>
+      <div class="phase-date">Jun 15 – Jun 26</div>
+    </div>
+    <div class="phase-body">
+      <ul>
+        <li><strong>Pre:</strong> talk to Ophir before any educator outreach.</li>
+        <li><strong>Wk 3:</strong> Intro mtgs w/ 3 to 5 educators / training co's.</li>
+        <li><strong>Wk 4:</strong> Trial credentials sent. Student cohort designs.</li>
+        <li><strong>Wk 5+:</strong> First teach-with-Videfy cohorts run. Partnership terms locked.</li>
+        <li>Goal: 1 to 2 partnership agreements signed by July.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 05 MATERIALS -->
+<section class="section" id="materials">
+  <span class="eyebrow">05 · Sales materials checklist</span>
+  <h2 class="h2">Build list.<br><em>All overdue.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Material</th><th>Purpose</th><th>Owner</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1-pager · What Videfy is</strong></td><td>Send post-Mtg 1 as primer for Mtg 2. Also linked from cold DMs.</td><td>Alex</td><td>Not started</td></tr>
+      <tr><td><strong>Sales deck</strong></td><td>Mtg 2 demo deck. Slides for each ICP variant + wedge feature.</td><td>Alex</td><td>Not started</td></tr>
+      <tr><td><strong>Partnership deck</strong></td><td>Educator lane Mtg 1 + 2. Story + benefits + partnership terms.</td><td>Alex</td><td>Not started</td></tr>
+      <tr><td><strong>POC scope template</strong></td><td>Mtg 3. Success criteria, timeline, hands-on plan.</td><td>Alex</td><td>Not started</td></tr>
+      <tr><td><strong>Closing questions</strong></td><td>Mtg 4. Steal from X-simplifier deck (referenced in notes).</td><td>Alex</td><td>Not started</td></tr>
+      <tr><td><strong>Offer + price sheet</strong></td><td>Mtg 4 close. Tier + discount terms for direct-named buyers.</td><td>Vaughn + Alex</td><td>Blocked (offer undefined)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">Reuse</span>
+    <div class="nb-text">Look back at <strong>Chad's command-center materials</strong> for deck patterns. Steal closing questions from the <strong>X simplifier</strong> deck. Don't rebuild from zero — port + adapt.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 06 WARM NETWORK -->
+<section class="section" id="warm">
+  <span class="eyebrow">06 · Warm network</span>
+  <h2 class="h2">Intros first.<br><em>Cold second.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Source</th><th>Targets</th><th>Lane</th><th>Ask</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Garry</strong></td><td>DTC, agency owners, partnership program contacts</td><td>Both</td><td>"Who should I talk to about Videfy?" — 5 names, warm intros.</td></tr>
+      <tr><td><strong>Vaughn</strong></td><td>SaaS founders, AI ops operators</td><td>Direct</td><td>Anyone running marketing at a Series A SaaS portfolio co.</td></tr>
+      <tr><td><strong>Ophir</strong></td><td>Educator network</td><td>Educator</td><td>Pre-req before any educator outreach. Get his guidance + intros.</td></tr>
+      <tr><td><strong>Marta</strong></td><td>Designer + creator network</td><td>Both</td><td>Designers running content factories who'd test the workflow.</td></tr>
+      <tr><td><strong>Doron</strong></td><td>Eng + AI ops network</td><td>Direct (Claude / MCP)</td><td>Claude power users who'd want MCP integration day one.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- 07 FUNNEL -->
+<section class="section" id="funnel">
+  <span class="eyebrow">07 · Funnel + SDR motion</span>
+  <h2 class="h2">SDR steps.<br><em>Defined w/ Leo.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Stage</th><th>Action</th><th>Exit criteria</th></tr></thead>
+    <tbody>
+      <tr><td><strong>1 · Source</strong></td><td>Apollo + Clay list build. ICP filters from message map. Manual review.</td><td>List of 50 to 100 named buyers per ICP.</td></tr>
+      <tr><td><strong>2 · Cold outreach</strong></td><td>LinkedIn DM + cold email sequences using Reddit-verbatim subjects from message map.</td><td>Reply received (positive or neutral).</td></tr>
+      <tr><td><strong>3 · Discovery booked</strong></td><td>Calendar invite sent. 30-min discovery (Mtg 1) confirmed.</td><td>Mtg 1 attended → Discovery → Demo path active.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="gap-box">
+    <span class="gap-label">Open gap · sync w/ Leo</span>
+    <div class="gap-text"><strong>SDR steps above are draft.</strong> Final 1-2-3 needs Leo's sign-off. Sync this week (Phase 0 Tue Jun 2).</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 08 GAPS -->
+<section class="section" id="gaps">
+  <span class="eyebrow">08 · Open gaps · blockers</span>
+  <h2 class="h2">Three blockers.<br><em>Resolve in Phase 0.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Blocker</th><th>What's missing</th><th>Owner</th><th>Deadline</th></tr></thead>
+    <tbody>
+      <tr><td><strong>The offer</strong></td><td>Package + price + discount terms for direct-named buyers.</td><td>Vaughn + Alex</td><td>Jun 1 (Mon)</td></tr>
+      <tr><td><strong>Partnership terms</strong></td><td>3-month discount value, lifecycle benefit %, co-marketing scope.</td><td>Vaughn + Garry</td><td>Jun 4 (Thu)</td></tr>
+      <tr><td><strong>SDR funnel 1-2-3</strong></td><td>Locked stages + exit criteria + tooling.</td><td>Leo + Alex</td><td>Jun 2 (Tue)</td></tr>
+      <tr><td><strong>Sales materials</strong></td><td>1-pager · sales deck · partnership deck · POC template · closing Qs.</td><td>Alex</td><td>Jun 3–5</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="cl-label">If one slips</span>
+    <div class="cl-text"><strong>Offer slipping = everything slips.</strong> Without the offer, no Mtg 4. Without Mtg 4, no closes. Lock offer Monday or push Phase 2 to week 3.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 09 RULES -->
+<section class="section" id="rules">
+  <span class="eyebrow">09 · Sales rules · non-negotiable</span>
+  <h2 class="h2">Every meeting.<br><em>Every doc. Every deal.</em></h2>
+
+  <div class="two-col">
+    <div class="lane">
+      <div class="lane-top direct">
+        <span class="lane-tag">Rule 01</span>
+        <div class="lane-name">Every meeting ends w/ a next step</div>
+        <div class="lane-sub">+ date on calendar before they hang up</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">No open-ended calls. No "we'll be in touch." Confirm the next mtg or next action with a date before the call closes.</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-top edu">
+        <span class="lane-tag">Rule 02</span>
+        <div class="lane-name">Partnership program. Never affiliate.</div>
+        <div class="lane-sub">Garry's call · locked</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">Across every deck, DM, contract, and call. Drop "affiliate" entirely. Drop "20%/10% affiliate" rate language. Partnership = relationship + co-marketing + benefits.</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-top direct">
+        <span class="lane-tag">Rule 03</span>
+        <div class="lane-name">Discount only for direct-named buyers</div>
+        <div class="lane-sub">Not public, not self-serve</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">The discount is part of working hands-on with us in Phase 2 POCs. Public pricing stays full price. The deal IS the access.</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-top edu">
+        <span class="lane-tag">Rule 04</span>
+        <div class="lane-name">Define problem first. Pitch second.</div>
+        <div class="lane-sub">Mtg 1 is discovery only</div>
+      </div>
+      <div class="lane-body">
+        <div class="mtg-body">No demo, no price, no deck in Mtg 1. Pull problem statement from the buyer. Match to Reddit-verbatim pain row. Then Mtg 2 demo lands on exactly their language.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="doc-footer">
+  <div class="ft-l">Videfy.ai · Sales Playbook v1 · Ties to Marketing Brief + Outreach Message Map</div>
+  <div class="ft-r">Adjacent: marketing-brief.html · outreach-message-map.html</div>
+</footer>
+
+</div>
+</body>
+</html>
