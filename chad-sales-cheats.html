@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chad's Sales Cheats · Quick Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500;1,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14;
+  --white:#FAFBFF; --off:#F2F4F8;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:880px; margin:0 auto; padding:48px 40px 72px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; padding-bottom:20px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.8; }
+.hero { background:var(--ink); border-radius:14px; padding:32px 36px; margin-bottom:36px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:10px; }
+.hero-headline { font-family:'DM Sans',sans-serif; font-weight:700; font-size:clamp(22px,3vw,30px); line-height:1.2; letter-spacing:-.015em; color:var(--white); margin-bottom:10px; }
+.hero-headline em { color:var(--lime); font-style:normal; font-weight:700; }
+.hero-body { font-size:14px; color:rgba(255,255,255,.7); line-height:1.65; font-weight:300; max-width:580px; }
+.section { margin-bottom:36px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
+.h2 { font-family:'DM Sans',sans-serif; font-weight:700; font-size:22px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-weight:500; color:var(--muted); }
+.h3 { font-family:'DM Sans',sans-serif; font-weight:600; font-size:16px; color:var(--ink); margin:18px 0 8px; }
+.script-box { background:rgba(170,255,0,.05); border:1px solid rgba(170,255,0,.3); border-left:4px solid var(--lime); border-radius:10px; padding:18px 22px; margin-bottom:14px; }
+.script-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#2D6000; margin-bottom:8px; display:block; }
+.script-text { font-family:'DM Sans',sans-serif; font-weight:500; font-size:15px; line-height:1.5; color:var(--ink); font-style:italic; }
+.script-when { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-top:8px; display:block; letter-spacing:.06em; }
+.rule-box { background:var(--off); border:1px solid var(--bstr); border-radius:10px; padding:14px 18px; margin-bottom:10px; }
+.rule-num { display:inline-block; font-family:'DM Mono',monospace; font-size:11px; color:var(--lime); background:var(--ink); padding:2px 8px; border-radius:4px; margin-right:8px; letter-spacing:.06em; }
+.rule-title { font-weight:700; font-size:15px; color:var(--ink); margin-bottom:4px; display:inline; }
+.rule-body { font-size:13px; line-height:1.6; color:#2C3040; margin-top:6px; }
+.rule-body strong { font-weight:600; color:var(--ink); }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.name-card { background:var(--ink); color:var(--white); border-radius:10px; padding:14px 16px; }
+.name-card .nc-name { font-family:'DM Sans',sans-serif; font-weight:700; font-size:14px; color:var(--lime); margin-bottom:4px; }
+.name-card .nc-def { font-size:12px; line-height:1.5; color:rgba(255,255,255,.75); font-weight:300; }
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:10px; border:1px solid var(--bstr); border-radius:10px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:10px 12px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:11px 12px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.5; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px; }
+.stat { background:var(--off); border:1px solid var(--bstr); border-radius:8px; padding:12px; text-align:center; }
+.stat .n { font-family:'DM Sans',sans-serif; font-weight:700; font-size:22px; color:var(--ink); line-height:1; }
+.stat .l { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-top:6px; display:block; }
+.punchline { background:var(--ink); color:var(--white); border-radius:10px; padding:18px 22px; margin-top:14px; }
+.punchline-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:8px; display:block; }
+.punchline-list { display:flex; flex-direction:column; gap:6px; }
+.punchline-list div { font-family:'DM Sans',sans-serif; font-weight:600; font-size:14px; color:var(--lime); }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 30px; }
+.doc-footer { margin-top:48px; padding-top:18px; border-top:2px solid var(--ink); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); display:flex; justify-content:space-between; }
+@media(max-width:680px) {
+  .page { padding:32px 18px 60px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:10px; }
+  .two-col, .three-col, .stats { grid-template-columns:1fr 1fr; }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:9px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">Chad's Sales Cheats<br>Read before every call</div>
+</header>
+
+<div class="hero">
+  <span class="hero-eyebrow">Quick reference · pre-call cheat sheet</span>
+  <div class="hero-headline">
+    Chad Freedman.<br>
+    <em>15 yrs sales. 179.8% avg quota.</em>
+  </div>
+  <div class="hero-body">
+    #1 AE of 75 at Sage. 3x Platinum Club. Now at Ramp. Lifted from <strong>Projects/chad-command-center/</strong>. Read top to bottom before each call. Skim only if rushed.
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="n">179.8%</div><span class="l">avg quota</span></div>
+  <div class="stat"><div class="n">#1</div><span class="l">AE of 75 · Sage</span></div>
+  <div class="stat"><div class="n">3x</div><span class="l">Platinum Club</span></div>
+  <div class="stat"><div class="n">47</div><span class="l">states closed in</span></div>
+</div>
+
+<hr class="rule" style="margin-top:36px;">
+
+<!-- VERBATIM SCRIPTS -->
+<section class="section">
+  <span class="eyebrow">Verbatim · use as-written</span>
+  <h2 class="h2">3 scripts to memorize.</h2>
+
+  <div class="script-box">
+    <span class="script-label">Script 01 · 3-question opener</span>
+    <div class="script-text">"This call is not about me. This call is about you. My agenda is not important. If we walked away today and I didn't answer the three questions you came with, it would be a total waste of your time. What are those three questions?"</div>
+    <span class="script-when">When: Mtg 1 open · within first 90 seconds</span>
+  </div>
+
+  <div class="script-box">
+    <span class="script-label">Script 02 · Commission breath</span>
+    <div class="script-text">"Hey, I've got a couple kids. Do I work on commission? Yes. Do I want to sell you as much stuff as possible? That'd be great. But that stuff's not important to you. I'm not going to bring it up again."</div>
+    <span class="script-when">When: Mtg 1 · before anything that smells like pitch. Removes adversarial energy.</span>
+  </div>
+
+  <div class="script-box">
+    <span class="script-label">Script 03 · Pipeline disqualifier (internal)</span>
+    <div class="script-text">"Not responding. Can't reach decider. No compelling event. Budget unconfirmed. Pain not quantified. → Cut."</div>
+    <span class="script-when">When: weekly pipeline review · ruthless. 5 red flags = dead deal.</span>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 12 RULES -->
+<section class="section">
+  <span class="eyebrow">12 sales rules</span>
+  <h2 class="h2">Habits over hacks.</h2>
+
+  <div class="rule-box">
+    <span class="rule-num">01</span><span class="rule-title">Always Be Discovering · not closing</span>
+    <div class="rule-body">Top closers <strong>70% questions / 30% solution.</strong> Bottom reps flip it. Discovery never ends.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">02</span><span class="rule-title">5-minute prep · not 40</span>
+    <div class="rule-body">Company site (2m) · LinkedIn (1m) · Google news (1m) · ChatGPT for 10-Ks (1m). Come w/ perspective, not interrogation.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">03</span><span class="rule-title">3 to 5 deals max</span>
+    <div class="rule-body">20 × 10% = 2 deals of effort. 5 × 100% = 5 deals of effort. "Organized procrastination" kills quota.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">04</span><span class="rule-title">Disqualify fast</span>
+    <div class="rule-body">23 hours wasted last yr on 3 deals that should've died at Mtg 1. Speed to no = same value as speed to yes.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">05</span><span class="rule-title">Silence is strategy</span>
+    <div class="rule-body">Top reps talk <strong>46%.</strong> Bottom <strong>72%.</strong> (1M+ call data.) Ask. Shut up. Awkward pause = where deals are won.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">06</span><span class="rule-title">2-hour response time</span>
+    <div class="rule-body">30-day closes avg 4hr response. 6-mo draggers avg 2 days. Urgency contagious. Speed = respect, not desperation.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">07</span><span class="rule-title">Never "just following up"</span>
+    <div class="rule-body">Every email = ONE of: <strong>new info · specific question · clear next step.</strong> No third option. Don't send if none.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">08</span><span class="rule-title">Voicemail · 2 then stop</span>
+    <div class="rule-body">VM1 = 15 sec context. VM2 = 30 sec context + social proof. Goal = email reply, not callback. 115% email lift.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">09</span><span class="rule-title">Independently wealthy mindset</span>
+    <div class="rule-body">Huge pipeline = leverage. When you don't need any single deal, you get the deal. Need repels.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">10</span><span class="rule-title">Rhythm beats motivation</span>
+    <div class="rule-body">Monday: pipeline review · top 3 deals · 2 hrs outreach. Same. Every. Week. Motivation = feeling. Rhythm = system.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">11</span><span class="rule-title">Give first</span>
+    <div class="rule-body">Their problem. Their world. Your quota isn't theirs. Trust → buy. Make-it-about-you = lost.</div>
+  </div>
+  <div class="rule-box">
+    <span class="rule-num">12</span><span class="rule-title">Ask about prior history</span>
+    <div class="rule-body">Chad lost $65K once because he never asked "have you worked with us before?" Their IT had bad experience 2 yrs prior. <strong>One missing question = $65K.</strong></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- NAMES -->
+<section class="section">
+  <span class="eyebrow">Phrases to name + use</span>
+  <h2 class="h2">When you name it, you own it.</h2>
+
+  <div class="three-col">
+    <div class="name-card">
+      <div class="nc-name">Commission breath</div>
+      <div class="nc-def">Buyer can smell when rep needs the deal. Adversarial energy.</div>
+    </div>
+    <div class="name-card">
+      <div class="nc-name">The meeting after the meeting</div>
+      <div class="nc-def">Internal sale your champion runs without you. Arm them well.</div>
+    </div>
+    <div class="name-card">
+      <div class="nc-name">The quick question tax</div>
+      <div class="nc-def">Death by 15 daily interruptions. Block calendar.</div>
+    </div>
+    <div class="name-card">
+      <div class="nc-name">Trust but verify phase</div>
+      <div class="nc-def">Week of double-checking during close. Expect it.</div>
+    </div>
+    <div class="name-card">
+      <div class="nc-name">Organized procrastination</div>
+      <div class="nc-def">20 deals at 10% attention each. Kills quota.</div>
+    </div>
+    <div class="name-card">
+      <div class="nc-name">"Just following up"</div>
+      <div class="nc-def">Worst email in pro communication. Banned phrase.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- RAPPORT VS SMALL TALK -->
+<section class="section">
+  <span class="eyebrow">Rapport &gt; small talk</span>
+  <h2 class="h2">Open Mtg 1.<br><em>Right way vs wrong way.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Small talk (don't)</th><th>Rapport (do)</th></tr></thead>
+    <tbody>
+      <tr><td>"How's the weather?"</td><td>"What made you take this call?"</td></tr>
+      <tr><td>"Big day ahead?"</td><td>"What's the most important thing you want out of this 30 minutes?"</td></tr>
+      <tr><td>"How was your weekend?"</td><td>"What got you looking at this category in the first place?"</td></tr>
+      <tr><td>"Where are you dialing from?"</td><td>"Tell me what's broken right now that made this call worth scheduling."</td></tr>
+    </tbody>
+  </table>
+
+  <div class="rule-body" style="margin-top:14px;"><strong>Small talk</strong> makes YOU comfortable. <strong>Rapport</strong> makes THEM feel heard. One earns the next 25 minutes. The other wastes 5.</div>
+</section>
+
+<hr class="rule">
+
+<!-- CLOSING -->
+<section class="section">
+  <span class="eyebrow">Mtg 4 · closing one-liners</span>
+  <h2 class="h2">Earn the punchline.<br><em>Story first. Line last.</em></h2>
+
+  <div class="punchline">
+    <span class="punchline-label">Steal these for close</span>
+    <div class="punchline-list">
+      <div>"Focus beats frenzy. Every time."</div>
+      <div>"Consistency beats heroics."</div>
+      <div>"Less pressure = more progress."</div>
+      <div>"When you don't need the business, you get the business."</div>
+      <div>"No silver bullets. Just habits."</div>
+      <div>"Talent without discipline is wasted potential with a good personality."</div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- PRE-CALL CHECKLIST -->
+<section class="section">
+  <span class="eyebrow">Pre-call checklist · 5 minutes</span>
+  <h2 class="h2">Before every Mtg 1.</h2>
+
+  <table class="tbl">
+    <thead><tr><th>Step</th><th>Source</th><th>Time</th><th>Goal</th></tr></thead>
+    <tbody>
+      <tr><td>01 · Company</td><td>Company website (about, customers, news)</td><td>2 min</td><td>What do they do, who's it for, what changed recently.</td></tr>
+      <tr><td>02 · Person</td><td>LinkedIn profile</td><td>1 min</td><td>Role, tenure, prior companies, recent activity.</td></tr>
+      <tr><td>03 · News</td><td>Google news (last 90 days)</td><td>1 min</td><td>Layoffs, funding, launches, leadership changes.</td></tr>
+      <tr><td>04 · Financials</td><td>ChatGPT for 10-K / earnings (if public)</td><td>1 min</td><td>Strategic priorities + signals from earnings call.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<footer class="doc-footer">
+  <div>Source: Projects/chad-command-center/05-profile/chad-speech-bible.md + 02-posts/v1-sales-tactics</div>
+  <div>Adjacent: sales-playbook.html · outreach-message-map.html</div>
+</footer>
+
+</div>
+</body>
+</html>
