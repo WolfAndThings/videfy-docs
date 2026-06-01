@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy · Outreach Sequences (copy-paste)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500;1,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14;
+  --white:#FAFBFF; --off:#F2F4F8;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:920px; margin:0 auto; padding:48px 40px 72px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:36px; padding-bottom:20px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.8; }
+.hero { background:var(--ink); border-radius:14px; padding:32px 36px; margin-bottom:28px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:10px; }
+.hero-headline { font-family:'DM Sans',sans-serif; font-weight:700; font-size:clamp(22px,3vw,30px); line-height:1.2; letter-spacing:-.015em; color:var(--white); margin-bottom:10px; }
+.hero-headline em { color:var(--lime); font-style:normal; font-weight:700; }
+.hero-body { font-size:14px; color:rgba(255,255,255,.7); line-height:1.65; font-weight:300; max-width:620px; }
+.toc { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:24px 0 40px; padding:18px 20px; border:1px solid var(--bstr); border-radius:12px; background:var(--off); }
+.toc a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.06em; color:var(--ink); text-decoration:none; padding:6px 8px; border-radius:6px; }
+.toc a:hover { background:rgba(170,255,0,.15); }
+.toc-num { color:var(--muted); margin-right:6px; }
+.section { margin-bottom:48px; scroll-margin-top:20px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
+.h2 { font-family:'DM Sans',sans-serif; font-weight:700; font-size:24px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin-bottom:8px; }
+.h2 em { font-weight:500; color:var(--muted); }
+.h3 { font-family:'DM Sans',sans-serif; font-weight:600; font-size:16px; color:var(--ink); margin:24px 0 8px; }
+.icp-meta { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed var(--border); }
+.icp-meta strong { color:var(--ink); }
+.email { background:var(--off); border:1px solid var(--bstr); border-left:4px solid var(--lime); border-radius:10px; padding:18px 22px; margin-bottom:12px; }
+.email-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.email-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#2D6000; font-weight:600; }
+.email-day { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:.06em; }
+.email-subj { font-family:'DM Sans',sans-serif; font-weight:700; font-size:15px; color:var(--ink); margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid var(--border); }
+.email-subj-label { font-family:'DM Mono',monospace; font-size:9px; color:var(--muted); display:block; letter-spacing:.16em; text-transform:uppercase; margin-bottom:4px; }
+.email-body { font-size:14px; line-height:1.65; color:#2C3040; font-weight:300; white-space:pre-line; }
+.email-body strong { font-weight:600; color:var(--ink); }
+.li-msg { background:rgba(0,196,180,.05); border:1px solid rgba(0,196,180,.3); border-left:4px solid var(--teal); border-radius:10px; padding:16px 20px; margin-bottom:10px; }
+.li-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#005f55; font-weight:600; margin-bottom:8px; display:block; }
+.li-body { font-size:13.5px; line-height:1.65; color:#2C3040; white-space:pre-line; font-weight:300; }
+.li-body strong { font-weight:600; color:var(--ink); }
+.callout { background:var(--ink); border-radius:10px; padding:16px 20px; margin-top:14px; }
+.callout-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:8px; display:block; }
+.callout-text { font-size:13px; color:rgba(255,255,255,.8); line-height:1.65; font-weight:300; }
+.callout-text strong { color:var(--lime); font-weight:500; }
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:10px; padding:14px 18px; margin-top:12px; }
+.note-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; display:block; }
+.note-text { font-size:13px; line-height:1.65; color:#2C3040; font-weight:300; }
+.note-text strong { font-weight:600; color:var(--ink); }
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:12px; border:1px solid var(--bstr); border-radius:10px; overflow:hidden; font-size:12px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:10px 12px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:10px 12px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.5; vertical-align:top; }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl td strong { color:var(--ink); font-weight:600; }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 36px; }
+.doc-footer { margin-top:48px; padding-top:18px; border-top:2px solid var(--ink); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); display:flex; justify-content:space-between; }
+@media(max-width:680px) {
+  .page { padding:32px 18px 60px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:10px; }
+  .toc { grid-template-columns:1fr 1fr; }
+  .tbl { font-size:11px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">Outreach Sequences · v1<br>Copy-paste ready · June 2026</div>
+</header>
+
+<div class="hero">
+  <span class="hero-eyebrow">Pipeline asset · ready to send</span>
+  <div class="hero-headline">
+    Cold sequences.<br>
+    <em>Top 3 ICPs. Copy-paste.</em>
+  </div>
+  <div class="hero-body">
+    Real lines to send Monday. Three ICPs (DTC perf marketer · small agency owner · SaaS solo marketer) × two channels (email · LinkedIn) × three touches each. Reddit-verbatim hooks. Personalize <strong>[brackets]</strong>, hit send.
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#how"><span class="toc-num">00</span>How to use</a>
+  <a href="#dtc"><span class="toc-num">01</span>DTC perf marketer</a>
+  <a href="#agency"><span class="toc-num">02</span>Small agency</a>
+  <a href="#saas"><span class="toc-num">03</span>SaaS solo marketer</a>
+  <a href="#dms"><span class="toc-num">04</span>Reply handling</a>
+  <a href="#tracking"><span class="toc-num">05</span>Tracking</a>
+  <a href="#1pager"><span class="toc-num">06</span>1-pager content</a>
+</nav>
+
+<!-- 00 HOW -->
+<section class="section" id="how">
+  <span class="eyebrow">00 · How to use</span>
+  <h2 class="h2">Rules of the road.</h2>
+
+  <table class="tbl">
+    <thead><tr><th>Rule</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Personalize the [brackets] only</strong></td><td>Don't rewrite. The body is tested phrasing. Bracket fills are where you earn the open.</td></tr>
+      <tr><td><strong>Send Tue/Wed/Thu, 9–11am or 2–4pm local</strong></td><td>Highest open rates for marketing buyers. Skip Mon (catchup) + Fri (checkout).</td></tr>
+      <tr><td><strong>3-touch cap, then stop</strong></td><td>No "just following up." If no reply after touch 3, archive. Re-add to nurture in 90 days.</td></tr>
+      <tr><td><strong>One channel per prospect at a time</strong></td><td>Don't bombard email + LinkedIn same week. Pick the channel they're loudest on.</td></tr>
+      <tr><td><strong>Track in CRM (Apollo / HubSpot / Notion)</strong></td><td>Sent date · channel · touch # · reply status. See §05.</td></tr>
+      <tr><td><strong>Reply within 2 hours (Chad rule)</strong></td><td>Urgency contagious. Speed = respect.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- 01 DTC -->
+<section class="section" id="dtc">
+  <span class="eyebrow">01 · ICP 1 · DTC / ecom perf marketer</span>
+  <h2 class="h2">DTC perf marketer.<br><em>Hottest reply temp.</em></h2>
+  <div class="icp-meta">
+    <strong>Target:</strong> performance marketer at ecom / DTC brand · $50k–$2M/mo Meta+TikTok+Google spend · 1–5 ppl team · hands-on creative.<br>
+    <strong>Title filters:</strong> Head of Growth · Performance Marketing Lead · Paid Social Manager · DTC Marketing Director · Creative Strategist.<br>
+    <strong>Channel priority:</strong> LinkedIn DM first (highest reply). Email as fallback or w/ Apollo verified inbox.
+  </div>
+
+  <h3 class="h3">Email sequence · 3 touches</h3>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 01 · Day 0</span><span class="email-day">Tue or Wed AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">creative is the new bottleneck</div></div>
+    <div class="email-body">Hi [First name],
+
+Saw [Brand] is running paid social across [Meta / TikTok / Google]. Curious — how many video variants are you actually getting tested per campaign right now?
+
+Most DTC teams we talk to max out at 5 before the agency wall or editor backlog hits. The pattern from the Creatify and AI-vs-human ROAS threads on r/advertising lately: <strong>hooks work, then die fast, and creators / agencies can't refresh quick enough</strong>.
+
+Videfy fans one concept into 10 variants from a single storyboard — hooks, openings, CTAs, aspect ratios — and your editor still finishes in Premiere or CapCut. Built for variant testing, not vibe gen.
+
+Worth a 15-min look or want me to send a 90-sec teardown?
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 02 · Day 3</span><span class="email-day">Fri AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">$85k spend, AI vs human</div></div>
+    <div class="email-body">Quick follow-up — r/advertising thread last week from a perf marketer who ran a $85k AI vs human ad test. AI ad got past his "I'd notice" filter on Twitter. Conclusion: production needs to be faster, cheaper, or easier — or it doesn't count.
+
+That's the bar we built Videfy to clear. One concept, ten variants, one project, no agency wait.
+
+Want the teardown link?
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 03 · Day 7</span><span class="email-day">Tue AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">re: variants</div></div>
+    <div class="email-body">Hi [First name] — last note from me.
+
+If creative velocity isn't a constraint at [Brand], totally fair. I'll stop bothering.
+
+If it is, I'll send the 90-sec teardown free. No call needed unless it's useful after watching.
+
+Alex</div>
+  </div>
+
+  <h3 class="h3">LinkedIn DM sequence · 3 touches</h3>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 01 · connection request (no note OR 250-char note below)</span>
+    <div class="li-body">Hey [First name] — saw [Brand]'s recent push on [TikTok / Reels / Meta]. Quick question on how you handle variant velocity. Mind if I connect?</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 02 · Day 1 after accept</span>
+    <div class="li-body">Thanks for connecting [First name].
+
+Honest question: how many video variants per campaign is your team actually shipping right now? Most DTC teams we talk to max out at 5 before the editor backlog or agency wait hits.
+
+Built Videfy to fan one concept into 10 variants from a single storyboard — hooks, openings, CTAs, aspect ratios. Editor still finishes in Premiere.
+
+Worth a 90-sec teardown video?</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 03 · Day 5 (only if no reply)</span>
+    <div class="li-body">Last note [First name] — saw the Creatify review thread on r/advertising recently? Same shape of pain. Hooks die, agency takes too long, by the time new videos land the angle's stale.
+
+If that resonates, here's the teardown: [link]. Free, no call needed.
+
+If not, all good — I'll stop bothering.</div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-label">Personalize tip</span>
+    <div class="callout-text">Best [brand] hook: name <strong>one specific ad of theirs you actually watched</strong> in the opener. "Saw your [product] hook with the [opening shot]" beats "Saw [Brand]'s push" every time. Spend 60 sec on TikTok/Meta library before sending.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 02 AGENCY -->
+<section class="section" id="agency">
+  <span class="eyebrow">02 · ICP 2 · Small agency owner</span>
+  <h2 class="h2">Small agency owner.<br><em>5 to 15 people.</em></h2>
+  <div class="icp-meta">
+    <strong>Target:</strong> owner / head of production at small agency · 5–15 ppl · 3–8 clients · retainer + project mix.<br>
+    <strong>Title filters:</strong> Founder · CEO · Head of Production · Executive Producer · Creative Director (small shops).<br>
+    <strong>Channel priority:</strong> LinkedIn DM (warm intros best). Email as second touch.
+  </div>
+
+  <h3 class="h3">Email sequence · 3 touches</h3>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 01 · Day 0</span><span class="email-day">Tue or Wed AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">30 pieces a day, drafts coming back hollow</div></div>
+    <div class="email-body">Hi [First name],
+
+Saw [Agency] ships [content for client type / volume]. Quick question on workflow:
+
+How many tools per project right now — generation, edit, review, handoff?
+
+The r/agency thread "we ship 30–40 pieces a day, drafts coming back hollow" hit a nerve last month. Pattern: production volume is fine, version chaos + client review across 5 channels + editor handoffs eat 8–12 hrs per project.
+
+Videfy holds the entire project — brief, gen, edit, review, Premiere handoff — in one workspace. <strong>Free unlimited client review, no seat tax.</strong> Editors keep finishing in Premiere or Resolve.
+
+Open to a 15-min look or want a 90-sec teardown?
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 02 · Day 4</span><span class="email-day">Mon or Tue AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">Omnicom + IPG layoffs hitting your tier</div></div>
+    <div class="email-body">[First name] — between Omnicom's 4,000 cuts and the legacy-brand consolidation, small shops have a window. Bigger clients are nervous about big-agency churn.
+
+The agencies eating that share next year aren't the ones working harder. They're the ones with margin built on workflow consolidation — fewer tools, faster turnaround, free client review.
+
+Worth 15 min?
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 03 · Day 9</span><span class="email-day">Wed AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">re: workflow</div></div>
+    <div class="email-body">Last one from me [First name].
+
+If [Agency]'s workflow isn't where margin is leaking, ignore. If it is, here's the 90-sec teardown: [link]. No call needed.
+
+Alex</div>
+  </div>
+
+  <h3 class="h3">LinkedIn DM sequence · 3 touches</h3>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 01 · connection request</span>
+    <div class="li-body">Hey [First name] — fellow [agency-side person / shop owner]. Working on something for agencies your size, would love your read on it.</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 02 · Day 1 after accept</span>
+    <div class="li-body">Thanks [First name].
+
+Real ask: how many tools per project does your team currently bounce between? Gen + edit + review + storage + Premiere?
+
+Building Videfy to consolidate that into one workspace — and the wedge that gets attention from agency owners is <strong>free unlimited client review, no seat tax</strong>. Frame.io pricing has people pissed.
+
+Editors still finish in Premiere. Open to a quick read?</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 03 · Day 6 (only if no reply)</span>
+    <div class="li-body">Won't keep bothering [First name].
+
+If client review + version chaos isn't eating hours at [Agency], ignore me. If it is, teardown's here: [link]. Watch when convenient.
+
+Best, Alex</div>
+  </div>
+
+  <div class="note-box">
+    <span class="note-label">Warm-intro variant</span>
+    <div class="note-text">If you got introduced by Garry / Vaughn / shared contact: <strong>swap LinkedIn 01 for:</strong> "Hey [First name] — [intro person] mentioned you. They thought I should show you what we're building at Videfy. Few minutes for a quick LinkedIn back-and-forth?" Skip connection request entirely if already 1st-degree.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 03 SAAS SOLO -->
+<section class="section" id="saas">
+  <span class="eyebrow">03 · ICP 3 · SaaS solo marketer</span>
+  <h2 class="h2">SaaS solo marketer.<br><em>Series A · marketing team of one.</em></h2>
+  <div class="icp-meta">
+    <strong>Target:</strong> sole marketing hire at Series A SaaS · B2B · $1M–$20M ARR · 20–80 employees · marketing team = 1.<br>
+    <strong>Title filters:</strong> Head of Marketing · Marketing Manager · Sr Marketing Manager · Head of Growth · Demand Gen Lead (look for "the only marketer here" or "Series A SaaS" in bio).<br>
+    <strong>Channel priority:</strong> LinkedIn DM dominant. They live on LinkedIn. Email backup.
+  </div>
+
+  <h3 class="h3">Email sequence · 3 touches</h3>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 01 · Day 0</span><span class="email-day">Tue or Wed AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">marketing dept of one</div></div>
+    <div class="email-body">Hi [First name],
+
+Saw you're the marketing lead at [Company]. Quick read — saw a thread on r/marketing recently:
+
+<em>"Dev/Product: 15 people. Customer Success: 15. Sales: 1 (the VP). Marketing: 1 (me). The math doesn't math."</em>
+
+Sound familiar?
+
+If you're shipping video content (demos, explainers, social, ads) and juggling Runway + CapCut + Frame + ElevenLabs + Drive + Loom — Videfy consolidates that into one project. Storyboard, generate, edit, review, export, one workspace.
+
+Built for one person shipping the whole campaign by Friday.
+
+Worth a 15-min look or just want the 90-sec teardown?
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 02 · Day 4</span><span class="email-day">Mon AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">$10K video for $50</div></div>
+    <div class="email-body">[First name] — r/b2bmarketing post from a SaaS marketer last month: "Tried creating a $10K-quality brand video for our launch with AI. Made it happen for $50. Three days."
+
+That's the bet. One marketer + the right workflow + AI generation = video content that used to need agency budgets, now ships from a laptop.
+
+Curious if [Company]'s launch / demo content workload feels like that. If it does, happy to send the teardown.
+
+Alex</div>
+  </div>
+
+  <div class="email">
+    <div class="email-meta"><span class="email-tag">Email 03 · Day 9</span><span class="email-day">Wed AM</span></div>
+    <div><span class="email-subj-label">Subject</span><div class="email-subj">stopping</div></div>
+    <div class="email-body">Last one [First name].
+
+If video content isn't a top-5 fire, ignore. If it is, teardown here: [link]. Watch when you have 90 sec between fires.
+
+Alex</div>
+  </div>
+
+  <h3 class="h3">LinkedIn DM sequence · 3 touches</h3>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 01 · connection request</span>
+    <div class="li-body">Hey [First name] — building something for solo SaaS marketers who are shipping video content as a team of one. Would love your read.</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 02 · Day 1 after accept</span>
+    <div class="li-body">Thanks for connecting [First name].
+
+Quick question — at [Company], when you need a demo video, explainer, or paid social spot, how does it actually get made? Agency, freelance editor, your laptop + 6 tools?
+
+The thread that hit nerves on r/marketing recently: <strong>"marketing dept of one. dev dept of 15."</strong> Yours sound like that?
+
+Built Videfy as one workspace that does storyboard, gen, edit, review, export. Built for one person shipping the whole thing.
+
+Open to a 90-sec teardown?</div>
+  </div>
+
+  <div class="li-msg">
+    <span class="li-tag">LinkedIn 03 · Day 6 (only if no reply)</span>
+    <div class="li-body">Won't keep bothering [First name]. If video isn't where you're losing hours, ignore. If it is, here's the teardown: [link]. Free, no call required.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 04 REPLY HANDLING -->
+<section class="section" id="dms">
+  <span class="eyebrow">04 · Reply handling</span>
+  <h2 class="h2">When they reply.<br><em>What to say.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Their reply</th><th>Your reply</th><th>Goal</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>"Send the teardown"</strong></td>
+        <td>"Here's the link: [Loom URL]. 90 seconds. If anything resonates, happy to do a 15-min walkthrough live. If not, all good."</td>
+        <td>Get viewed. Then propose call only if they respond to the link.</td>
+      </tr>
+      <tr>
+        <td><strong>"Sure, 15 min" / "what does it do"</strong></td>
+        <td>"Great — sending Calendly. Before the call, two quick Qs: what's your current video workflow look like, and how many videos do you ship in a typical month? Helps me tailor the demo."</td>
+        <td>Book it + pre-qualify w/ Chad's 3-question opener spirit.</td>
+      </tr>
+      <tr>
+        <td><strong>"Not interested" / "we have a solution"</strong></td>
+        <td>"Totally fair. Quick last Q — what are you using? Just sharpens what we build. No pitch back, promise."</td>
+        <td>Pull competitive intel + leave door open for future.</td>
+      </tr>
+      <tr>
+        <td><strong>"Send pricing"</strong></td>
+        <td>"Sending the tier breakdown. Honest take — most teams figure out the right tier in a 10-min call. Worth booking 15? Calendly: [link]"</td>
+        <td>Reroute to call. Don't send pricing cold.</td>
+      </tr>
+      <tr>
+        <td><strong>Long reply w/ pain story</strong></td>
+        <td>Reply same day. Ask one specific follow-up tied to their story. Then book the call.</td>
+        <td>They're hot. Don't pitch — get on call fast.</td>
+      </tr>
+      <tr>
+        <td><strong>"Maybe later" / "Q4"</strong></td>
+        <td>"Cool — circling back end of [month]. In the meantime, here's the teardown: [link]. Watch on your time."</td>
+        <td>Set reminder. Drop teardown to keep mindshare.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- 05 TRACKING -->
+<section class="section" id="tracking">
+  <span class="eyebrow">05 · Tracking</span>
+  <h2 class="h2">Pipeline log.<br><em>What to capture per send.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Field</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Date sent</strong></td><td>2026-06-02</td></tr>
+      <tr><td><strong>Prospect name + company</strong></td><td>Jane Doe · BrandX</td></tr>
+      <tr><td><strong>ICP segment</strong></td><td>DTC / agency / SaaS-solo</td></tr>
+      <tr><td><strong>Channel</strong></td><td>LinkedIn / email</td></tr>
+      <tr><td><strong>Touch number</strong></td><td>1 of 3</td></tr>
+      <tr><td><strong>Subject / opener</strong></td><td>"creative is the new bottleneck"</td></tr>
+      <tr><td><strong>Personalization detail</strong></td><td>"referenced their Q2 TikTok hook"</td></tr>
+      <tr><td><strong>Reply status</strong></td><td>none / positive / neutral / negative</td></tr>
+      <tr><td><strong>Next action + date</strong></td><td>Touch 2 on 2026-06-05</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="note-label">Reply rate target (calibrate after week 1)</span>
+    <div class="note-text">Reasonable cold-DM benchmarks for B2B SaaS marketing: <strong>LinkedIn 8–15% reply rate · Email 2–6%.</strong> Anything below = personalize harder or change subject line. Anything above 15% LinkedIn = you found a working pattern, scale that ICP segment.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- 06 1-PAGER -->
+<section class="section" id="1pager">
+  <span class="eyebrow">06 · 1-pager content (send post-Mtg 1)</span>
+  <h2 class="h2">Videfy in one page.<br><em>For replying prospects + post-discovery primer.</em></h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">Drop into Loom intro · paste into reply email · use as Mtg 2 demo opener.</p>
+
+  <div class="email" style="border-left-color:var(--teal);background:rgba(0,196,180,.04);">
+    <div class="email-subj">Videfy · one workspace for video production</div>
+    <div class="email-body"><strong>What it is.</strong>
+The workflow platform for video production. One project holds the entire arc — storyboard, AI generation, multi-variant, edit, review, render, Adobe Premiere handoff. Not another tool to add to the stack. The layer that consolidates the stack.
+
+<strong>Who it's for.</strong>
+Solo creators through large teams. Built first for the operator shipping the whole campaign solo, scales up to agencies and in-house teams of 20+.
+
+<strong>What it replaces.</strong>
+Adobe CC + Frame.io + Runway / Pika / Luma + Loom + Dropbox + a captions tool. Replaces the stack you're already paying for.
+
+<strong>What's unique (no competitor combines all five):</strong>
+• <strong>Storyboard primitive</strong> — every action attaches to a scene. Brief carries forward.
+• <strong>Project memory</strong> — brand, voice, past feedback persists. Next project starts smarter.
+• <strong>Multi-variant generation</strong> — one concept fans into 10 variants in one project.
+• <strong>Free unlimited client review</strong> — reviewers leave timecoded feedback without account or seat.
+• <strong>Native Adobe Premiere extension</strong> — Timeline Media Sync, subtitles, overlays, voiceover. Editors keep their finishing tool.
+• <strong>Claude MCP</strong> — talk to Claude, get finished video. First MCP-native video producer.
+
+<strong>5 tiers.</strong> Honeypot (credits-only, no signup) · Creator · Pro · Team · Enterprise. Pricing on call.
+
+<strong>Stage.</strong> Pre-launch / beta. Storyboard live. Avenues 2–5 shipping Q2–Q4 2026.
+
+<strong>What to ask next.</strong>
+15-min walkthrough or 90-sec teardown video — whichever fits.</div>
+  </div>
+</section>
+
+<footer class="doc-footer">
+  <div>Videfy.ai · Outreach Sequences v1 · Updates: revise after first 30 days of sends</div>
+  <div>Adjacent: sales-playbook.html · outreach-message-map.html · chad-sales-cheats.html · marketing-brief.html</div>
+</footer>
+
+</div>
+</body>
+</html>
