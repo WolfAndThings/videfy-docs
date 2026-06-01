@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy — Marketing Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14; --dark:#0D1018;
+  --white:#FAFBFF; --off:#F2F4F8; --soft:#E8EAF0;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:920px; margin:0 auto; padding:56px 48px 80px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:48px; padding-bottom:24px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:2; }
+.hero { background:var(--ink); border-radius:16px; padding:40px 44px; margin-bottom:14px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:14px; }
+.hero-headline { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(24px,3.5vw,38px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:18px; }
+.hero-headline em { color:var(--lime); font-style:italic; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.7); line-height:1.7; font-weight:300; max-width:640px; }
+.toc { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:36px 0 56px; padding:20px 22px; border:1px solid var(--bstr); border-radius:14px; background:var(--off); }
+.toc a { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.06em; color:var(--ink); text-decoration:none; padding:6px 8px; border-radius:6px; transition:background .15s; }
+.toc a:hover { background:rgba(170,255,0,.15); }
+.toc-num { color:var(--muted); margin-right:6px; }
+.section { margin-bottom:56px; scroll-margin-top:20px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:12px; }
+.h2 { font-family:'Instrument Serif',Georgia,serif; font-size:clamp(22px,2.8vw,30px); line-height:1.15; letter-spacing:-.015em; color:var(--ink); margin-bottom:14px; }
+.h2 em { font-style:italic; }
+.h3 { font-family:'Instrument Serif',Georgia,serif; font-size:20px; line-height:1.25; color:var(--ink); margin:24px 0 10px; letter-spacing:-.01em; }
+.h3 em { font-style:italic; }
+.body { font-size:14px; color:#2C3040; line-height:1.75; font-weight:300; max-width:700px; }
+.body strong { font-weight:600; color:var(--ink); }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 48px; }
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:20px; }
+.three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:20px; }
+.card { border:1px solid var(--bstr); border-radius:14px; overflow:hidden; }
+.card-head { padding:14px 20px; border-bottom:1px solid var(--bmd); display:flex; align-items:center; gap:10px; }
+.card-head.dark { background:var(--ink); }
+.card-head.off { background:var(--off); }
+.card-head.lime { background:rgba(170,255,0,.07); }
+.card-head.teal { background:rgba(0,196,180,.06); }
+.card-head.red  { background:rgba(239,68,68,.06); }
+.card-head.amber { background:rgba(245,158,11,.06); }
+.card-icon { font-size:17px; }
+.card-title { font-size:14px; font-weight:600; line-height:1.3; }
+.card-head.dark .card-title { color:var(--white); }
+.card-head.off .card-title, .card-head.lime .card-title, .card-head.teal .card-title, .card-head.red .card-title, .card-head.amber .card-title { color:var(--ink); }
+.card-sub { font-family:'DM Mono',monospace; font-size:10px; }
+.card-head.dark .card-sub { color:rgba(255,255,255,.35); }
+.card-head.off .card-sub, .card-head.lime .card-sub, .card-head.teal .card-sub, .card-head.red .card-sub, .card-head.amber .card-sub { color:var(--muted); }
+.card-body { padding:16px 20px; }
+.card-text { font-size:13px; color:#2C3040; line-height:1.6; font-weight:300; }
+.card-text strong { font-weight:600; color:var(--ink); }
+.card-text em { font-style:italic; }
+.card-list { list-style:none; display:flex; flex-direction:column; gap:5px; margin-top:6px; }
+.card-list li { font-size:13px; color:#2C3040; padding-left:13px; position:relative; line-height:1.5; font-weight:300; }
+.card-list li::before { content:''; position:absolute; left:0; top:7px; width:5px; height:5px; border-radius:50%; background:var(--soft); border:1px solid var(--bstr); }
+.card-list li.hi::before { background:var(--lime); border-color:rgba(170,255,0,.5); }
+.card-list li.tl::before { background:var(--teal); border-color:rgba(0,196,180,.5); }
+.card-list li.am::before { background:#F59E0B; border-color:rgba(245,158,11,.5); }
+.card-list li.rd::before { background:#EF4444; border-color:rgba(239,68,68,.4); }
+.vp-box { background:linear-gradient(135deg, rgba(170,255,0,.06) 0%, rgba(0,196,180,.06) 100%); border:1px solid rgba(170,255,0,.25); border-radius:14px; padding:28px 32px; margin-top:20px; }
+.vp-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:#2D6000; display:block; margin-bottom:12px; }
+.vp-text { font-family:'Instrument Serif',Georgia,serif; font-size:22px; line-height:1.35; color:var(--ink); letter-spacing:-.01em; margin-bottom:14px; }
+.vp-text em { font-style:italic; color:#2D6000; }
+.vp-why { font-size:13px; color:#2C3040; line-height:1.7; font-weight:300; }
+.vp-why strong { font-weight:600; color:var(--ink); }
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout .cl-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.35); margin-bottom:10px; display:block; }
+.callout .cl-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout .cl-text strong { color:var(--lime); font-weight:500; }
+.note-box { background:var(--off); border:1px solid var(--bstr); border-radius:12px; padding:18px 22px; margin-top:14px; }
+.note-box .nb-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; display:block; }
+.note-box .nb-text { font-size:13px; color:#2C3040; line-height:1.7; font-weight:300; }
+.note-box .nb-text strong { font-weight:600; color:var(--ink); }
+.note-box.warn { background:rgba(245,158,11,.05); border-color:rgba(245,158,11,.3); }
+.note-box.warn .nb-label { color:#92400E; }
+.persona { border:1px solid var(--bstr); border-radius:16px; overflow:hidden; margin-top:18px; }
+.persona-top { padding:24px 28px; }
+.persona-top.primary { background:rgba(170,255,0,.05); border-bottom:1px solid var(--bmd); }
+.persona-top.secondary { background:rgba(0,196,180,.05); border-bottom:1px solid var(--bmd); }
+.persona-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; display:block; }
+.persona-name { font-family:'Instrument Serif',Georgia,serif; font-size:24px; line-height:1.2; color:var(--ink); margin-bottom:8px; letter-spacing:-.01em; }
+.persona-name em { font-style:italic; }
+.persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.persona-cell { padding:18px 22px; border-right:1px solid var(--border); border-top:1px solid var(--border); }
+.persona-cell:nth-child(2n) { border-right:none; }
+.persona-cell:nth-child(-n+2) { border-top:none; }
+.pc-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:8px; }
+.pc-text { font-size:13px; color:#2C3040; line-height:1.6; font-weight:300; }
+.pc-text strong { font-weight:600; color:var(--ink); }
+.flow { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:22px; padding:22px; background:var(--ink); border-radius:14px; }
+.flow-node { flex:1; text-align:center; padding:14px 8px; background:rgba(255,255,255,.04); border-radius:10px; border:1px solid rgba(255,255,255,.1); }
+.flow-node.lime { background:rgba(170,255,0,.1); border-color:rgba(170,255,0,.3); }
+.flow-node.teal { background:rgba(0,196,180,.1); border-color:rgba(0,196,180,.3); }
+.flow-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); display:block; margin-bottom:6px; }
+.flow-title { font-family:'Instrument Serif',Georgia,serif; font-size:18px; color:var(--white); }
+.flow-node.lime .flow-title { color:var(--lime); }
+.flow-node.teal .flow-title { color:var(--teal); }
+.flow-arrow { color:rgba(255,255,255,.3); font-size:18px; flex-shrink:0; }
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:18px; border:1px solid var(--bstr); border-radius:12px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:12px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:13px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.tbl-compact { font-size:11.5px; }
+.tbl-compact td, .tbl-compact th { padding:10px 12px; }
+.variant-row { display:grid; grid-template-columns:80px 1fr; gap:18px; padding:18px 22px; border:1px solid var(--bmd); border-radius:12px; background:var(--off); margin-bottom:8px; align-items:center; }
+.variant-row.locked { background:rgba(170,255,0,.05); border-color:rgba(170,255,0,.3); }
+.variant-tag { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:500; }
+.variant-row.locked .variant-tag { color:#2D6000; }
+.variant-copy { font-family:'Instrument Serif',Georgia,serif; font-size:17px; line-height:1.4; color:var(--ink); letter-spacing:-.005em; }
+.variant-copy em { font-style:italic; }
+.doc-footer { margin-top:64px; padding-top:20px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; align-items:center; }
+.ft-l { font-size:12px; color:var(--muted); }
+.ft-r { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); }
+@media(max-width:680px) {
+  .page { padding:40px 20px 72px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:12px; }
+  .hero { padding:28px 24px; }
+  .toc { grid-template-columns:1fr 1fr; }
+  .two-col,.three-col { grid-template-columns:1fr; }
+  .persona-grid { grid-template-columns:1fr; }
+  .persona-cell { border-right:none !important; }
+  .flow { flex-direction:column; }
+  .flow-arrow { transform:rotate(90deg); }
+  .tbl { font-size:11.5px; }
+  .tbl th, .tbl td { padding:10px; }
+  .variant-row { grid-template-columns:1fr; gap:8px; }
+  .doc-footer { flex-direction:column; gap:10px; align-items:flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">Marketing Brief · v2<br>Alex Lamb for Videfy · May 2026</div>
+</header>
+
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-eyebrow">Marketing brief · external share</span>
+  <div class="hero-headline">
+    Videfy is a workflow platform<br>
+    for <em>AI-native video production.</em>
+  </div>
+  <div class="hero-body">
+    Briefing doc for marketing partners. Positioning, ICPs, jobs-to-be-done, pain, competitive landscape, differentiators, GTM avenues, messaging map, status, roadmap, and success metrics. Pre-launch context noted where relevant. Voice exhibits sit in their own section, separated from strategy.
+  </div>
+</div>
+
+<nav class="toc">
+  <a href="#snapshot"><span class="toc-num">00</span>Snapshot</a>
+  <a href="#positioning"><span class="toc-num">01</span>Positioning</a>
+  <a href="#product"><span class="toc-num">02</span>Product</a>
+  <a href="#jtbd"><span class="toc-num">03</span>Jobs to be done</a>
+  <a href="#icps"><span class="toc-num">04</span>ICPs</a>
+  <a href="#pain"><span class="toc-num">05</span>Pain points</a>
+  <a href="#competitive"><span class="toc-num">06</span>Competitive landscape</a>
+  <a href="#differentiators"><span class="toc-num">07</span>Differentiators</a>
+  <a href="#avenues"><span class="toc-num">08</span>GTM avenues</a>
+  <a href="#tiers"><span class="toc-num">09</span>Tiers</a>
+  <a href="#funnel"><span class="toc-num">10</span>Funnel + journey</a>
+  <a href="#messaging"><span class="toc-num">11</span>Messaging exhibits</a>
+  <a href="#rules"><span class="toc-num">12</span>Voice rules + filter</a>
+  <a href="#status"><span class="toc-num">13</span>Status + roadmap</a>
+  <a href="#metrics"><span class="toc-num">14</span>Success metrics</a>
+  <a href="#campaigns"><span class="toc-num">15</span>Campaign tactics</a>
+</nav>
+
+
+<!-- 00 SNAPSHOT -->
+<section class="section" id="snapshot">
+  <span class="eyebrow">00 · Company snapshot</span>
+  <h2 class="h2">Videfy at a glance.</h2>
+
+  <table class="tbl tbl-compact">
+    <tbody>
+      <tr><td><strong>What</strong></td><td>AI-native video production platform. Workflow layer that holds idea → feedback → finished in one project.</td></tr>
+      <tr><td><strong>Stage</strong></td><td>Pre-launch / beta. Storyboard Builder live. Avenues 2–5 shipping Q2–Q4 2026.</td></tr>
+      <tr><td><strong>Team</strong></td><td>Small core team. Vaughn (CEO), Marta (lead designer), Doron (eng lead), Alex (marketing, contract).</td></tr>
+      <tr><td><strong>Key tech partners</strong></td><td>Anthropic (Claude MCP integration), Adobe (native Premiere extension), multiple GenAI model providers (Runway / Luma / others) integrated via honeypot.</td></tr>
+      <tr><td><strong>Geography</strong></td><td>Distributed. English-first. Localization on roadmap, no public date.</td></tr>
+      <tr><td><strong>Funding / revenue</strong></td><td>Not disclosed externally. Treat doc as pre-revenue context.</td></tr>
+      <tr><td><strong>Live properties</strong></td><td>videfy.ai · Discord (Videfy AI Official) · Garry's LinkedIn · Videfy company LinkedIn · X account</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+
+<!-- 01 POSITIONING -->
+<section class="section" id="positioning">
+  <span class="eyebrow">01 · Positioning</span>
+  <h2 class="h2">One-line<br><em>positioning statement.</em></h2>
+
+  <div class="vp-box">
+    <span class="vp-label">Positioning</span>
+    <div class="vp-text">For <em>creators and lean video teams</em> who string together six to twelve disconnected tools per project, Videfy is the <em>AI-native video production platform</em> that holds the entire arc, from idea to finished, in one workspace. Unlike single-step tools (Runway for generation, Frame.io for review, CapCut for edit), Videfy is the production layer the others sit inside.</div>
+    <div class="vp-why"><strong>Category:</strong> AI-native video production platform. <strong>Displaces:</strong> Adobe Creative Cloud + Frame.io + Runway / Pika / Luma + Loom + Dropbox + standalone caption tool. <strong>Buyer frame:</strong> "the stack we're already paying for, consolidated."</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 02 PRODUCT -->
+<section class="section" id="product">
+  <span class="eyebrow">02 · Product</span>
+  <h2 class="h2">What Videfy<br><em>actually does.</em></h2>
+  <p class="body">Single workflow platform from solo creator to large team. One project carries every stage: storyboarding, AI generation (image, video, avatar, voice), multi-variant generation, scene-level editing, collaboration, review, render, native Adobe Premiere Pro handoff. Production layer that consolidates the stack.</p>
+
+  <div class="vp-box">
+    <span class="vp-label">Lead use case</span>
+    <div class="vp-text">Turn a rough idea into a video you can <em>pitch, refine, and post</em>, in one workspace, without leaving for another tool.</div>
+    <div class="vp-why"><strong>The arc:</strong> Idea → Feedback → Finished. One project. No handoffs between tools. Brief, refs, generated assets, edits, comments, approvals, exports all attached to the same storyboard.</div>
+  </div>
+
+  <div class="three-col">
+    <div class="card">
+      <div class="card-head lime"><div><div class="card-title">Solo creator</div><div class="card-sub">1 person</div></div></div>
+      <div class="card-body"><div class="card-text">Ships short-form, spec ads, talking-head, faceless content. Single project, single workflow, single bill.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head teal"><div><div class="card-title">Lean producer / team</div><div class="card-sub">3 to 20 people</div></div></div>
+      <div class="card-body"><div class="card-text">Shared workspace. Per-editor budgets. Free unlimited client review. Editors keep their finishing tool of choice.</div></div>
+    </div>
+    <div class="card">
+      <div class="card-head dark"><div><div class="card-title">Large team / agency</div><div class="card-sub">20+ people, multi-client</div></div></div>
+      <div class="card-body"><div class="card-text">Restricted workspaces (no cross-client contamination), SSO, shared usage pool, custom MCP, legal review available.</div></div>
+    </div>
+  </div>
+
+  <h3 class="h3">Six use-case lanes</h3>
+  <table class="tbl tbl-compact">
+    <thead><tr><th>Lane</th><th>Outcome</th><th>Primary tier</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Concept-to-build</strong></td><td>Idea / prompt / doc / brief becomes structured storyboard.</td><td>Creator · Pro</td></tr>
+      <tr><td><strong>Build-to-variants</strong></td><td>One concept fans into ten ad variants. Hooks, openings, CTAs, aspect ratios.</td><td>Pro · Team</td></tr>
+      <tr><td><strong>Build-to-post</strong></td><td>Full AI videos, avatar-led, faceless content from rough source.</td><td>Creator · Pro</td></tr>
+      <tr><td><strong>Long-form-to-many</strong></td><td>One long asset becomes batch short-form. Recurring social engine.</td><td>Pro · Team</td></tr>
+      <tr><td><strong>Business-content-to-video</strong></td><td>Explainers, training, onboarding, localization, personalized outreach.</td><td>Team · Enterprise</td></tr>
+      <tr><td><strong>Workflow-to-finish</strong></td><td>Organize, review, sync, hand off, render. Premiere sync, CapCut handoff.</td><td>Pro · Team</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="h3">Three-stage arc</h3>
+  <div class="flow">
+    <div class="flow-node lime"><span class="flow-label">Stage 01</span><div class="flow-title">Idea</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node"><span class="flow-label">Stage 02</span><div class="flow-title">Feedback</div></div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node teal"><span class="flow-label">Stage 03</span><div class="flow-title">Finished</div></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 03 JTBD -->
+<section class="section" id="jtbd">
+  <span class="eyebrow">03 · Jobs to be done</span>
+  <h2 class="h2">Three jobs.<br><em>One platform answers all three.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Job</th><th>Situation → motivation → outcome</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Ship the idea</strong></td>
+        <td>When I have a rough idea and a deadline, I want to move it through structure, generation, review, and export without context-switching, so I can deliver a finished video this week instead of next.</td>
+      </tr>
+      <tr>
+        <td><strong>Test the campaign</strong></td>
+        <td>When I have one concept and limited budget, I want to generate ten variants and pick what works, so I can spend on the winner instead of guessing on the brief.</td>
+      </tr>
+      <tr>
+        <td><strong>Close the feedback loop</strong></td>
+        <td>When stakeholders or clients review a cut, I want their feedback on the timecode and in one thread, so I do not lose an hour reconciling Loom, Slack, and email into a revision list.</td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>
+
+<hr class="rule">
+
+
+<!-- 04 ICPs -->
+<section class="section" id="icps">
+  <span class="eyebrow">04 · ICPs</span>
+  <h2 class="h2">Two ICPs.<br><em>Stated as hypotheses.</em></h2>
+  <p class="body"><strong>Hypotheses, not validated personas.</strong> Built on team conviction + Reddit / G2 / Apify adjacent-audience scrapes. Survey instrument shipped (icp_survey.html), no sample size yet. Revisit after 90 days of paid acquisition.</p>
+
+  <div class="persona">
+    <div class="persona-top primary">
+      <span class="persona-tag">Primary ICP · Year-one acquisition target</span>
+      <div class="persona-name">Solo creator / creator-led operator.</div>
+      <div class="persona-quote">"One person doing the whole campaign, from brief to post."</div>
+    </div>
+    <div class="persona-grid">
+      <div class="persona-cell"><span class="pc-label">Who</span><div class="pc-text">Solo creators, freelance editors, creator-led founders, short-form content makers building a personal brand or running short-form for clients.</div></div>
+      <div class="persona-cell"><span class="pc-label">Channels</span><div class="pc-text">Instagram, TikTok, X, Discord, YouTube. Already paying for: CapCut Pro, Premiere or Final Cut, Runway or Pika, ChatGPT, Midjourney, ElevenLabs, occasionally Frame.io and Loom.</div></div>
+      <div class="persona-cell"><span class="pc-label">Painful when</span><div class="pc-text">Every project starts cold, tools are scattered, feedback comes in five places, render eats the laptop, format reformat costs hours.</div></div>
+      <div class="persona-cell"><span class="pc-label">What they want</span><div class="pc-text">One platform that holds the project, free unlimited client review, fast handoff to a finishing tool they already know, predictable monthly cost.</div></div>
+      <div class="persona-cell"><span class="pc-label">Tier fit</span><div class="pc-text">Creator or Pro. Honeypot is the first touch.</div></div>
+      <div class="persona-cell"><span class="pc-label">Avenue priority</span><div class="pc-text">Avenue 3 (GenAI Honeypot) and Avenue 4 (Avatar) lead acquisition. Avenue 1 (Storyboard Builder) is the workflow they land in.</div></div>
+    </div>
+  </div>
+
+  <div class="persona">
+    <div class="persona-top secondary">
+      <span class="persona-tag">Secondary ICP · Strongest long-term LTV</span>
+      <div class="persona-name">Lean content team / producer.</div>
+      <div class="persona-quote">"Three editors, five Loom links per project, approvals in Slack DMs."</div>
+    </div>
+    <div class="persona-grid">
+      <div class="persona-cell"><span class="pc-label">Who</span><div class="pc-text">PMs, content operators, in-house marketing teams (3 to 20 people), startup content leads, small agencies running 3 to 5 clients.</div></div>
+      <div class="persona-cell"><span class="pc-label">Channels</span><div class="pc-text">LinkedIn (Garry's profile + Videfy company), targeted X, podcast sponsorships. Already paying for: Adobe CC, Frame.io, Runway or Pika, Loom, Drive or Dropbox, a captions tool.</div></div>
+      <div class="persona-cell"><span class="pc-label">Painful when</span><div class="pc-text">Approval loops slip, version confusion, subscription stack creeps past $1,500/mo per team, editors wait on briefs, clients review in five places.</div></div>
+      <div class="persona-cell"><span class="pc-label">What they want</span><div class="pc-text">Predictable throughput, shared usage pool, per-editor budgets, free client review without seat tax, Premiere bridge so editors keep finishing tool.</div></div>
+      <div class="persona-cell"><span class="pc-label">Tier fit</span><div class="pc-text">Pro for power individuals, Team for the workspace play.</div></div>
+      <div class="persona-cell"><span class="pc-label">Avenue priority</span><div class="pc-text">Avenue 5 (Premiere Extension) leads. Avenue 1 (Storyboard Builder) anchors the shared workspace.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 05 PAIN POINTS -->
+<section class="section" id="pain">
+  <span class="eyebrow">05 · Pain points</span>
+  <h2 class="h2">Operational pain.<br><em>Stated plainly.</em></h2>
+
+  <h3 class="h3">Surface layer · five chaoses</h3>
+  <div class="three-col">
+    <div class="card"><div class="card-head red"><div><div class="card-title">Creative chaos</div></div></div><div class="card-body"><div class="card-text">Brief, references, draft script, mood board live in separate tools. No structure carries forward.</div></div></div>
+    <div class="card"><div class="card-head red"><div><div class="card-title">Production chaos</div></div></div><div class="card-body"><div class="card-text">Six tools, eight tabs, three drives. Half the day is finding the work, not doing it.</div></div></div>
+    <div class="card"><div class="card-head red"><div><div class="card-title">Feedback chaos</div></div></div><div class="card-body"><div class="card-text">Notes in Loom, replies in email, Slack DMs, Frame.io seats nobody opens.</div></div></div>
+    <div class="card"><div class="card-head red"><div><div class="card-title">Handoff chaos</div></div></div><div class="card-body"><div class="card-text">Editor hunts files. Producer chases status. Assets live everywhere except where the next person needs them.</div></div></div>
+    <div class="card"><div class="card-head red"><div><div class="card-title">Version chaos</div></div></div><div class="card-body"><div class="card-text">Final_v7_FINAL_final2. Which cut is approved. Why this changed.</div></div></div>
+    <div class="card"><div class="card-head dark"><div><div class="card-title" style="color:var(--white);">Cumulative drag</div></div></div><div class="card-body"><div class="card-text">All five compound. The work-against-the-work eats the actual work.</div></div></div>
+  </div>
+
+  <h3 class="h3">Daily reality · operational pain inventory</h3>
+  <table class="tbl tbl-compact">
+    <thead><tr><th>Pain</th><th>How it shows up</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Download / re-upload tax</strong></td><td>Gen tool → Desktop → CapCut → Frame.io → re-download → subtitles. Same file, four roundtrips per asset.</td></tr>
+      <tr><td><strong>Context switching</strong></td><td>Brief in Docs, refs in Pinterest, gen in Runway, edit in Premiere, review in Frame, chat in Slack. Every jump reloads context.</td></tr>
+      <tr><td><strong>App sprawl</strong></td><td>6 to 12 tools per project, each with login, meter, and version of truth.</td></tr>
+      <tr><td><strong>Subscription creep</strong></td><td>Stack reaches $200 to $1,500/mo per team. Total cost invisible until tallied.</td></tr>
+      <tr><td><strong>Credit fragmentation</strong></td><td>Runway credits, ChatGPT tokens, MJ sub, ElevenLabs cap. No single meter, no budget.</td></tr>
+      <tr><td><strong>Asset hunt</strong></td><td>Footage on laptop, exports in Drive, voiceover in Dropbox. Half a session finding the file.</td></tr>
+      <tr><td><strong>Version confusion</strong></td><td>Approval lives in Slack. Versions multiply. No source of truth on what shipped.</td></tr>
+      <tr><td><strong>Scattered feedback</strong></td><td>Client Loom + producer Slack DM + email screenshot + Frame.io comment. One revision list takes an hour to assemble.</td></tr>
+      <tr><td><strong>Vague feedback</strong></td><td>"Make it pop." "Tweak this." No timecode, no spec. Three rounds to decode one note.</td></tr>
+      <tr><td><strong>Format reformat tax</strong></td><td>9:16, 1:1, 16:9, 4:5 from one source. Manual re-crop, re-export, re-caption per format.</td></tr>
+      <tr><td><strong>Render bottleneck</strong></td><td>Local render eats machine for an hour. Crash at 99%. Day lost.</td></tr>
+      <tr><td><strong>Cold-start every project</strong></td><td>Brand colors, voice rules, past feedback re-litigated each time.</td></tr>
+      <tr><td><strong>Login + permission sprawl</strong></td><td>Different logins per tool, different permissions, half-day onboarding for a freelancer.</td></tr>
+      <tr><td><strong>Client review seat tax</strong></td><td>Frame.io seats per reviewer. Half never log in. Producer ends up screenshotting timeline into Slack.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+
+<!-- 06 COMPETITIVE -->
+<section class="section" id="competitive">
+  <span class="eyebrow">06 · Competitive landscape</span>
+  <h2 class="h2">The full set.<br><em>By role, not by hype.</em></h2>
+  <p class="body">15 competitors across six role-clusters. Videfy competes for the workflow-orchestration role. Other roles feed in or sit downstream.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Cluster</th><th>Examples</th><th>Role they own</th><th>Videfy relationship</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>AI video generation</strong></td>
+        <td>Runway, Pika, Luma, Higgsfield, Hedra</td>
+        <td>Frontier text-to-video and image-to-video models.</td>
+        <td>Upstream. Videfy integrates or competes on workflow, not model quality.</td>
+      </tr>
+      <tr>
+        <td><strong>AI avatar / talking head</strong></td>
+        <td>HeyGen, Synthesia, Captions Avatar</td>
+        <td>Avatar-led video for explainers, sales, training.</td>
+        <td>Direct competitor on Avenue 4. Videfy wedge = avatar lives inside a project, not a one-off render.</td>
+      </tr>
+      <tr>
+        <td><strong>Short-form / repurposing</strong></td>
+        <td>Submagic, Captions, Opus Clip, Klap, Vidyo</td>
+        <td>Long-form to short, auto-captioning, social ready cuts.</td>
+        <td>Adjacent. Cheaper anchors ($15 to $19/mo). Videfy Creator tier must justify price gap with workflow + storyboard.</td>
+      </tr>
+      <tr>
+        <td><strong>Editing + post</strong></td>
+        <td>Adobe Premiere, DaVinci Resolve, Final Cut, CapCut, Descript</td>
+        <td>Pro and prosumer finishing. Color, multitrack, finishing.</td>
+        <td>Downstream. Videfy hands off into these. Premiere extension is the wedge. Resolve and Final Cut handoff is roadmap.</td>
+      </tr>
+      <tr>
+        <td><strong>Collaboration / review</strong></td>
+        <td>Frame.io, Loom, Wipster</td>
+        <td>Comment-on-frame, async review.</td>
+        <td>Direct competitor on review surface. Videfy wedge = free, unlimited, no seat tax.</td>
+      </tr>
+      <tr>
+        <td><strong>Creative suite</strong></td>
+        <td>Adobe Creative Cloud, Canva</td>
+        <td>Multi-format creative tool stack.</td>
+        <td>Adjacent. Videfy is the workflow layer. Suites are the tool inventory.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="h3">Feature matrix · workflow-platform comparison</h3>
+  <table class="tbl tbl-compact">
+    <thead>
+      <tr>
+        <th>Capability</th>
+        <th>Videfy</th>
+        <th>Runway</th>
+        <th>HeyGen</th>
+        <th>Descript</th>
+        <th>Adobe + Frame</th>
+        <th>CapCut</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>Storyboard primitive</strong></td><td>✓</td><td>✕</td><td>✕</td><td>partial</td><td>✕</td><td>✕</td></tr>
+      <tr><td><strong>Project memory across runs</strong></td><td>✓</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td></tr>
+      <tr><td><strong>Multi-variant from one concept</strong></td><td>✓</td><td>✕</td><td>limited</td><td>✕</td><td>✕</td><td>manual</td></tr>
+      <tr><td><strong>AI generation (gen + avatar)</strong></td><td>✓</td><td>✓ gen</td><td>✓ avatar</td><td>limited</td><td>✕</td><td>limited</td></tr>
+      <tr><td><strong>Native Premiere extension</strong></td><td>✓</td><td>✕</td><td>✕</td><td>✕</td><td>native</td><td>✕</td></tr>
+      <tr><td><strong>Free unlimited client review</strong></td><td>✓</td><td>✕</td><td>✕</td><td>limited</td><td>seat tax</td><td>✕</td></tr>
+      <tr><td><strong>Claude MCP / chat orchestration</strong></td><td>✓</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td></tr>
+      <tr><td><strong>Honeypot (gen without signup)</strong></td><td>✓</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td><td>✕</td></tr>
+      <tr><td><strong>Scene-level edit in-app</strong></td><td>✓</td><td>limited</td><td>✕</td><td>✓</td><td>✓</td><td>✓</td></tr>
+      <tr><td><strong>Pro finishing (color, VFX, multitrack)</strong></td><td>✕ handoff</td><td>✕</td><td>✕</td><td>limited</td><td>✓</td><td>limited</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">Honest read</span>
+    <div class="nb-text">Videfy wins on workflow-platform dimensions (memory, storyboard, multi-variant, review, MCP, honeypot). Videfy explicitly does <strong>not win</strong> on pro finishing — that lane belongs to Adobe / Resolve / Final Cut and the Premiere extension exists to acknowledge that. The Creator tier faces real price pressure from Submagic / Captions / Opus Clip at $15 to $19/mo. Justify with storyboard + memory + multi-variant, not generation quality alone.</div>
+  </div>
+
+  <h3 class="h3">G2 validation (adjacent) · 40 reviews each, May 2026</h3>
+  <div class="two-col" style="margin-top:14px;">
+    <div class="card">
+      <div class="card-head off"><div><div class="card-title">Adobe Premiere Pro</div><div class="card-sub">40 G2 reviews</div></div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>"A billion different buttons" — steep learning curve</li>
+          <li>Resource-heavy, crashes on mid-spec machines</li>
+          <li>Requires multiple Adobe apps to finish one project</li>
+          <li>Collaboration missing, expensive at team level</li>
+          <li>Slow rendering, needs Media Encoder externally</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head off"><div><div class="card-title">VEED</div><div class="card-sub">40 G2 reviews</div></div></div>
+      <div class="card-body">
+        <ul class="card-list">
+          <li>AI features "half thought out"</li>
+          <li>Collaboration broken, one seat per account</li>
+          <li>2GB file size cap in browser</li>
+          <li>Pricing confusing, gated access unclear</li>
+          <li>Too simple for advanced needs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 07 DIFFERENTIATORS -->
+<section class="section" id="differentiators">
+  <span class="eyebrow">07 · Differentiators</span>
+  <h2 class="h2">Seven defendable lines.<br><em>Operational, not aspirational.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Differentiator</th><th>What Videfy does</th><th>What competitors do</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Production layer, not a tool</strong></td><td>Holds the entire arc in one project. Brief, storyboard, gen, edit, review, handoff.</td><td>Each competitor owns one step. Nothing chains.</td></tr>
+      <tr><td><strong>Storyboard primitive</strong></td><td>Structured storyboard is the spine. Every action attaches to a scene.</td><td>Generation tools are timeline-less. Editors start at the timeline, not the brief.</td></tr>
+      <tr><td><strong>Project memory</strong></td><td>Brief, decisions, feedback, brand voice persist across runs.</td><td>Every project starts cold. Lessons die in someone's head.</td></tr>
+      <tr><td><strong>Multi-variant generation</strong></td><td>One concept fans into ten variants. Brief inherits. Single review thread.</td><td>One clip at a time. No campaign logic. CapCut requires manual rebuilds.</td></tr>
+      <tr><td><strong>Free unlimited client review</strong></td><td>Reviewers leave timecoded feedback without account or seat.</td><td>Frame.io charges per reviewer. Loom and Slack lose timecode.</td></tr>
+      <tr><td><strong>Native Premiere extension</strong></td><td>Timeline Media Sync, subtitles, overlays, transitions, voiceover sync into Premiere.</td><td>No AI-first tool has a Premiere extension. Workflow tools require export-import roundtrips.</td></tr>
+      <tr><td><strong>Claude MCP orchestration</strong></td><td>40+ MCP actions. Claude becomes an AI video producer in chat.</td><td>Chatbots bolted onto editors. None orchestrate the whole pipeline.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">What Videfy is not</span>
+    <div class="nb-text"><strong>Not a pro post-production timeline.</strong> CapCut, Premiere, Resolve own color, VFX, multitrack, advanced finishing. <strong>Not a model race.</strong> Runway, Pika, Luma own the generation frontier. Videfy integrates them. <strong>Not a creative suite.</strong> Adobe and Canva own that surface. Videfy sits above the tool inventory.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 08 AVENUES -->
+<section class="section" id="avenues">
+  <span class="eyebrow">08 · GTM avenues</span>
+  <h2 class="h2">Five wedges.<br><em>One workflow spine.</em></h2>
+  <p class="body">Storyboard Builder = spine. Five avenues = front doors. Each gets its own landing page. Visitor from one doesn't need the whole platform to act.</p>
+
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Avenue</th><th>Workflow pain solved</th><th>Primary audience</th></tr></thead>
+    <tbody>
+      <tr><td>01</td><td><strong>Storyboard Builder</strong></td><td>Cold start, no structure, no project memory.</td><td>Anyone with a rough idea. Widest top-of-funnel.</td></tr>
+      <tr><td>02</td><td><strong>Claude MCP (AI Video Producer)</strong></td><td>Context switching, app sprawl.</td><td>Claude power users, solo operators who prefer chat.</td></tr>
+      <tr><td>03</td><td><strong>GenAI Honeypot</strong></td><td>Signup-wall friction, fragmented gen spend.</td><td>First-touch curious users from organic + paid.</td></tr>
+      <tr><td>04</td><td><strong>Avatar</strong></td><td>Filming cost, talking-head bottleneck, reformat tax on talking-head clip.</td><td>Content creators, marketers, talking-head shooters.</td></tr>
+      <tr><td>05</td><td><strong>Premiere Extension</strong></td><td>Download / re-upload tax, broken handoff into finishing, manual subtitle redo.</td><td>Pro editors and teams already in Premiere.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box warn">
+    <span class="nb-label">Honest watch-outs per avenue</span>
+    <div class="nb-text"><strong>Avenue 4 (Avatar):</strong> direct overlap with HeyGen and Synthesia. Wedge must be that the avatar lives inside a project (storyboard, multi-variant, review), not as a one-off render. If copy reduces to "record yourself without filming," it pattern-matches HeyGen. Lead with the workflow context. <strong>Avenue 5 (Premiere):</strong> a real share of pro / agency editors is on DaVinci Resolve or Final Cut Pro in 2026. Premiere-as-only-extension is a near-term wedge, not a long-term moat. Resolve extension belongs on the 12-month roadmap. <strong>Avenue 3 (Honeypot):</strong> credits-only generation must outperform free Runway and Pika previews on quality or it stalls at curiosity.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 09 TIERS -->
+<section class="section" id="tiers">
+  <span class="eyebrow">09 · Tiers</span>
+  <h2 class="h2">Five tiers.<br><em>Tier names, not prices.</em></h2>
+  <p class="body">Pricing in pricing brief. Repeat externally only after sales sign-off.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Tier</th><th>For</th><th>Lanes served</th><th>Key included surfaces</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Honeypot</strong></td><td>First-touch via Avenue 3 (GenAI) or Avenue 2 (Claude MCP)</td><td>Ecosystem entry</td><td>Credits-only generation, no signup</td></tr>
+      <tr><td><strong>Creator</strong></td><td>Solo creators, creator-led operators</td><td>Creator · Ad iteration (light)</td><td>Storyboard, GenAI, avatar (limited), subtitles, CapCut handoff</td></tr>
+      <tr><td><strong>Pro</strong></td><td>Power creators, freelance editors, small post teams</td><td>Creator · Ad iteration · Business · Workflow</td><td>+ Premiere extension, more avatar, ad variants, cloud render, feedback + approvals</td></tr>
+      <tr><td><strong>Team</strong></td><td>PMs, in-house teams, agencies (3-seat min)</td><td>All five lanes + Premiere</td><td>+ Shared usage pool, per-editor budgets, restricted workspaces</td></tr>
+      <tr><td><strong>Enterprise</strong></td><td>Larger orgs, custom workflow / security / support</td><td>All</td><td>+ Custom MCP, SSO, legal review</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">Always included on every paid tier</span>
+    <div class="nb-text">Storyboard Builder, file organization with version tracking, feedback capture, status and approval visibility, standard exports, CapCut and mobile handoff, basic story chat scoped by tier.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 10 FUNNEL -->
+<section class="section" id="funnel">
+  <span class="eyebrow">10 · Funnel + journey</span>
+  <h2 class="h2">Awareness to retention.<br><em>Mapped to avenues.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Stage</th><th>Lead avenue</th><th>Primary surface</th><th>Measure</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Awareness</strong></td><td>Avenue 3 (Honeypot), Avenue 4 (Avatar)</td><td>Organic short-form (IG, TikTok, X), paid social, founder content</td><td>Reach, view rate, branded search lift</td></tr>
+      <tr><td><strong>Consideration</strong></td><td>Avenue 1 (Storyboard), Avenue 2 (Claude MCP)</td><td>Landing pages, demo content, comparison pages, Discord</td><td>Site sessions, time on page, demo views, MCP installs</td></tr>
+      <tr><td><strong>Trial / honeypot</strong></td><td>Avenue 3 (Honeypot)</td><td>Honeypot generator, free trial entry, Avenue-specific pages</td><td>Honeypot generations, signup rate, free-to-paid intent</td></tr>
+      <tr><td><strong>Activation</strong></td><td>Avenue 1 (Storyboard)</td><td>First storyboard, first export, first invited collaborator</td><td>Time-to-first-storyboard, % users hitting export within 7 days</td></tr>
+      <tr><td><strong>Conversion</strong></td><td>Creator + Pro tiers</td><td>Pricing page, in-app upgrade prompts</td><td>Honeypot → paid %, trial → paid %, Avenue-by-Avenue conversion split</td></tr>
+      <tr><td><strong>Retention + expansion</strong></td><td>Avenue 5 (Premiere), Team tier</td><td>Workspace invites, second project, Premiere extension installs</td><td>Day-30 / Day-90 retention, projects per user, seat expansion, NRR</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box warn">
+    <span class="nb-label">Activation event is unconfirmed</span>
+    <div class="nb-text">The "aha moment" for Videfy has not been measured. Working hypothesis: <strong>first storyboard published to a shared review link</strong>. Validate with cohort analysis once paid acquisition has run for 30 days.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 11 MESSAGING EXHIBITS -->
+<section class="section" id="messaging">
+  <span class="eyebrow">11 · Messaging exhibits</span>
+  <h2 class="h2">Creative voice.<br><em>Treated as exhibits, not strategy.</em></h2>
+  <p class="body"><strong>Proposed creative, not validated copy.</strong> Positioning lives in §01. These exhibits are the team's current bet on ICP 1 voice.</p>
+
+  <h3 class="h3">Locked hero (consumer-facing site)</h3>
+  <div class="vp-box">
+    <span class="vp-label">Headline · locked</span>
+    <div class="vp-text">Video production <em>without the chaos.</em></div>
+    <div class="vp-why"><strong>Subhead · locked default:</strong> A better way to move from idea to feedback to finished, without the back-and-forth.</div>
+    <div class="vp-why" style="margin-top:10px;"><strong>Lead use-case line:</strong> Turn a rough idea into a video you can pitch, refine, and post.</div>
+    <div class="vp-why" style="margin-top:10px;"><strong>Primary CTA:</strong> Start a project. <strong style="margin-left:10px;">Secondary CTA:</strong> Try the honeypot. Credits-only, no signup.</div>
+  </div>
+
+  <h3 class="h3">A/B subhead variants</h3>
+  <div style="margin-top:14px;">
+    <div class="variant-row locked"><div class="variant-tag">A · Locked</div><div class="variant-copy">A better way to move from idea to feedback to finished, <em>without the back-and-forth.</em></div></div>
+    <div class="variant-row"><div class="variant-tag">B · Use-case</div><div class="variant-copy">Turn a rough idea into a video you can <em>pitch, refine, and post.</em></div></div>
+    <div class="variant-row"><div class="variant-tag">C · Outcome</div><div class="variant-copy">Less back-and-forth. Cleaner handoffs. <em>Finished videos, faster.</em></div></div>
+  </div>
+
+  <h3 class="h3">Two voice anchors</h3>
+  <div class="two-col" style="margin-top:18px;">
+    <div class="card"><div class="card-head dark"><div><div class="card-title">New production house</div><div class="card-sub">The shift</div></div></div><div class="card-body"><div class="card-text"><strong>"AI is the new production house. Videfy is the layer."</strong></div><div class="card-text" style="margin-top:8px;">For posts about industry shift, agency-model decay, new tooling stack. Era-change framing. Punch at model, not people.</div></div></div>
+    <div class="card"><div class="card-head dark"><div><div class="card-title">Chaos-killer</div><div class="card-sub">The relief</div></div></div><div class="card-body"><div class="card-text"><strong>"Video production without the chaos."</strong></div><div class="card-text" style="margin-top:8px;">For posts about daily drag, scattered tools, handoff failures. Protagonist is one operator at a laptop.</div></div></div>
+  </div>
+
+  <h3 class="h3">Six content pillars</h3>
+  <div class="three-col" style="margin-top:14px;">
+    <div class="card"><div class="card-head lime"><div><div class="card-title">Creative Speed</div></div></div><div class="card-body"><div class="card-text">Rough idea to draft, fast. The unblock.</div></div></div>
+    <div class="card"><div class="card-head lime"><div><div class="card-title">Spec Ads</div></div></div><div class="card-body"><div class="card-text">Show the work nobody asked for. Portfolio play.</div></div></div>
+    <div class="card"><div class="card-head lime"><div><div class="card-title">Better Briefs</div></div></div><div class="card-body"><div class="card-text">Brief carries the project. No re-explaining.</div></div></div>
+    <div class="card"><div class="card-head teal"><div><div class="card-title">Campaign Thinking</div></div></div><div class="card-body"><div class="card-text">One concept, ten variants. Not one-shot magic.</div></div></div>
+    <div class="card"><div class="card-head teal"><div><div class="card-title">Workflow Clarity</div></div></div><div class="card-body"><div class="card-text">Handoffs cleanly. Versions don't multiply.</div></div></div>
+    <div class="card"><div class="card-head teal"><div><div class="card-title">AI Without Hype</div></div></div><div class="card-body"><div class="card-text">The work, not the model card.</div></div></div>
+  </div>
+
+  <h3 class="h3">ICP × Pain × Entry-point message matrix</h3>
+  <p class="body">Multiple messages per ICP, keyed to pain and entry avenue. Use to write avenue-specific landing pages, ad sets, and DM scripts. Same product, different doorway, different opening line.</p>
+  <table class="tbl tbl-compact">
+    <thead><tr><th>ICP</th><th>Pain hit</th><th>Entry avenue</th><th>Headline</th><th>Sub / proof</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="5"><strong>ICP 1<br>Solo creator</strong></td><td>Context switching</td><td>Avenue 3 (Honeypot)</td><td>Generate without leaving the project.</td><td>No signup. No re-upload. One workspace, every tool.</td></tr>
+      <tr><td>Format reformat tax</td><td>Avenue 1 (Storyboard)</td><td>Shot once. Shipped four ways.</td><td>9:16, 1:1, 16:9, 4:5 from the same storyboard. No re-crop tax.</td></tr>
+      <tr><td>Filming bottleneck</td><td>Avenue 4 (Avatar)</td><td>Record yourself without filming.</td><td>Avatar lives inside a project. Storyboard, variants, captions, export.</td></tr>
+      <tr><td>Vague client feedback</td><td>Avenue 1 (Storyboard)</td><td>Turn "make it pop" into a checklist.</td><td>Comments land on timecode. Free client review.</td></tr>
+      <tr><td>App sprawl</td><td>Avenue 2 (Claude MCP)</td><td>Talk to Claude. Get finished video.</td><td>40+ actions in chat. No tab switching. End-to-end in MCP.</td></tr>
+
+      <tr><td rowspan="5"><strong>ICP 2<br>Lean team / producer</strong></td><td>Client review seat tax</td><td>Avenue 1 (Storyboard)</td><td>Client review without an invoice.</td><td>Reviewers leave timecoded feedback. No seat fee.</td></tr>
+      <tr><td>Version confusion</td><td>Avenue 1 (Storyboard)</td><td>No more Final_v7_FINAL_final2.</td><td>Versions tracked automatically. Approval lives on the cut.</td></tr>
+      <tr><td>Download / handoff tax</td><td>Avenue 5 (Premiere)</td><td>Finish in Premiere. Start in Videfy.</td><td>Timeline + subtitles + overlays sync intact. No re-export roundtrip.</td></tr>
+      <tr><td>Campaign variant load</td><td>Avenue 1 (Storyboard)</td><td>One concept. Ten variants. One review thread.</td><td>Brief inherits across variants. Test before committing.</td></tr>
+      <tr><td>Subscription stack creep</td><td>Avenue 1 (Storyboard)</td><td>Replace the stack, not add to it.</td><td>Storyboard + gen + edit + review + handoff in one platform.</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="h3">Pain → Promise → Voice table (generic)</h3>
+  <table class="tbl tbl-compact">
+    <thead><tr><th>Pain</th><th>Promise</th><th>Voice direction</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Download / re-upload</strong></td><td>One project holds the asset across every stage.</td><td>"Stop downloading your own file four times."</td></tr>
+      <tr><td><strong>Context switching</strong></td><td>Brief, refs, gen, edit, review live in one project.</td><td>"Eight tabs become one project."</td></tr>
+      <tr><td><strong>App sprawl</strong></td><td>Production layer above the tools, not another tool.</td><td>"Every tool in one place."</td></tr>
+      <tr><td><strong>Subscription creep</strong></td><td>One subscription replaces the workflow stack.</td><td>"You were paying for the stack. Now you pay for the work."</td></tr>
+      <tr><td><strong>Credit fragmentation</strong></td><td>One usage pool, one bill.</td><td>"One meter, not five."</td></tr>
+      <tr><td><strong>Asset hunt</strong></td><td>Every file lives where the project lives.</td><td>"The file is in the project."</td></tr>
+      <tr><td><strong>Version confusion</strong></td><td>Versions tracked automatically. Approval lives on the version.</td><td>"No more Final_v7_FINAL_final2."</td></tr>
+      <tr><td><strong>Scattered feedback</strong></td><td>Free unlimited client review. Comments on timecode.</td><td>"Feedback on the frame, not in the inbox."</td></tr>
+      <tr><td><strong>Vague feedback</strong></td><td>Comment threading. Claude summarizes, dedups, proposes a revision plan.</td><td>"Turn 'make it pop' into a checklist."</td></tr>
+      <tr><td><strong>Format reformat tax</strong></td><td>One source, every aspect ratio. Variants generated.</td><td>"Shot once. Shipped four ways."</td></tr>
+      <tr><td><strong>Render bottleneck</strong></td><td>Cloud rendering inside the project.</td><td>"Render in the cloud. Keep the laptop."</td></tr>
+      <tr><td><strong>Cold-start every project</strong></td><td>Project memory carries brand, voice, feedback between runs.</td><td>"The next project remembers the last one."</td></tr>
+      <tr><td><strong>Login sprawl</strong></td><td>One workspace, one source of truth.</td><td>"Invite the freelancer. Skip the onboarding doc."</td></tr>
+      <tr><td><strong>Client seat tax</strong></td><td>Clients review without account or seat.</td><td>"Client review without an invoice."</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+
+<!-- 12 RULES + FILTER -->
+<section class="section" id="rules">
+  <span class="eyebrow">12 · Voice rules + filter</span>
+  <h2 class="h2">Hard rules.<br><em>Anti-drift filter.</em></h2>
+
+  <h3 class="h3">Hard rules</h3>
+  <div class="two-col" style="margin-top:18px;">
+    <div class="card"><div class="card-head red"><div><div class="card-title">No em dashes</div></div></div><div class="card-body"><div class="card-text">Periods, commas, colons, parens. Across every channel, every doc.</div></div></div>
+    <div class="card"><div class="card-head red"><div><div class="card-title">No fabricated numbers</div></div></div><div class="card-body"><div class="card-text">No invented stats, beta counts, retainer amounts, customer names. Use [FILL: ...] placeholders or skip.</div></div></div>
+    <div class="card"><div class="card-head amber"><div><div class="card-title">Hook + re-hook (LI / X)</div></div></div><div class="card-body"><div class="card-text">Line 1 = hook. Line 2 = re-hook that drags the "see more" click. Stream-of-thought block formatting.</div></div></div>
+    <div class="card"><div class="card-head amber"><div><div class="card-title">Evergreen only</div></div></div><div class="card-body"><div class="card-text">No "founding access," "Day +N," "Live this Thursday," countdowns. Holds up six months out.</div></div></div>
+    <div class="card"><div class="card-head off"><div><div class="card-title">Hook stops the scroll</div></div></div><div class="card-body"><div class="card-text">No flat openers, listicle hooks, "Most teams..." leads. Edge required.</div></div></div>
+    <div class="card"><div class="card-head off"><div><div class="card-title">Reels land on a feature</div></div></div><div class="card-body"><div class="card-text">Every caption ends on named feature: Storyboard, Variants, MCP, Avatar, Subtitles, Premiere extension.</div></div></div>
+  </div>
+
+  <h3 class="h3">Anti-drift filter</h3>
+  <div class="two-col">
+    <div class="card"><div class="card-head red"><div><div class="card-title">Kill if</div></div></div>
+      <div class="card-body"><ul class="card-list">
+        <li class="rd">Sounds like Canva ("design anything")</li>
+        <li class="rd">Sounds like VEED ("edit in your browser")</li>
+        <li class="rd">Sounds like Runway ("generate AI video")</li>
+        <li class="rd">Sounds like CapCut ("for creators on the go")</li>
+        <li class="rd">Sounds like Descript ("edit video like a doc")</li>
+        <li class="rd">Sounds like HeyGen ("AI avatars for business")</li>
+        <li class="rd">Uses "all-in-one" or "creative suite"</li>
+        <li class="rd">Uses "stunning · beautiful · 8K · hyperrealistic · perfect"</li>
+        <li class="rd">Leads with a feature instead of an outcome</li>
+        <li class="rd">Pigeonholes Videfy into "feedback only" or "AI video magic only"</li>
+      </ul></div>
+    </div>
+    <div class="card"><div class="card-head lime"><div><div class="card-title">Keep if</div></div></div>
+      <div class="card-body"><ul class="card-list">
+        <li class="hi">Names the chaos before naming the solution</li>
+        <li class="hi">Describes a workflow outcome (less back-and-forth, fewer revisions, cleaner handoffs)</li>
+        <li class="hi">Uses "idea to feedback to finished" or an echo</li>
+        <li class="hi">Maps to a JTBD (section 03)</li>
+        <li class="hi">Ladders to one of the five avenues</li>
+        <li class="hi">Maps to one of the six lanes</li>
+        <li class="hi">Solo operator or lean team is the protagonist</li>
+        <li class="hi">Hook stops the scroll on line one</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 13 STATUS + ROADMAP -->
+<section class="section" id="status">
+  <span class="eyebrow">13 · Status + roadmap</span>
+  <h2 class="h2">Where Videfy is now.<br><em>What ships when.</em></h2>
+  <p class="body"><strong>Pre-launch / beta. No public traction numbers. Dates are working targets, not commitments.</strong></p>
+
+  <table class="tbl">
+    <thead><tr><th>Surface</th><th>Status</th><th>Working ship</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Storyboard Builder</strong></td><td>Live in beta</td><td>Continuous</td></tr>
+      <tr><td><strong>GenAI Honeypot (Avenue 3)</strong></td><td>Build phase</td><td>Q2 2026</td></tr>
+      <tr><td><strong>Avatar (Avenue 4)</strong></td><td>Build phase</td><td>Q2 2026</td></tr>
+      <tr><td><strong>Claude MCP (Avenue 2)</strong></td><td>POC complete, hardening</td><td>Q2 2026</td></tr>
+      <tr><td><strong>Premiere Extension — Timeline Sync (Avenue 5)</strong></td><td>In dev</td><td>Q3 2026</td></tr>
+      <tr><td><strong>Premiere Extension — Subtitles</strong></td><td>Scoped, not started</td><td>Q3 2026</td></tr>
+      <tr><td><strong>Premiere Extension — Overlays/Transitions/Filters/VO</strong></td><td>Scoped, not started</td><td>Q4 2026</td></tr>
+      <tr><td><strong>Story Creation Chat</strong></td><td>POC (Ihor)</td><td>No public date</td></tr>
+      <tr><td><strong>Localization</strong></td><td>In progress</td><td>No public date</td></tr>
+      <tr><td><strong>Resolve / Final Cut handoff</strong></td><td>Not started</td><td>12-month roadmap</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="h3">Proof status</h3>
+  <table class="tbl">
+    <thead><tr><th>Proof element</th><th>Current state</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Public testimonials / customer logos</strong></td><td>[FILL: pending beta close, none publishable today]</td></tr>
+      <tr><td><strong>Beta user count</strong></td><td>[FILL: confirm with team before publishing]</td></tr>
+      <tr><td><strong>Conversion benchmarks (honeypot → paid)</strong></td><td>Not yet measured</td></tr>
+      <tr><td><strong>Retention benchmarks (Day-30 / Day-90)</strong></td><td>Not yet measured</td></tr>
+      <tr><td><strong>NPS / CSAT</strong></td><td>Not yet collected</td></tr>
+      <tr><td><strong>Press / analyst coverage</strong></td><td>None to date</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note-box warn">
+    <span class="nb-label">Pre-launch posture</span>
+    <div class="nb-text">Until proof points exist, marketing leans on <strong>demos, founder content, and educational posts</strong>. Avoid case-study framing, "X customers using Videfy" claims, or social-proof patterns that imply scale Videfy does not yet have. Lead with the workflow problem and let demos do the proving.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- 14 METRICS -->
+<section class="section" id="metrics">
+  <span class="eyebrow">14 · Success metrics</span>
+  <h2 class="h2">North Star.<br><em>Funnel KPIs. Channel KPIs.</em></h2>
+
+  <div class="vp-box">
+    <span class="vp-label">North Star (proposed)</span>
+    <div class="vp-text">Weekly projects published <em>with at least one collaborator or client invited.</em></div>
+    <div class="vp-why">Captures activation, collaboration, and recurring use in one number. Better than signups (vanity) or MRR (lags). Validate the metric itself after the first 90 days.</div>
+  </div>
+
+  <h3 class="h3">Funnel KPIs</h3>
+  <table class="tbl">
+    <thead><tr><th>Stage</th><th>Metric</th><th>Target (placeholder)</th></tr></thead>
+    <tbody>
+      <tr><td>Awareness</td><td>Branded search lift, organic reach</td><td>[FILL: baseline after 30 days]</td></tr>
+      <tr><td>Acquisition</td><td>Honeypot generations / week</td><td>[FILL]</td></tr>
+      <tr><td>Activation</td><td>% honeypot users who publish first storyboard within 7 days</td><td>[FILL]</td></tr>
+      <tr><td>Conversion</td><td>Honeypot → paid % by Avenue</td><td>[FILL]</td></tr>
+      <tr><td>Retention</td><td>Day-30 / Day-90 paid retention</td><td>[FILL]</td></tr>
+      <tr><td>Expansion</td><td>Seats added per Team workspace, NRR</td><td>[FILL]</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="h3">Channel KPIs</h3>
+  <table class="tbl">
+    <thead><tr><th>Channel</th><th>Primary metric</th><th>Secondary metric</th></tr></thead>
+    <tbody>
+      <tr><td>Organic short-form (IG / TT / X)</td><td>Saves + shares per post</td><td>Profile-to-site CTR</td></tr>
+      <tr><td>LinkedIn (Garry + company)</td><td>Comment quality (ICP fit)</td><td>Site referral, demo requests</td></tr>
+      <tr><td>Paid social</td><td>CPA to honeypot signup</td><td>Honeypot → paid conversion</td></tr>
+      <tr><td>Discord</td><td>Weekly active members</td><td>Inbound demo requests</td></tr>
+      <tr><td>Email / nurture</td><td>Honeypot → trial → paid</td><td>Open + click rates</td></tr>
+      <tr><td>Claude MCP listing</td><td>Installs</td><td>Install → honeypot generation</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+
+<!-- 15 SCOPE -->
+<section class="section" id="scope">
+  <span class="eyebrow">15 · Scope of this doc</span>
+  <h2 class="h2">What this doc is.<br><em>What it is not.</em></h2>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-head lime"><div><div class="card-title">This doc IS</div></div></div>
+      <div class="card-body"><ul class="card-list">
+        <li class="hi">Positioning + product reference</li>
+        <li class="hi">ICPs (stated as hypotheses)</li>
+        <li class="hi">Pain inventory + JTBD</li>
+        <li class="hi">Competitive landscape + differentiator matrix</li>
+        <li class="hi">GTM avenue framework + tier structure</li>
+        <li class="hi">Working messaging exhibits (creative proposed, not validated)</li>
+        <li class="hi">Voice rules + anti-drift filter</li>
+        <li class="hi">Status, roadmap, metric framework</li>
+      </ul></div>
+    </div>
+    <div class="card">
+      <div class="card-head red"><div><div class="card-title">This doc is NOT</div></div></div>
+      <div class="card-body"><ul class="card-list">
+        <li class="rd">Channel strategy (lives in Videfy_Channel_Overview.md)</li>
+        <li class="rd">Content calendar or weekly editorial plan</li>
+        <li class="rd">Paid media budget or channel allocation</li>
+        <li class="rd">Sales playbook or rep enablement</li>
+        <li class="rd">Pricing strategy or unit economics (Videfy_Pricing_Strategy.html)</li>
+        <li class="rd">Visual identity / brand guidelines (visual_system_v1.html)</li>
+        <li class="rd">Validated copy (treat all hero / subhead / pillar voice lines as proposed)</li>
+        <li class="rd">Final ICP (revisit after first 90 days of paid acquisition)</li>
+      </ul></div>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <span class="nb-label">For incoming marketing partners</span>
+    <div class="nb-text">Read sections 01 → 07 in order to understand the platform. Read sections 08 → 10 to understand how it goes to market. Read 11 → 12 only when writing copy. Read 13 → 14 to calibrate expectations. Read 15 to know which adjacent docs to ask for.</div>
+  </div>
+</section>
+
+
+<hr class="rule">
+
+
+<!-- 15 CAMPAIGN TACTICS -->
+<section class="section" id="campaigns">
+  <span class="eyebrow">15 · Campaign tactics + options</span>
+  <h2 class="h2">Ten campaigns.<br><em>Ranked by return potential.</em></h2>
+  <p class="body">Tactical campaign concepts ready to brief. Each has a target ICP, expected return, goal, core message, and primary metrics. Pick by ICP fit + ship velocity.</p>
+
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Campaign</th><th>ICP</th><th>Return</th><th>Goal</th><th>Core message</th><th>Main metrics</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>01</td>
+        <td><strong>Variants</strong></td>
+        <td>Ad teams, performance marketers, agencies, e-commerce brands, marketers creating many versions</td>
+        <td><strong>Highest</strong></td>
+        <td>Validate the strongest business value</td>
+        <td>Create one video, turn it into many campaign-ready variants.</td>
+        <td>Replies, calls booked, signups, variants created / exported</td>
+      </tr>
+      <tr>
+        <td>02</td>
+        <td><strong>MCP / Assistant Workflow</strong></td>
+        <td>Advanced creators, operators, founders, AI-heavy teams, product / marketing teams using ChatGPT or Claude</td>
+        <td>Medium-high, strong differentiation</td>
+        <td>Show Videfy as a new way to create and control video work from assistant workflows</td>
+        <td>Create and control Videfy projects directly from ChatGPT or Claude.</td>
+        <td>MCP interest, connector requests, assistant-created projects, power-user feedback</td>
+      </tr>
+      <tr>
+        <td>03</td>
+        <td><strong>One Connected Flow</strong></td>
+        <td>Agencies, small production teams, marketing teams, creators using 5+ tools</td>
+        <td>High</td>
+        <td>Show that Videfy replaces fragmented video production</td>
+        <td>Go from idea to finished video in one connected workflow. Without using 5+ tools.</td>
+        <td>Pain-confirmation replies, demo requests, projects created, drafts / exports</td>
+      </tr>
+      <tr>
+        <td>04</td>
+        <td><strong>Hero Proof</strong></td>
+        <td>Warm leads, website visitors, beta users, prospects from outreach</td>
+        <td>High conversion support</td>
+        <td>Make the product obvious</td>
+        <td>Watch one raw idea become a finished video and multiple variants inside Videfy.</td>
+        <td>Demo views, completion rate, demo-to-signup, project-to-export</td>
+      </tr>
+      <tr>
+        <td>05</td>
+        <td><strong>Ad Testing</strong></td>
+        <td>Performance marketers, paid social teams, growth marketers, DTC / e-commerce teams</td>
+        <td>High</td>
+        <td>Attract people who need to test many ad versions</td>
+        <td>Test more video ad versions without rebuilding every video manually.</td>
+        <td>Ad-team replies, demo calls, variant exports, paid conversions</td>
+      </tr>
+      <tr>
+        <td>06</td>
+        <td><strong>Agency Delivery</strong></td>
+        <td>Small agencies, freelancers, production teams, client-service creative teams</td>
+        <td>High</td>
+        <td>Reach teams with client deadlines and revision cycles</td>
+        <td>Deliver client-ready video drafts faster, with one place for story, assets, edits, and versions.</td>
+        <td>Agency replies, calls booked, team signups, second project created</td>
+      </tr>
+      <tr>
+        <td>07</td>
+        <td><strong>Speed</strong></td>
+        <td>Busy creators, agencies, small teams, marketers with frequent video deadlines</td>
+        <td>Medium-high</td>
+        <td>Show productivity value</td>
+        <td>Produce more videos faster, with less manual work and fewer production bottlenecks.</td>
+        <td>Signups, time-to-first-draft, projects completed</td>
+      </tr>
+      <tr>
+        <td>08</td>
+        <td><strong>Localization</strong></td>
+        <td>Global creators, agencies, education channels, international brands, media teams</td>
+        <td>Medium</td>
+        <td>Show global / content-scale value</td>
+        <td>Turn one video into versions for different languages, voices, subtitles, formats, and markets.</td>
+        <td>Localized exports, subtitles added, revoice usage, resized exports</td>
+      </tr>
+      <tr>
+        <td>09</td>
+        <td><strong>Social Content Package</strong></td>
+        <td>Social media teams, creators, agencies, founders, content marketers</td>
+        <td>Medium</td>
+        <td>Reach people who need content across multiple platforms</td>
+        <td>Turn one idea into a full social content package for TikTok, Reels, Shorts, YouTube, and LinkedIn.</td>
+        <td>Social exports, resized videos, repeat usage, shares</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td><strong>Creative Control</strong></td>
+        <td>Serious creators, editors, agencies, production teams, brand teams</td>
+        <td>Medium, trust-building</td>
+        <td>Build trust with users who do not want black-box creation</td>
+        <td>Move faster without losing control over story, visuals, voice, subtitles, edits, and final output.</td>
+        <td>Editor usage, manual edits, project completion, retention</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    <span class="nb-label">How to deploy this list</span>
+    <div class="nb-text"><strong>Top 3 by return:</strong> Variants (#1), One Connected Flow (#3), Ad Testing (#5). Ship these first. <strong>Hero Proof (#4)</strong> runs continuously as conversion support across every campaign. <strong>MCP (#2)</strong> = differentiation campaign — owns the AI-power-user lane no competitor occupies. <strong>Creative Control (#10)</strong> = trust counter-narrative for buyers spooked by full-AI tools.</div>
+  </div>
+</section>
+
+
+<footer class="doc-footer">
+  <div class="ft-l">Videfy.ai · Marketing Brief v2 · One source of strategic truth</div>
+  <div class="ft-r">Adjacent docs: Product Reference · Pricing Strategy · Channel Overview · Visual System v1</div>
+</footer>
+
+</div>
+</body>
+</html>
