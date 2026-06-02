@@ -1,10 +1,318 @@
 <!DOCTYPE html>
-<html><head><meta charset="utf-8"><title>Videfy Docs</title>
-<style>body{font-family:-apple-system,sans-serif;max-width:600px;margin:80px auto;padding:0 20px;}a{display:block;padding:16px;background:#f4f4f4;border-radius:8px;margin:12px 0;color:#000;text-decoration:none;font-weight:500;}a:hover{background:#e8e8e8;}</style>
-</head><body><h1>Videfy — Strategy Docs</h1>
-<a href="./pricing.html">Pricing Strategy →</a>
-<a href="./workflow.html">Production Workflow (Brand / Chaos) →</a>
-<a href="./hyperframes.html"><strong>HyperFrames — Deep Dive + Builder Kit (single file) →</strong></a>
-<a href="./hyperframes-deep-dive.html">↳ Deep Dive only (strategy)</a>
-<a href="./hyperframes-builder-kit.html">↳ Builder Kit only (code)</a>
-</body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Videfy · Marketing + Sales Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,500;1,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --lime:#AAFF00; --teal:#00C4B4; --ink:#0A0C14;
+  --white:#FAFBFF; --off:#F2F4F8;
+  --muted:#6B7280; --light:#9CA3AF;
+  --border:rgba(10,12,20,0.08); --bmd:rgba(10,12,20,0.12); --bstr:rgba(10,12,20,0.18);
+}
+html { scroll-behavior:smooth; }
+body { background:var(--white); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.page { max-width:920px; margin:0 auto; padding:48px 40px 72px; }
+.doc-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:40px; padding-bottom:20px; border-bottom:2px solid var(--ink); }
+.wordmark { display:flex; align-items:center; gap:10px; }
+.logo-box { width:34px; height:34px; background:var(--ink); border-radius:8px; display:grid; place-items:center; }
+.brand-name { font-family:'DM Mono',monospace; font-size:14px; font-weight:500; letter-spacing:.04em; }
+.doc-meta { text-align:right; font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.8; }
+.hero { background:var(--ink); border-radius:14px; padding:36px 40px; margin-bottom:30px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, var(--lime), var(--teal)); }
+.hero-eyebrow { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.35); display:block; margin-bottom:12px; }
+.hero-headline { font-family:'DM Sans',sans-serif; font-weight:700; font-size:clamp(24px,3.5vw,34px); line-height:1.15; letter-spacing:-.02em; color:var(--white); margin-bottom:14px; }
+.hero-headline em { color:var(--lime); font-style:normal; font-weight:700; }
+.hero-body { font-size:15px; color:rgba(255,255,255,.7); line-height:1.7; font-weight:300; max-width:640px; }
+.stats { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin:28px 0; }
+.stat { background:var(--off); border:1px solid var(--bstr); border-radius:10px; padding:14px; text-align:center; }
+.stat .n { font-family:'DM Sans',sans-serif; font-weight:700; font-size:22px; color:var(--ink); line-height:1; }
+.stat .l { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-top:6px; display:block; }
+.section { margin-bottom:44px; }
+.eyebrow { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:10px; }
+.h2 { font-family:'DM Sans',sans-serif; font-weight:700; font-size:24px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); margin-bottom:8px; }
+.h2 em { font-weight:500; color:var(--muted); }
+.body { font-size:14px; color:#2C3040; line-height:1.7; font-weight:300; max-width:700px; }
+.body strong { font-weight:600; color:var(--ink); }
+.doc-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:22px; }
+.doc-card { display:block; text-decoration:none; color:inherit; border:1px solid var(--bstr); border-radius:14px; overflow:hidden; transition:transform .15s, box-shadow .15s; }
+.doc-card:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(10,12,20,.08); border-color:var(--lime); }
+.doc-card-head { padding:14px 18px; border-bottom:1px solid var(--bmd); background:var(--off); display:flex; justify-content:space-between; align-items:center; }
+.doc-card.featured .doc-card-head { background:var(--ink); }
+.doc-card.featured .dc-num { color:var(--lime); }
+.doc-card.featured .dc-tag { color:rgba(255,255,255,.4); }
+.dc-num { font-family:'DM Sans',sans-serif; font-weight:700; font-size:16px; color:var(--ink); }
+.dc-tag { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+.doc-card-body { padding:18px 22px; }
+.dc-title { font-family:'DM Sans',sans-serif; font-weight:700; font-size:17px; color:var(--ink); margin-bottom:6px; letter-spacing:-.005em; }
+.dc-desc { font-size:13px; line-height:1.55; color:#2C3040; font-weight:300; margin-bottom:10px; }
+.dc-meta { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.06em; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap; }
+.dc-meta span::before { content:'·'; margin-right:6px; }
+.dc-meta span:first-child::before { content:''; margin-right:0; }
+.read-order { background:rgba(170,255,0,.05); border:1px solid rgba(170,255,0,.3); border-radius:12px; padding:20px 24px; margin-top:20px; }
+.read-order-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:#2D6000; margin-bottom:10px; display:block; }
+.read-order-text { font-size:14px; line-height:1.7; color:#2C3040; }
+.read-order-text strong { font-weight:600; color:var(--ink); }
+.tbl { width:100%; border-collapse:separate; border-spacing:0; margin-top:14px; border:1px solid var(--bstr); border-radius:10px; overflow:hidden; font-size:12.5px; }
+.tbl th { background:var(--ink); color:var(--white); text-align:left; padding:11px 14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:11px 14px; border-top:1px solid var(--border); color:#2C3040; font-weight:300; line-height:1.55; vertical-align:top; }
+.tbl td strong { font-weight:600; color:var(--ink); }
+.tbl tr:nth-child(even) td { background:var(--off); }
+.callout { background:var(--ink); border-radius:12px; padding:20px 24px; margin-top:18px; }
+.callout-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:10px; display:block; }
+.callout-text { font-size:14px; color:rgba(255,255,255,.8); line-height:1.7; font-weight:300; }
+.callout-text strong { color:var(--lime); font-weight:500; }
+.more-links { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.more-link { font-family:'DM Mono',monospace; font-size:11px; padding:8px 14px; border:1px solid var(--bstr); border-radius:8px; color:var(--ink); text-decoration:none; background:var(--off); }
+.more-link:hover { background:rgba(170,255,0,.15); border-color:var(--lime); }
+hr.rule { border:none; border-top:1px solid var(--bmd); margin:0 0 36px; }
+.doc-footer { margin-top:48px; padding-top:18px; border-top:2px solid var(--ink); font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+@media(max-width:680px) {
+  .page { padding:32px 18px 60px; }
+  .doc-header { flex-direction:column; align-items:flex-start; gap:10px; }
+  .stats { grid-template-columns:repeat(2,1fr); }
+  .doc-grid { grid-template-columns:1fr; }
+  .tbl { font-size:11.5px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="doc-header">
+  <div class="wordmark">
+    <div class="logo-box">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4L8 2L14 4V9.5C14 12.5 11.5 15 8 16C4.5 15 2 12.5 2 9.5V4Z" fill="#AAFF00" opacity="0.9"/>
+        <rect x="6.5" y="6" width="3" height="5" rx="0.75" fill="#080B12"/>
+      </svg>
+    </div>
+    <span class="brand-name">Videfy.ai</span>
+  </div>
+  <div class="doc-meta">Marketing + Sales Hub<br>Updated June 2 2026</div>
+</header>
+
+<div class="hero">
+  <span class="hero-eyebrow">One link · share-ready · Videfy strategy + outreach</span>
+  <div class="hero-headline">
+    Marketing + sales.<br>
+    <em>All in one place.</em>
+  </div>
+  <div class="hero-body">
+    Five docs. Built from <strong>1,591 Reddit posts</strong> across 22 marketing, agency, SaaS, ad, and creator subreddits. Marketing brief → outreach map → sales playbook → Chad's sales tactics → copy-paste send-ready cold sequences. Hand this URL to any marketing or sales partner.
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="n">5</div><span class="l">strategy docs</span></div>
+  <div class="stat"><div class="n">1,591</div><span class="l">reddit posts</span></div>
+  <div class="stat"><div class="n">22</div><span class="l">subreddits</span></div>
+  <div class="stat"><div class="n">6</div><span class="l">ICPs · ranked</span></div>
+  <div class="stat"><div class="n">18</div><span class="l">cold messages ready</span></div>
+</div>
+
+<!-- READ ORDER -->
+<section class="section">
+  <span class="eyebrow">00 · Start here</span>
+  <h2 class="h2">How to read this.<br><em>By role.</em></h2>
+
+  <div class="read-order">
+    <span class="read-order-label">If you're new to Videfy</span>
+    <div class="read-order-text">Read in order: <strong>Marketing Brief</strong> → <strong>Outreach Message Map</strong> → <strong>Sales Playbook</strong> → <strong>Chad's Cheats</strong> → <strong>Outreach Sequences</strong>. ~30 min total.</div>
+  </div>
+
+  <div class="read-order">
+    <span class="read-order-label">If you're a marketing partner</span>
+    <div class="read-order-text">Start at <strong>Marketing Brief</strong> §00–07 (snapshot, positioning, product, JTBD, ICPs, pain, competitive). Then <strong>Outreach Message Map</strong> §01–06 (which message lands w/ which ICP).</div>
+  </div>
+
+  <div class="read-order">
+    <span class="read-order-label">If you're a sales partner</span>
+    <div class="read-order-text">Start at <strong>Sales Playbook</strong> (5-week ramp · Mtg 1–4 flow · Chad tactics baked inline). Read <strong>Chad's Cheats</strong> before every call. Use <strong>Outreach Sequences</strong> to fill the pipeline.</div>
+  </div>
+
+  <div class="read-order">
+    <span class="read-order-label">If you're an exec or investor</span>
+    <div class="read-order-text">Marketing Brief §00 snapshot · §01 positioning · §06 competitive · §13 status. 10-min read for the whole story.</div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- THE DOCS -->
+<section class="section">
+  <span class="eyebrow">01 · The five docs</span>
+  <h2 class="h2">The pipeline.<br><em>Strategy → outreach → close.</em></h2>
+
+  <div class="doc-grid">
+    <a class="doc-card featured" href="./marketing-brief.html">
+      <div class="doc-card-head">
+        <span class="dc-num">01</span>
+        <span class="dc-tag">Strategy · 13 sections</span>
+      </div>
+      <div class="doc-card-body">
+        <div class="dc-title">Marketing Brief</div>
+        <div class="dc-desc">Positioning · product · JTBD · ICPs · pain · competitive landscape · differentiators · GTM avenues · status · roadmap · campaign tactics.</div>
+        <div class="dc-meta"><span>For: marketing partners</span><span>~12 min read</span></div>
+      </div>
+    </a>
+
+    <a class="doc-card featured" href="./outreach-message-map.html">
+      <div class="doc-card-head">
+        <span class="dc-num">02</span>
+        <span class="dc-tag">Strategy · 9 sections</span>
+      </div>
+      <div class="doc-card-body">
+        <div class="dc-title">Outreach Message Map</div>
+        <div class="dc-desc">6 ICPs ranked by reply temp. Reddit-verbatim pain quotes. Cold subjects + 3-line bodies + CTAs per ICP. Channel deploy plan.</div>
+        <div class="dc-meta"><span>For: marketing + sales</span><span>~8 min read</span></div>
+      </div>
+    </a>
+
+    <a class="doc-card featured" href="./sales-playbook.html">
+      <div class="doc-card-head">
+        <span class="dc-num">03</span>
+        <span class="dc-tag">Operating · 10 sections</span>
+      </div>
+      <div class="doc-card-body">
+        <div class="dc-title">Sales Playbook</div>
+        <div class="dc-desc">Two lanes (Direct POC + Educator Partnership). 5-week ramp. Mtg 1–4 flow w/ Chad tactics baked inline. Materials checklist. Open gaps flagged.</div>
+        <div class="dc-meta"><span>For: sales partners</span><span>~10 min read</span></div>
+      </div>
+    </a>
+
+    <a class="doc-card featured" href="./chad-sales-cheats.html">
+      <div class="doc-card-head">
+        <span class="dc-num">04</span>
+        <span class="dc-tag">Reference · pre-call</span>
+      </div>
+      <div class="doc-card-body">
+        <div class="dc-title">Chad's Sales Cheats</div>
+        <div class="dc-desc">15-yr enterprise sales vet · 179.8% avg quota · 3x Platinum Club. 3 verbatim scripts · 12 rules · 6 named phrases · pre-call checklist · closing one-liners.</div>
+        <div class="dc-meta"><span>For: sales · read before every call</span><span>~5 min read</span></div>
+      </div>
+    </a>
+
+    <a class="doc-card featured" href="./outreach-sequences.html" style="grid-column:1/-1;">
+      <div class="doc-card-head">
+        <span class="dc-num">05</span>
+        <span class="dc-tag">Send-ready · pipeline asset</span>
+      </div>
+      <div class="doc-card-body">
+        <div class="dc-title">Outreach Sequences · copy-paste ready</div>
+        <div class="dc-desc">3-touch email + 3-touch LinkedIn DM for top 3 ICPs (DTC perf marketer · small agency · SaaS solo marketer). Reply handling matrix. Tracking schema. 1-pager content for post-discovery sends.</div>
+        <div class="dc-meta"><span>For: SDR / cold sender</span><span>Personalize [brackets], hit send</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- WHAT EACH DOC DELIVERS -->
+<section class="section">
+  <span class="eyebrow">02 · What each doc delivers</span>
+  <h2 class="h2">Cheat sheet.<br><em>By question.</em></h2>
+
+  <table class="tbl">
+    <thead><tr><th>Question</th><th>Doc</th><th>Section</th></tr></thead>
+    <tbody>
+      <tr><td>What does Videfy actually do?</td><td>Marketing Brief</td><td>§02 Product</td></tr>
+      <tr><td>Who is the buyer?</td><td>Marketing Brief</td><td>§04 ICPs</td></tr>
+      <tr><td>What pain are we solving?</td><td>Marketing Brief</td><td>§05 Pain points</td></tr>
+      <tr><td>Who do we compete with?</td><td>Marketing Brief</td><td>§06 Competitive landscape</td></tr>
+      <tr><td>What makes us different?</td><td>Marketing Brief</td><td>§07 Differentiators</td></tr>
+      <tr><td>What's our positioning one-liner?</td><td>Marketing Brief</td><td>§01 Positioning</td></tr>
+      <tr><td>What stage is the product at?</td><td>Marketing Brief</td><td>§11 Status + roadmap</td></tr>
+      <tr><td>Which message hooks which ICP?</td><td>Outreach Message Map</td><td>§01–06</td></tr>
+      <tr><td>What subject line should I use?</td><td>Outreach Message Map</td><td>§07 Top subject lines</td></tr>
+      <tr><td>What channel should I send on?</td><td>Outreach Message Map</td><td>§08 Where to deploy</td></tr>
+      <tr><td>What does a Mtg 1 look like?</td><td>Sales Playbook</td><td>§02 Direct sales lane</td></tr>
+      <tr><td>How do educator partnerships work?</td><td>Sales Playbook</td><td>§03 Educator lane</td></tr>
+      <tr><td>When does each phase happen?</td><td>Sales Playbook</td><td>§04 Timeline + phases</td></tr>
+      <tr><td>What sales materials are missing?</td><td>Sales Playbook</td><td>§05 Sales materials</td></tr>
+      <tr><td>What's still blocking us?</td><td>Sales Playbook</td><td>§08 Open gaps</td></tr>
+      <tr><td>How do top reps actually sell?</td><td>Chad's Cheats</td><td>12 sales rules</td></tr>
+      <tr><td>What do I say to open a cold call?</td><td>Chad's Cheats</td><td>Script 01 · 3-question opener</td></tr>
+      <tr><td>What exact words do I send Monday?</td><td>Outreach Sequences</td><td>§01–03 by ICP</td></tr>
+      <tr><td>How do I handle a "not interested" reply?</td><td>Outreach Sequences</td><td>§04 Reply handling</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- SOURCES + PROVENANCE -->
+<section class="section">
+  <span class="eyebrow">03 · How this was built</span>
+  <h2 class="h2">Reddit-validated.<br><em>Not invented.</em></h2>
+  <p class="body">Every cold subject line, every pain point, every ICP, every verbatim quote in these docs traces back to actual Reddit posts. Scraped via Apify across 3 runs in May–June 2026.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Scrape</th><th>Posts</th><th>Subs hit</th><th>Date</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Editor-side</strong></td><td>401</td><td>r/editors · r/VideoEditing · r/NewTubers</td><td>May 18 2026</td></tr>
+      <tr><td><strong>Marketing-side</strong></td><td>175</td><td>r/marketing · r/advertising · r/agency · r/PPC · r/Entrepreneur · r/socialmedia · r/digital_marketing · r/smallbusiness</td><td>Jun 1 2026</td></tr>
+      <tr><td><strong>Broader</strong></td><td>1,015</td><td>+r/SaaS · r/B2BMarketing · r/copywriting · r/ecommerce · r/dtc · r/ClaudeAI · r/ChatGPTPro · r/startups · r/EntrepreneurRideAlong · r/AskAgencyOwners · r/freelance · r/AdvancedMarketing · r/ContentMarketing</td><td>Jun 1 2026</td></tr>
+      <tr><td><strong>Total unique</strong></td><td>~1,591</td><td>22 subs</td><td>—</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <span class="callout-label">Killer signals pulled from scrape (used verbatim in cold copy)</span>
+    <div class="callout-text">"Video production has quietly become the bottleneck in marketing." <strong>r/advertising</strong> · "Creatives became the bottleneck way faster than anything else." <strong>r/advertising Creatify thread</strong> · "Marketing dept of one. Sales dept of one. Dev dept of fifteen." <strong>r/marketing</strong> · "We ship 30–40 content pieces a day. Drafts coming back hollow." <strong>r/agency</strong> · "Tried creating a $10K brand video for our SaaS launch. Made it $50." <strong>r/b2bmarketing</strong> · "I replaced our SDR with Claude. 1 booked call/wk to 7." <strong>r/b2bmarketing</strong></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- WHAT'S NEXT -->
+<section class="section">
+  <span class="eyebrow">04 · What's still open</span>
+  <h2 class="h2">Real blockers.<br><em>Not doc gaps.</em></h2>
+  <p class="body">These can't be solved with more writing. They need a decision from Vaughn / Garry / Leo.</p>
+
+  <table class="tbl">
+    <thead><tr><th>Blocker</th><th>Owner</th><th>Why it matters</th></tr></thead>
+    <tbody>
+      <tr><td><strong>The offer</strong> (package + price + discount terms for direct-named buyers)</td><td>Vaughn + Alex</td><td>Without it, no Mtg 4 close.</td></tr>
+      <tr><td><strong>Partnership terms</strong> (3-mo discount value · lifecycle benefit · co-marketing scope)</td><td>Vaughn + Garry</td><td>Without it, no educator partnership close.</td></tr>
+      <tr><td><strong>SDR funnel 1-2-3</strong></td><td>Leo + Alex</td><td>Without it, pipeline tracking falls apart at scale.</td></tr>
+      <tr><td><strong>Educator outreach sequences</strong></td><td>Alex (can build today)</td><td>Direct lane has copy-paste sequences. Educator lane only has flow. Asymmetric.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<hr class="rule">
+
+<!-- MORE DOCS -->
+<section class="section">
+  <span class="eyebrow">05 · Older Videfy docs</span>
+  <h2 class="h2">Related references.<br><em>Pre-existing.</em></h2>
+  <div class="more-links">
+    <a class="more-link" href="./pricing.html">Pricing Strategy</a>
+    <a class="more-link" href="./workflow.html">Production Workflow</a>
+    <a class="more-link" href="./hyperframes.html">HyperFrames · Deep Dive + Builder Kit</a>
+    <a class="more-link" href="./hyperframes-deep-dive.html">HyperFrames Deep Dive</a>
+    <a class="more-link" href="./hyperframes-builder-kit.html">HyperFrames Builder Kit</a>
+    <a class="more-link" href="./launch-overview.html">Launch Overview</a>
+    <a class="more-link" href="./launch-week.html">Launch Week</a>
+    <a class="more-link" href="./prompt-pack.html">Prompt Pack</a>
+    <a class="more-link" href="./first-live-playbook.html">First Live Playbook</a>
+    <a class="more-link" href="./content-plan.html">Content Plan</a>
+    <a class="more-link" href="./live-production-cadence.html">Live Production Cadence</a>
+    <a class="more-link" href="./marketing-the-work.html">Marketing the Work</a>
+  </div>
+</section>
+
+<footer class="doc-footer">
+  <div>Videfy.ai · Marketing + Sales Hub · Alex Lamb · June 2026</div>
+  <div>Source repo: WolfAndThings/videfy-docs · 1,591 Reddit posts · 22 subs</div>
+</footer>
+
+</div>
+</body>
+</html>
